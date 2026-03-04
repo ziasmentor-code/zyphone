@@ -19,7 +19,6 @@ import image20    from "../assets/images/image20.jpg";
 const earpodeImg = image8; 
 import heroVideo  from "../assets/images/herovideo.mp4";
 import bottomVideo from "../assets/images/herovideo1.mp4";
-import heroVideo2 from "../assets/images/herovideo2.mp4";
 
 const globalStyles = `
   @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&display=swap');
@@ -284,60 +283,7 @@ export default function Home() {
         </section>
 
 
-        {showModal && selectedProduct && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 modal-blur">
-            <div className="bg-white rounded-3xl overflow-hidden max-w-5xl w-full flex flex-col md:flex-row shadow-2xl relative">
-              
-              {/* Close Button */}
-              <button onClick={() => setShowModal(false)} className="absolute top-4 right-4 z-[110] bg-black text-white p-2 rounded-full hover:bg-red-600">
-                <X size={24}/>
-              </button>
-
-              {/* Left Side: Video Section */}
-              <div className="w-full md:w-1/2 h-[300px] md:h-auto bg-gray-200 relative">
-                 <video autoPlay loop muted playsInline className="w-full h-full object-cover">
-                    <source src={heroVideo2} type="video/mp4" />
-                 </video>
-                 <div className="absolute bottom-4 left-4 bg-black/50 text-white p-2 rounded-full">
-                    <Play size={20} fill="white"/>
-                 </div>
-              </div>
-
-              {/* Right Side: Product Details */}
-              <div className="w-full md:w-1/2 p-10 flex flex-col justify-center">
-                <h2 className="text-3xl font-bold mb-2">{selectedProduct.name}</h2>
-                <div className="flex items-center gap-4 mb-6">
-                   <p className="text-2xl font-bold text-red-600">{selectedProduct.price}</p>
-                   <p className="text-gray-400 line-through">₹32,999</p>
-                </div>
-
-                <div className="mb-6">
-                   <p className="font-bold mb-3">Select Color: <span className="text-gray-500 font-normal">Active Black</span></p>
-                   <div className="flex gap-3">
-                      <div className="w-8 h-8 rounded-full bg-black border-2 border-red-600 p-0.5">
-                        <div className="w-full h-full rounded-full bg-black border border-white"></div>
-                      </div>
-                      <div className="w-8 h-8 rounded-full bg-white border border-gray-300"></div>
-                      <div className="w-8 h-8 rounded-full bg-blue-600"></div>
-                   </div>
-                </div>
-
-                <div className="space-y-4 mb-8">
-                   <p className="font-bold uppercase text-xs tracking-widest text-gray-500">Description</p>
-                   <ul className="text-sm space-y-2 text-gray-700 list-disc pl-4">
-                      <li>ZY™ Signature Sound</li>
-                      <li>10 Mins Charge = 120 Mins Playback</li>
-                      <li>IPX4 Sweat & Water Resistance</li>
-                   </ul>
-                </div>
-
-                <button className="w-full bg-black text-white py-4 rounded-xl font-bold hover:bg-red-600 transition-all flex items-center justify-center gap-3">
-                   Add to cart <ShoppingCart size={18}/>
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+        
         {/* ─────────────── FOOTER ─────────────── */}
         <footer className="bg-black py-20 px-[7vw] text-center md:text-left border-t border-white/5">
           <div className="flex flex-col md:flex-row justify-between items-center opacity-40">
