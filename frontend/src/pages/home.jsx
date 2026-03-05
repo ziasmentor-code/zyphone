@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Smartphone, Laptop, Watch, Headphones, ArrowRight, ChevronDown } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 // Image Imports (Existing files)
 import image3     from "../assets/images/image3.jpg";
@@ -14,11 +15,13 @@ import image17    from "../assets/image17.jpg"; // assets ഫോൾഡറിൽ 
 import image18    from "../assets/images/image18.jpg"; 
 import image19    from "../assets/images/image19.jpg"; 
 import image20    from "../assets/images/image20.jpg";
+import image21   from "../assets/images/image21.jpg";
 
 // Media Imports
 const earpodeImg = image8; 
 import heroVideo  from "../assets/images/herovideo.mp4";
 import bottomVideo from "../assets/images/herovideo1.mp4";
+import modalVideo from "../assets/images/vedio1.mp4";
 
 const globalStyles = `
   @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&display=swap');
@@ -72,6 +75,8 @@ const stats = [
 const tickerItems = ["LIMITED TIME OFFERS", "NO-COST EMI AVAILABLE", "FREE EXPRESS DELIVERY", "CERTIFIED REFURBISHED"];
 
 export default function Home() {
+  const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
@@ -79,6 +84,9 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
+const goToProducts = () => {
+  navigate("/all-products");
+};
   return (
     <>
       <style>{globalStyles}</style>
@@ -98,7 +106,10 @@ export default function Home() {
               Pro. Beyond <br /> <span className="text-[#F472B6]">Compare.</span>
             </h1>
             <div className="anim-3 flex gap-5 mt-12">
-              <button className="bg-gradient-to-r from-[#BE123C] to-[#F43F5E] px-10 py-4 rounded-full font-bold text-[10px] tracking-widest uppercase hover:scale-105 transition-transform shadow-lg">
+             <button 
+                onClick={goToProducts}
+                className="bg-gradient-to-r from-[#BE123C] to-[#F43F5E] px-10 py-4 rounded-full font-bold text-[10px] tracking-widest uppercase hover:scale-105 transition-transform shadow-lg"
+              >
                 Explore Features
               </button>
             </div>
@@ -281,6 +292,67 @@ export default function Home() {
 
           </div>
         </section>
+        {showModal && selectedProduct && (
+          <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 modal-blur overflow-y-auto">
+            <div className="bg-white rounded-[40px] overflow-hidden max-w-5xl w-full flex flex-col md:flex-row shadow-2xl relative my-auto">
+              <button onClick={() => setShowModal(false)} className="absolute top-6 right-6 z-[210] bg-black text-white p-2 rounded-full hover:bg-red-600 transition-all">
+                <X size={24}/>
+              </button>
+              <div className="w-full md:w-1/2 h-[400px] md:h-auto bg-black">
+                 <video autoPlay loop muted playsInline className="w-full h-full object-cover">
+                    <source src={modalVideo} type="video/mp4" />
+                 </video>
+              </div>
+              <div className="w-full md:w-1/2 p-12 flex flex-col justify-center text-black">
+                <h2 className="text-4xl font-black mb-2 uppercase tracking-tight">{selectedProduct.name}</h2>
+                <p className="text-3xl font-black text-red-600 mb-8">{selectedProduct.price}</p>
+                <button className="w-full bg-black text-white py-5 rounded-2xl font-black hover:bg-red-600 transition-all flex items-center justify-center gap-3 uppercase text-xs tracking-widest">
+                   ADD TO CART <ShoppingCart size={20}/>
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ─────────────── NEW PRODUCT FEATURE SECTION (HOPPUP STYLE) ─────────────── */}
+<section className="flex flex-col md:flex-row w-full min-h-[80vh] bg-[#1A1D2B] overflow-hidden">
+  
+  {/* Left Side: Product Image */}
+  <div className="w-full md:w-1/2 relative bg-[#F3F3F3] flex items-center justify-center p-10">
+    <img 
+      src={image21} // നിന്റെ കയ്യിലുള്ള Zyphone ഇമേജ് ഇവിടെ നൽകാം
+      alt="Zyphone Featured" 
+      className="max-h-[70vh] object-contain hover:scale-105 transition-transform duration-700"
+    />
+  </div>
+
+  {/* Right Side: Content */}
+  <div className="w-full md:w-1/2 bg-[#1E2337] flex flex-col justify-center items-center text-center p-12 md:p-24">
+    {/* Icon or Small Logo */}
+    <div className="mb-6">
+       <div className="w-12 h-12 border-2 border-white/20 rounded-xl flex items-center justify-center">
+          <span className="text-white text-2xl">👍</span>
+       </div>
+    </div>
+
+    <p className="text-rose-400 font-bold tracking-[0.3em] uppercase text-[10px] mb-4">
+      Enter The Dream Scape
+    </p>
+
+    <h2 className="font-display text-5xl md:text-7xl text-white mb-6 tracking-tight uppercase">
+      AirDoze Z50 Edition
+    </h2>
+
+    <p className="text-gray-400 text-sm md:text-base leading-relaxed max-w-md mb-10 font-light">
+      Experience the future of sound with the Zyphone AirDoze Z50—where sleek design meets superior audio quality, 
+      Dual Mic AI ENC, and 40-hour playtime for an unparalleled, immersive journey in music, calls, and gaming.
+    </p>
+
+    <button className="bg-white text-black px-12 py-4 rounded-full font-bold text-xs tracking-widest hover:bg-rose-600 hover:text-white transition-all shadow-xl uppercase">
+      Buy Now
+    </button>
+  </div>
+</section>
 
 
         

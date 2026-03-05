@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Search, ShoppingCart, User, Smartphone } from 'lucide-react';
 
 const Navbar = () => {
@@ -7,37 +8,29 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           
-          {/* Left: Logo */}
-          <div className="flex items-center gap-2 cursor-pointer">
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-2 cursor-pointer">
             <div className="bg-red-600 p-1 rounded-sm">
               <Smartphone className="text-white" size={20} />
             </div>
             <span className="text-xl font-bold tracking-tighter text-black">ZYPHONE</span>
-          </div>
+          </Link>
 
-          {/* Center: Desktop Menu Items (OnePlus style) */}
+          {/* Menu Items */}
           <div className="hidden md:flex space-x-8 text-sm font-medium text-gray-700">
-            <a href="#" className="hover:text-red-600 transition">Store</a>
-            <a href="#" className="hover:text-red-600 transition">Phone</a>
-            <a href="#" className="hover:text-red-600 transition">Tablet</a>
-            <a href="#" className="hover:text-red-600 transition">Audio</a>
-            <a href="#" className="hover:text-red-600 transition">Support</a>
+            <Link to="/" className="hover:text-red-600 transition">Store</Link>
+            <Link to="/all-products" className="hover:text-red-600 transition">Phone</Link>
+            <Link to="/all-products" className="hover:text-red-600 transition">Audio</Link>
+            <Link to="#" className="hover:text-red-600 transition">Support</Link>
           </div>
 
-          {/* Right: Icons */}
+          {/* Icons */}
           <div className="flex items-center space-x-5 text-gray-600">
-            <button className="hover:text-black transition">
-              <Search size={20} strokeWidth={1.5} />
-            </button>
-            <button className="hover:text-black transition">
-              <User size={20} strokeWidth={1.5} />
-            </button>
+            <button className="hover:text-black transition"><Search size={20} strokeWidth={1.5} /></button>
+            <button className="hover:text-black transition"><User size={20} strokeWidth={1.5} /></button>
             <button className="relative hover:text-black transition">
               <ShoppingCart size={20} strokeWidth={1.5} />
-              {/* Cart Count Badge */}
-              <span className="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
-                0
-              </span>
+              <span className="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">0</span>
             </button>
           </div>
 

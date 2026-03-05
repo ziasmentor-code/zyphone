@@ -1,31 +1,23 @@
-
-
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/navbar';
-import Home from './pages/home';
 
-// Pinneede namukku add cheyyaavunna pages
-// import Products from './pages/Products';
-// import Cart from './pages/Cart';
+import Home from './pages/home';
+import ProductPage from './pages/productpage';
+import Navbar from './components/Navbar'; // Navbar ഇമ്പോർട്ട് ചെയ്തു
 
 function App() {
   return (
     <Router>
-      <div
-        className="min-h-screen text-white selection:bg-red-600"
-        style={{ backgroundColor: '#1a1c1e' }}
-      >
-        {/* Navbar ellaa page-ilum common aayi varum */}
-        <Navbar />
+      <div className="min-h-screen bg-[#f5f5f7]"> {/* ബാക്ക്ഗ്രൗണ്ട് കുറച്ചുകൂടി പ്രീമിയം ആക്കി */}
+        
+        {/* Navbar ഇവിടെ നൽകിയാൽ എല്ലാ പേജിലും വരും */}
+        <Navbar /> 
 
         <Routes>
-          {/* Home Page Route */}
           <Route path="/" element={<Home />} />
-
-          {/* Products page undakkumpol ithu active aakkaam */}
-          {/* <Route path="/products" element={<Products />} /> */}
+          <Route path="/all-products" element={<ProductPage />} />
         </Routes>
+        
       </div>
     </Router>
   );
