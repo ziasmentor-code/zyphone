@@ -156,15 +156,21 @@ export default function ProductDetail() {
              <div className="flex flex-col sm:flex-row gap-4 mb-12">
 
   {/* Add To Cart */}
-  <button
-    onClick={() => {
-      addToCart(product);
-      toast.success("Item added to cart 🛒");
-    }}
-    className="bg-black text-white px-8 py-4 rounded-full font-bold hover:bg-gray-800 transition"
-  >
-    Add to Cart
-  </button>
+ <button
+  onClick={() => {
+    addToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image
+    });
+
+    toast.success("Item added to cart 🛒");
+  }}
+  className="bg-black text-white px-8 py-4 rounded-full font-bold hover:bg-gray-800 transition"
+>
+  Add to Cart
+</button>
 
   {/* Buy Now */}
   <button

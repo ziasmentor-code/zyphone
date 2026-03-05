@@ -6,6 +6,7 @@ import Cart from "./pages/cart";
 import ProductDetail from "./pages/productdetail";
 import Navbar from "./components/Navbar";
 import { Toaster } from "react-hot-toast";
+import Wishlist from "./pages/wishlist"; 
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/all-products" element={<ProductPage />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/product/:id" element={<ProductDetail />} />
       </Routes>
 
