@@ -1,14 +1,16 @@
 import { useContext, useState, useEffect } from "react";
 import { CartContext } from "../context/cartcontext";
+import { AuthContext } from "../context/authcontext"; // AuthContext import ചെയ്തു
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export default function Cart() {
-  // Context safe aayi access cheyyunnu
   const cartContext = useContext(CartContext);
+  const authContext = useContext(AuthContext); // Auth context access ചെയ്യുന്നു
   
-  // Oru fallback empty array kodukkunnu (Ithaanu main fix)
   const cartItems = cartContext?.cartItems || [];
   const removeFromCart = cartContext?.removeFromCart;
+  const user = authContext?.user; // ലോഗിൻ ചെയ്ത യൂസർ ഉണ്ടോ എന്ന് നോക്കുന്നു
 
   const navigate = useNavigate();
   const [quantities, setQuantities] = useState({});
@@ -16,7 +18,6 @@ export default function Cart() {
 
   useEffect(() => {
     const qtys = {};
-    // cartItems undefined aavilla ippo
     cartItems.forEach(item => {
       qtys[item.id] = quantities[item.id] || 1;
     });
@@ -38,6 +39,23 @@ export default function Cart() {
     }, 400); 
   };
 
+  // പ്രധാന മാറ്റം ഇവിടെയാണ്
+  const handleCheckout = () => {
+    if (cartItems.length === 0) {
+      toast.error("Your cart is empty!");
+      return;
+    }
+
+    if (!user) {
+      // ലോഗിൻ ചെയ്തിട്ടില്ലെങ്കിൽ
+      toast.error("Please login to proceed with your order");
+      navigate("/login"); 
+    } else {
+      // ലോഗിൻ ചെയ്തിട്ടുണ്ടെങ്കിൽ
+      navigate("/checkout");
+    }
+  };
+
   const subtotal = cartItems.reduce(
     (sum, item) => sum + Number(item.price) * (quantities[item.id] || 1),
     0
@@ -52,20 +70,21 @@ export default function Cart() {
         .removing { animation: slideOut 0.4s ease forwards; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes slideOut { to { opacity: 0; transform: translateX(50px); max-height: 0; padding: 0; margin: 0; } }
-        .checkout-btn { background: linear-gradient(135deg, #a8edaa, #5ccb5f); color: #051a06; border: none; padding: 18px; border-radius: 60px; font-weight: 700; cursor: pointer; width: 100%; margin-top: 20px; transition: 0.3s; }
+        .checkout-btn { background: linear-gradient(135deg, #a8edaa, #5ccb5f); color: #051a06; border: none; padding: 18px; border-radius: 60px; font-weight: 700; cursor: pointer; width: 100%; margin-top: 20px; transition: 0.3s; box-shadow: 0 10px 20px rgba(92, 203, 95, 0.2); }
+        .checkout-btn:hover { transform: scale(1.02); }
+        .checkout-btn:disabled { background: #333; color: #666; cursor: not-allowed; box-shadow: none; }
       `}</style>
 
       <div style={styles.container}>
         <header style={styles.header}>
           <p style={styles.eyebrow}>YOUR SELECTION</p>
           <h1 style={styles.title}>Shopping Bag</h1>
-          {/* length access cheyyumpol optional chaining use cheyyanam */}
           <p style={styles.itemCount}>{cartItems?.length || 0} items</p>
         </header>
 
         {cartItems.length === 0 ? (
           <div style={styles.empty}>
-            <div style={{fontSize: '60px'}}>🛍️</div>
+            <div style={{fontSize: '60px', marginBottom: '20px'}}>🛍️</div>
             <h2 style={styles.emptyTitle}>Your bag is empty</h2>
             <button style={styles.shopBtn} onClick={() => navigate("/all-products")}>Shop Now</button>
           </div>
@@ -95,9 +114,17 @@ export default function Cart() {
               <div style={styles.summaryCard}>
                 <h3 style={styles.summaryTitle}>Summary</h3>
                 <div style={styles.row}><span>Subtotal</span><span>₹{subtotal.toLocaleString("en-IN")}</span></div>
+                <div style={styles.row}><span>Delivery</span><span style={{color: '#5ccb5f'}}>Free</span></div>
                 <div style={styles.divider}></div>
                 <div style={styles.totalRow}><span>Total</span><span>₹{subtotal.toLocaleString("en-IN")}</span></div>
-                <button className="checkout-btn" onClick={() => navigate("/checkout")}>Checkout</button>
+                
+                {/* Updated Button */}
+                <button 
+                  className="checkout-btn" 
+                  onClick={handleCheckout}
+                >
+                  {user ? "Proceed to Checkout" : "Login to Checkout"}
+                </button>
               </div>
             </div>
           </div>
@@ -111,7 +138,7 @@ const styles = {
   page: { minHeight: "100vh", background: "#0a0a0b", color: "#fff", padding: "60px 20px", fontFamily: "'DM Sans', sans-serif" },
   container: { maxWidth: "1100px", margin: "0 auto" },
   header: { marginBottom: "40px" },
-  eyebrow: { color: "#5ccb5f", fontSize: "11px", fontWeight: "700" },
+  eyebrow: { color: "#5ccb5f", fontSize: "11px", fontWeight: "700", letterSpacing: '1px' },
   title: { fontFamily: "'Playfair Display', serif", fontSize: "40px", marginTop: "10px" },
   itemCount: { color: "rgba(255,255,255,0.4)", fontSize: "14px" },
   layout: { display: "flex", gap: "30px", flexWrap: "wrap" },
@@ -121,14 +148,15 @@ const styles = {
   itemName: { fontSize: "18px", fontWeight: "600" },
   itemPrice: { color: "rgba(255,255,255,0.5)", margin: "5px 0" },
   qtyContainer: { display: "flex", alignItems: "center", gap: "20px", marginTop: "10px" },
-  qtyBox: { display: "flex", alignItems: "center", background: "rgba(255,255,255,0.05)", borderRadius: "50px", padding: "5px 15px", gap: "15px" },
+  qtyBox: { display: "flex", alignItems: "center", background: "rgba(255,255,255,0.05)", borderRadius: "50px", padding: "5px 15px", gap: "15px", border: "1px solid rgba(255,255,255,0.1)" },
   qtyBtn: { background: "none", border: "none", color: "#fff", cursor: "pointer" },
-  removeText: { background: "none", border: "none", color: "#ff6b6b", cursor: "pointer", fontSize: "12px" },
-  summaryCard: { background: "rgba(255,255,255,0.02)", padding: "30px", borderRadius: "24px", border: "1px solid rgba(255,255,255,0.06)" },
-  summaryTitle: { fontSize: "20px", marginBottom: "20px" },
+  removeText: { background: "none", border: "none", color: "#ff6b6b", cursor: "pointer", fontSize: "12px", textDecoration: 'underline' },
+  summaryCard: { background: "rgba(255,255,255,0.02)", padding: "30px", borderRadius: "24px", border: "1px solid rgba(255,255,255,0.06)", position: 'sticky', top: '100px' },
+  summaryTitle: { fontSize: "20px", marginBottom: "20px", fontWeight: '700' },
   row: { display: "flex", justifyContent: "space-between", marginBottom: "10px", opacity: 0.6 },
   divider: { height: "1px", background: "rgba(255,255,255,0.1)", margin: "15px 0" },
   totalRow: { display: "flex", justifyContent: "space-between", fontSize: "20px", fontWeight: "700" },
-  empty: { textAlign: "center", padding: "100px 0" },
-  shopBtn: { background: "#fff", color: "#000", border: "none", padding: "10px 30px", borderRadius: "50px", fontWeight: "700", cursor: "pointer", marginTop: "20px" }
+  empty: { textAlign: "center", padding: "100px 0", border: '1px dashed rgba(255,255,255,0.1)', borderRadius: '24px' },
+  emptyTitle: { fontSize: '24px', marginBottom: '20px' },
+  shopBtn: { background: "#fff", color: "#000", border: "none", padding: "12px 35px", borderRadius: "50px", fontWeight: "700", cursor: "pointer", marginTop: "10px" }
 };

@@ -1,138 +1,165 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { CartContext } from "../context/cartcontext";
-import { AuthContext } from "../context/authcontext"; // User details edukkan
-import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
-import { Truck, CreditCard, Edit2, Check } from "lucide-react";
+import { AuthContext } from "../context/authcontext";
+import toast from 'react-hot-toast';
+import { ArrowLeft, CreditCard, MapPin, User } from 'lucide-react';
 
 export default function Checkout() {
   const { cartItems, clearCart } = useContext(CartContext);
-  const { user } = useContext(AuthContext); // Current logged-in user
+  const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  // Address edit cheyyaanulla state
-  const [isEditing, setIsEditing] = useState(false);
-
+  // ഫോം ഡാറ്റ സ്റ്റേറ്റ്
   const [formData, setFormData] = useState({
-    name: user?.name || "",
+    fullName: user?.displayName || user?.name || "",
     email: user?.email || "",
     phone: user?.phone || "",
     address: user?.address || ""
   });
 
-  // User details maarumpol form update aakan
-  useEffect(() => {
-    if (user) {
-      setFormData({
-        name: user.name,
-        email: user.email,
-        phone: user.phone || "",
-        address: user.address || ""
-      });
-    }
-  }, [user]);
+  // കാർട്ടിലുള്ള ഐറ്റങ്ങളുടെ ആകെ തുക കണക്കാക്കുന്നു
+  const subtotal = cartItems.reduce((acc, item) => acc + (Number(item.price) || 0), 0);
 
-  const handleChange = (e) => {
+  const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const totalPrice = cartItems.reduce((total, item) => total + Number(item.price), 0);
+  const handlePlaceOrder = (e) => {
+    e.preventDefault();
 
-const handleOrder = () => {
-  // 1. Aadyam Cart-il items undo ennu check cheyyunnu
-  if (cartItems.length === 0) {
-    toast.error("Your cart is empty! Add some products first.", {
-      style: {
-        borderRadius: '15px',
-        background: '#1c1c1e',
-        color: '#fff',
-      },
-    });
-    navigate("/all-products"); // Cart empty aanengil shop-ilekk thirichu vidunnu
-    return;
-  }
+    if (cartItems.length === 0) {
+      toast.error("Your cart is empty!");
+      return;
+    }
 
-  // 2. Profile complete aano ennu check cheyyunnu
-  if (!user?.address || !user?.phone) {
-    toast.error("Please update your delivery address in Profile!");
-    navigate("/profile");
-    return;
-  }
+    const loadingToast = toast.loading("Processing your order...");
 
-  // 3. Ellam OK aanengil mathram Success-ilekk
-  toast.success("Order Placed Successfully! 🎉");
-  clearCart(); // Cart clear aakkan marakkalle
-  navigate("/order-success");
-};
-  return (
-    <div className="min-h-screen bg-[#0a0a0b] text-white pt-28 px-6">
-      <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10">
+    // 2 സെക്കൻഡിന് ശേഷം ഓർഡർ കൺഫേം ആകുന്നു
+    setTimeout(() => {
+      // പുതിയ ഓർഡർ ഒബ്ജക്റ്റ് ഉണ്ടാക്കുന്നു (ഇതിൽ കാർട്ടിലെ ഇമേജുകളും ഉൾപ്പെടും)
+      const newOrder = {
+        id: "ORD-" + Math.floor(Math.random() * 90000 + 10000),
+        date: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
+        status: "Processing",
+        total: subtotal.toLocaleString("en-IN"),
+        items: cartItems.map(item => ({
+          name: item.name,
+          image: item.image, // ബാക്കെൻഡിൽ നിന്നുള്ള ഇമേജ് പാത്ത്
+          price: item.price
+        })),
+        customerName: formData.fullName,
+        deliveryAddress: formData.address
+      };
+
+      // localStorage-ലേക്ക് സേവ് ചെയ്യുന്നു
+      try {
+        const existingOrders = JSON.parse(localStorage.getItem("myOrders") || "[]");
+        const updatedOrders = [newOrder, ...existingOrders];
+        localStorage.setItem("myOrders", JSON.stringify(updatedOrders));
         
-        {/* LEFT - SHIPPING DETAILS WITH EDIT OPTION */}
-        <div className="bg-white/5 p-8 rounded-[35px] border border-white/10 h-fit">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold flex items-center gap-2">
-              <Truck size={24} className="text-green-500" /> Shipping Details
-            </h2>
+        toast.dismiss(loadingToast);
+        toast.success(`Order Placed Successfully, ${formData.fullName}! 🎉`);
+        
+        if (clearCart) clearCart();
+        navigate("/order-success");
+      } catch (error) {
+        toast.dismiss(loadingToast);
+        toast.error("Something went wrong!");
+        console.error("Order Save Error:", error);
+      }
+    }, 2000);
+  };
+
+  return (
+    <div className="min-h-screen bg-[#0a0a0b] text-white p-6 flex items-center justify-center">
+      <div className="absolute top-0 left-0 w-96 h-96 bg-red-600/5 blur-[120px] pointer-events-none"></div>
+      
+      <div className="max-w-3xl w-full bg-[#111113] p-8 sm:p-12 rounded-[40px] border border-white/5 shadow-2xl relative z-10">
+        <button onClick={() => navigate("/cart")} className="flex items-center gap-2 text-gray-500 hover:text-white mb-8 transition-colors text-sm">
+          <ArrowLeft size={16} /> Back to shopping bag
+        </button>
+
+        <div className="mb-10 text-center sm:text-left">
+          <h2 className="text-3xl font-bold text-white tracking-tight">Shipping Details</h2>
+          <p className="text-gray-500 mt-2">Confirm your information to place the order</p>
+        </div>
+
+        <form onSubmit={handlePlaceOrder} className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <label className="text-xs font-bold text-gray-500 uppercase ml-1">Full Name</label>
+              <div className="relative">
+                <User className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600" size={18} />
+                <input 
+                  name="fullName"
+                  value={formData.fullName}
+                  onChange={handleInputChange}
+                  type="text" 
+                  placeholder="Enter your name" 
+                  required 
+                  className="w-full p-4 pl-12 bg-white/[0.03] border border-white/10 rounded-2xl outline-none focus:border-green-500 transition-all text-white" 
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-xs font-bold text-gray-500 uppercase ml-1">Contact Number</label>
+              <input 
+                name="phone"
+                value={formData.phone}
+                onChange={handleInputChange}
+                type="tel" 
+                placeholder="+91 0000000000" 
+                required 
+                className="w-full p-4 bg-white/[0.03] border border-white/10 rounded-2xl outline-none focus:border-green-500 transition-all text-white" 
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-xs font-bold text-gray-500 uppercase ml-1">Delivery Address</label>
+            <div className="relative">
+              <MapPin className="absolute left-4 top-5 text-gray-600" size={18} />
+              <textarea 
+                name="address"
+                value={formData.address}
+                onChange={handleInputChange}
+                placeholder="House No, Street, City, Pincode" 
+                required 
+                className="w-full p-4 pl-12 bg-white/[0.03] border border-white/10 rounded-2xl outline-none focus:border-green-500 transition-all text-white h-32 resize-none"
+              ></textarea>
+            </div>
+          </div>
+          
+          <div className="bg-white/[0.02] p-6 rounded-3xl border border-white/5 flex items-center justify-between group hover:border-green-500/30 transition-all cursor-pointer">
+             <div className="flex items-center gap-4">
+                <div className="bg-green-500/10 p-3 rounded-xl">
+                   <CreditCard className="text-green-500" size={24} />
+                </div>
+                <div>
+                   <p className="font-bold text-white">Cash on Delivery</p>
+                   <p className="text-xs text-gray-500">Pay when you receive the phone</p>
+                </div>
+             </div>
+             <div className="w-6 h-6 rounded-full border-2 border-green-500 flex items-center justify-center">
+                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+             </div>
+          </div>
+
+          <div className="pt-4 border-t border-white/5">
+            <div className="flex justify-between items-center mb-6">
+              <span className="text-gray-400">Total Amount</span>
+              <span className="text-2xl font-bold">₹{subtotal.toLocaleString("en-IN")}</span>
+            </div>
             <button 
-              onClick={() => setIsEditing(!isEditing)}
-              className="flex items-center gap-2 text-sm text-green-500 hover:underline"
+              type="submit" 
+              className="w-full bg-white text-black py-5 rounded-2xl font-bold text-lg hover:bg-green-400 hover:scale-[0.99] transition-all flex items-center justify-center gap-3 shadow-xl shadow-white/5"
             >
-              {isEditing ? <><Check size={16} /> Done</> : <><Edit2 size={16} /> Edit Details</>}
+              Confirm Order & Pay
             </button>
           </div>
-
-          <div className="space-y-4">
-            {isEditing ? (
-              // EDIT MODE: Inputs kaanikunnu
-              <>
-                <input
-                  name="name" value={formData.name} onChange={handleChange}
-                  placeholder="Full Name" className="w-full bg-white/10 p-4 rounded-2xl outline-none border border-white/10"
-                />
-                <input
-                  name="phone" value={formData.phone} onChange={handleChange}
-                  placeholder="Phone Number" className="w-full bg-white/10 p-4 rounded-2xl outline-none border border-white/10"
-                />
-                <textarea
-                  name="address" value={formData.address} onChange={handleChange}
-                  placeholder="Shipping Address" rows="4"
-                  className="w-full bg-white/10 p-4 rounded-2xl outline-none border border-white/10"
-                />
-              </>
-            ) : (
-              // VIEW MODE: Just text aayi kaanikunnu
-              <div className="bg-white/5 p-6 rounded-2xl space-y-3 border border-dashed border-white/20">
-                <p><span className="text-gray-500">Deliver to:</span> <span className="font-bold">{formData.name || "Add Name"}</span></p>
-                <p><span className="text-gray-500">Phone:</span> <span className="font-bold">{formData.phone || "Add Phone"}</span></p>
-                <p><span className="text-gray-500">Address:</span> <br /> 
-                   <span className="text-sm leading-relaxed">{formData.address || "No address added yet. Click edit to add."}</span>
-                </p>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* RIGHT - ORDER SUMMARY */}
-        <div className="bg-white/5 p-8 rounded-[35px] border border-white/10 h-fit">
-          <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-            <CreditCard size={24} className="text-green-500" /> Order Summary
-          </h2>
-          {/* ... Cart map items ivide varum (pazhaya code thudaruka) ... */}
-          <div className="border-t border-white/10 pt-4 mt-6">
-             <div className="flex justify-between text-xl font-bold">
-                <span>Total</span>
-                <span>₹{totalPrice.toLocaleString("en-IN")}</span>
-             </div>
-             <button 
-                onClick={handleOrder}
-                className="w-full bg-white text-black py-4 rounded-full font-bold mt-6 hover:scale-95 transition-all"
-             >
-                Confirm Order
-             </button>
-          </div>
-        </div>
-
+        </form>
       </div>
     </div>
   );
