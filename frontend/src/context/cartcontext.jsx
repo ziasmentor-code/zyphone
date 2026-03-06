@@ -1,30 +1,31 @@
-import { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect } from "react";
 
-export const CartContext = createContext();
+// Initial state eppozhum empty array aayi vekkuka
+export const CartContext = createContext({
+  cartItems: [],
+  addToCart: () => {},
+  removeFromCart: () => {}
+});
 
 export const CartProvider = ({ children }) => {
+  const [cartItems, setCartItems] = useState([]);
 
-  // localStorage il ninn cart load cheyyunnu
-  const [cartItems, setCartItems] = useState(() => {
-    const savedCart = localStorage.getItem("cart");
-    return savedCart ? JSON.parse(savedCart) : [];
-  });
-
-  // cart change aayal localStorage update
-  useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cartItems));
-  }, [cartItems]);
-
-  // Add to cart
+  // Add to cart function
   const addToCart = (product) => {
-    setCartItems((prev) => [...prev, product]);
+    if (!product) return;
+    setCartItems((prev) => {
+      const exists = prev.find((item) => item.id === product.id);
+      if (exists) return prev;
+      return [...prev, product];
+    });
   };
 
-  // Remove from cart
+  // Remove from cart function
   const removeFromCart = (id) => {
     setCartItems((prev) => prev.filter((item) => item.id !== id));
   };
 
+  // VALUE object eppozhum pass cheyyunnu ennu urappu varuthuka
   return (
     <CartContext.Provider value={{ cartItems, addToCart, removeFromCart }}>
       {children}
