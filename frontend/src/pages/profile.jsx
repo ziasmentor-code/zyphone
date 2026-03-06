@@ -1,140 +1,161 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "../context/authcontext";
-import { User, MapPin, Phone, Mail, Camera, LogOut, Save, ArrowRight } from 'lucide-react';
+import { User, MapPin, Camera, LogOut, Save, ArrowRight, BadgeCheck } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export default function Profile() {
   const { user, login, logout } = useContext(AuthContext);
   const navigate = useNavigate();
+  const fileInputRef = useRef(null); // File input handle ചെയ്യാൻ
 
-  // Edit cheyyaanulla state
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     name: user?.name || "",
     email: user?.email || "",
     phone: user?.phone || "",
     address: user?.address || "",
+    profileImg: user?.profileImg || null, // Image state
   });
 
-  if (!user) {
-    navigate("/login");
-    return null;
-  }
+  if (!user) { navigate("/login"); return null; }
+
+  // --- Image Upload Handler ---
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result;
+        setFormData({ ...formData, profileImg: base64String });
+        // ഉടനടി സേവ് ചെയ്യണമെങ്കിൽ:
+        login({ ...user, profileImg: base64String });
+        toast.success("Profile picture updated!");
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleUpdate = (e) => {
     e.preventDefault();
-    login({ ...user, ...formData }); // Context-ilum LocalStorage-ilum update aakum
+    login({ ...user, ...formData });
     setIsEditing(false);
-    toast.success("Profile updated successfully!");
+    toast.success("Profile Updated!");
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0b] text-white pt-28 pb-10 px-6">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-[#050505] text-white pt-32 pb-20 px-6">
+      <div className="max-w-5xl mx-auto">
         
-        {/* Header Section */}
-        <div className="flex flex-col md:flex-row items-center gap-8 mb-10 bg-white/5 p-10 rounded-[40px] border border-white/10">
+        {/* Header Card */}
+        <div className="bg-white/5 p-10 rounded-[3rem] border border-white/10 mb-8 flex flex-col md:flex-row items-center gap-8 backdrop-blur-md relative overflow-hidden">
+          
+          {/* Avatar Section */}
           <div className="relative group">
-            <div className="w-32 h-32 bg-gradient-to-tr from-green-500 to-emerald-700 rounded-full flex items-center justify-center text-5xl font-black text-black shadow-2xl">
-              {user.name[0]}
+            <div className="w-36 h-36 bg-gradient-to-tr from-green-400 to-emerald-600 rounded-full p-1 shadow-2xl overflow-hidden">
+              {formData.profileImg ? (
+                <img src={formData.profileImg} alt="Profile" className="w-full h-full object-cover rounded-full" />
+              ) : (
+                <div className="w-full h-full bg-[#0a0a0b] rounded-full flex items-center justify-center text-5xl font-black text-white uppercase">
+                  {user.name[0]}
+                </div>
+              )}
             </div>
-            <button className="absolute bottom-1 right-1 bg-white text-black p-2 rounded-full shadow-lg hover:scale-110 transition">
+            
+            {/* Hidden File Input */}
+            <input 
+              type="file" 
+              ref={fileInputRef} 
+              className="hidden" 
+              accept="image/*" 
+              onChange={handleImageChange} 
+            />
+            
+            {/* Upload Button */}
+            <button 
+              onClick={() => fileInputRef.current.click()}
+              className="absolute bottom-1 right-1 bg-white text-black p-2.5 rounded-full shadow-xl hover:scale-110 active:scale-95 transition-all border-4 border-[#0a0a0b]"
+            >
               <Camera size={18} />
             </button>
           </div>
 
-          <div className="text-center md:text-left flex-1">
-            <h1 className="text-4xl font-black tracking-tight">{user.name}</h1>
-            <p className="text-gray-400 mt-1">{user.email}</p>
-            <div className="flex flex-wrap gap-3 mt-4 justify-center md:justify-start">
-              <span className="bg-white/10 px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase border border-white/10">
-                Premium Member
-              </span>
-              <span className="bg-green-500/10 text-green-500 px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase border border-green-500/20">
-                Verified Account
-              </span>
-            </div>
+          <div className="flex-1 text-center md:text-left">
+            <h1 className="text-4xl font-black italic tracking-tighter uppercase">
+              {user.name} <BadgeCheck className="inline text-green-500 ml-2" size={30} />
+            </h1>
+            <p className="text-gray-400 font-medium">{user.email}</p>
           </div>
 
           <button 
-            onClick={() => setIsEditing(!isEditing)}
-            className="bg-white text-black px-8 py-3 rounded-full font-bold hover:bg-gray-200 transition-all flex items-center gap-2"
+            onClick={() => setIsEditing(!isEditing)} 
+            className={`px-8 py-3 rounded-full font-bold transition-all ${isEditing ? 'bg-green-500 text-black' : 'bg-white text-black hover:bg-gray-200'}`}
           >
-            {isEditing ? <><Save size={18}/> Save Changes</> : <><User size={18}/> Edit Profile</>}
+            {isEditing ? <span className="flex items-center gap-2"><Save size={18}/> SAVE</span> : "EDIT PROFILE"}
           </button>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
-          {/* Left Column - Details */}
-          <div className="md:col-span-2 space-y-6">
-            <div className="bg-white/5 p-8 rounded-[35px] border border-white/10">
-              <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
-                <MapPin size={20} className="text-green-500" /> Delivery Information
-              </h3>
-              
-              <form onSubmit={handleUpdate} className="space-y-5">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  <div>
-                    <label className="text-xs font-bold text-gray-500 uppercase ml-2">Full Name</label>
-                    <input 
-                      disabled={!isEditing}
-                      className="w-full bg-white/5 border border-white/10 p-4 rounded-2xl mt-2 outline-none focus:border-green-500 disabled:opacity-50"
-                      value={formData.name}
-                      onChange={(e) => setFormData({...formData, name: e.target.value})}
-                    />
-                  </div>
-                  <div>
-                    <label className="text-xs font-bold text-gray-500 uppercase ml-2">Phone Number</label>
-                    <input 
-                      disabled={!isEditing}
-                      placeholder="+91 XXXXX XXXXX"
-                      className="w-full bg-white/5 border border-white/10 p-4 rounded-2xl mt-2 outline-none focus:border-green-500 disabled:opacity-50"
-                      value={formData.phone}
-                      onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="text-xs font-bold text-gray-500 uppercase ml-2">Shipping Address</label>
-                  <textarea 
-                    disabled={!isEditing}
-                    placeholder="House Name, Street, City, ZIP"
-                    rows="3"
-                    className="w-full bg-white/5 border border-white/10 p-4 rounded-2xl mt-2 outline-none focus:border-green-500 disabled:opacity-50"
-                    value={formData.address}
-                    onChange={(e) => setFormData({...formData, address: e.target.value})}
+        {/* --- FORM SECTION (Same as before) --- */}
+        <div className="grid md:grid-cols-3 gap-8">
+          <div className="md:col-span-2 bg-white/5 p-10 rounded-[2.5rem] border border-white/10 backdrop-blur-sm">
+            <h3 className="text-2xl font-bold mb-8 flex items-center gap-3 italic">
+              <MapPin className="text-green-500" /> SHIPPING HUB
+            </h3>
+            <form onSubmit={handleUpdate} className="space-y-6">
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-2">Username</label>
+                  <input 
+                    disabled={!isEditing} 
+                    className="w-full bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:border-green-500 disabled:opacity-40 transition-all" 
+                    value={formData.name} 
+                    onChange={(e) => setFormData({...formData, name: e.target.value})} 
                   />
                 </div>
-
-                {isEditing && (
-                  <button type="submit" className="w-full bg-green-600 text-white py-4 rounded-2xl font-bold hover:bg-green-700 transition">
-                    Update Profile Details
-                  </button>
-                )}
-              </form>
-            </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-2">Contact Line</label>
+                  <input 
+                    disabled={!isEditing} 
+                    placeholder="Phone Number" 
+                    className="w-full bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:border-green-500 disabled:opacity-40 transition-all" 
+                    value={formData.phone} 
+                    onChange={(e) => setFormData({...formData, phone: e.target.value})} 
+                  />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-2">Global Address</label>
+                <textarea 
+                  disabled={!isEditing} 
+                  placeholder="Address" 
+                  rows="4" 
+                  className="w-full bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:border-green-500 disabled:opacity-40 transition-all resize-none" 
+                  value={formData.address} 
+                  onChange={(e) => setFormData({...formData, address: e.target.value})} 
+                />
+              </div>
+              {isEditing && (
+                <button type="submit" className="w-full bg-green-500 text-black py-5 rounded-2xl font-black text-lg shadow-lg shadow-green-500/20 hover:bg-green-400 transition-all">
+                  CONFIRM CHANGES
+                </button>
+              )}
+            </form>
           </div>
 
-          {/* Right Column - Actions */}
+          {/* Action Sidebar */}
           <div className="space-y-6">
-            <div className="bg-gradient-to-br from-green-600 to-emerald-900 p-8 rounded-[35px] text-white">
-              <h3 className="font-bold text-lg mb-2">Ready to Order?</h3>
-              <p className="text-sm text-white/70 mb-6">Your items are waiting in the cart. Complete your purchase now.</p>
+            <div className="bg-gradient-to-br from-green-600 to-emerald-900 p-8 rounded-[2.5rem] shadow-xl">
+              <h3 className="font-black text-xl mb-3 italic">READY TO ORDER?</h3>
+              <p className="text-sm text-white/60 mb-8">Items in cart are ready for dispatch.</p>
               <button 
-                onClick={() => navigate("/checkout")}
-                className="w-full bg-white text-black py-4 rounded-2xl font-bold flex items-center justify-center gap-2 hover:scale-95 transition"
+                onClick={() => navigate("/checkout")} 
+                className="w-full bg-white text-black py-4 rounded-2xl font-black flex items-center justify-center gap-3 hover:gap-5 transition-all"
               >
-                Go to Checkout <ArrowRight size={18} />
+                CHECKOUT <ArrowRight size={20} />
               </button>
             </div>
-
-            <button 
-              onClick={logout}
-              className="w-full bg-red-500/10 text-red-500 border border-red-500/20 py-4 rounded-[25px] font-bold flex items-center justify-center gap-2 hover:bg-red-500 hover:text-white transition-all"
-            >
-              <LogOut size={18} /> Logout
+            <button onClick={logout} className="w-full bg-red-500/10 text-red-500 border border-red-500/20 py-5 rounded-[2rem] font-black hover:bg-red-500 hover:text-white transition-all">
+              LOGOUT ACCOUNT
             </button>
           </div>
         </div>

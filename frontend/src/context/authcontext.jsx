@@ -1,29 +1,23 @@
 import React, { createContext, useState, useEffect } from "react";
 
-export const AuthContext = createContext(null); // Default null aayi vekkuka
+export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
     const savedUser = localStorage.getItem("user");
-    if (savedUser) {
-      try {
-        setUser(JSON.parse(savedUser));
-      } catch (error) {
-        console.error("Auth parsing error", error);
-      }
-    }
+    if (savedUser) setUser(JSON.parse(savedUser));
   }, []);
 
   const login = (userData) => {
-    localStorage.setItem("user", JSON.stringify(userData));
     setUser(userData);
+    localStorage.setItem("user", JSON.stringify(userData));
   };
 
   const logout = () => {
-    localStorage.removeItem("user");
     setUser(null);
+    localStorage.removeItem("user");
   };
 
   return (

@@ -38,31 +38,31 @@ export default function Checkout() {
 
   const totalPrice = cartItems.reduce((total, item) => total + Number(item.price), 0);
 
-  const handleOrder = () => {
-  // 1. അഡ്രസ്സും ഫോണും ഉണ്ടോ എന്ന് ഉറപ്പ് വരുത്തുന്നു
-  if (!formData.address || !formData.phone) {
-    toast.error("Please provide shipping address and phone number", {
+const handleOrder = () => {
+  // 1. Aadyam Cart-il items undo ennu check cheyyunnu
+  if (cartItems.length === 0) {
+    toast.error("Your cart is empty! Add some products first.", {
       style: {
         borderRadius: '15px',
-        background: '#333',
+        background: '#1c1c1e',
         color: '#fff',
       },
     });
-    setIsEditing(true); 
+    navigate("/all-products"); // Cart empty aanengil shop-ilekk thirichu vidunnu
     return;
   }
 
- 
-  toast.success("Order Placed Successfully! 🎉");
-
- 
-  if (clearCart) {
-    clearCart();
+  // 2. Profile complete aano ennu check cheyyunnu
+  if (!user?.address || !user?.phone) {
+    toast.error("Please update your delivery address in Profile!");
+    navigate("/profile");
+    return;
   }
 
-  setTimeout(() => {
-    navigate("/order-success");
-  }, 1000); 
+  // 3. Ellam OK aanengil mathram Success-ilekk
+  toast.success("Order Placed Successfully! 🎉");
+  clearCart(); // Cart clear aakkan marakkalle
+  navigate("/order-success");
 };
   return (
     <div className="min-h-screen bg-[#0a0a0b] text-white pt-28 px-6">

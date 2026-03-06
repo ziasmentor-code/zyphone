@@ -34,27 +34,46 @@ export default function ProductDetail() {
 
   // --- BUY NOW LOGIC ---
 const handleBuyNow = () => {
-  // 1. User login aano ennu aadyam check cheyyunnu
   if (!user) {
     toast.error("Please login to continue");
     navigate("/login");
     return;
   }
 
-  // 2. Product-ine cart-ilekk add cheyyunnu
-  addToCart({
-    id: product.id,
-    name: product.name,
-    price: product.price,
-    image: product.image
-  });
+  // 1. Oru Loading Toast kaanikkunnu (Standard Look)
+  const loadingToast = toast.loading("Processing your request...");
 
-  // 3. Nere Profile page-ilekk redirect cheyyunnu
-  // Ippo address undo ennu check cheyyilla, direct Profile-ilekk pookum
-  toast("Redirecting to profile to confirm details", { icon: '👤' });
-  navigate("/profile"); 
+  setTimeout(() => {
+    // 2. Product Cart-ilekk add cheyyunnu
+    addToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image
+    });
+
+    // 3. Loading toast maatti Success toast aakkunnu
+    toast.success(`${product.name} confirmed!`, {
+      id: loadingToast,
+      style: {
+        borderRadius: '15px',
+        background: '#121212',
+        color: '#fff',
+        border: '1px solid #222'
+      }
+    });
+
+    // 4. Redirect Logic
+    const isProfileComplete = user?.address && user?.phone;
+
+    if (isProfileComplete) {
+      navigate("/checkout");
+    } else {
+      toast("Complete your delivery profile", { icon: '📍' });
+      navigate("/profile");
+    }
+  }, 800); // 0.8 seconds delay for a 'real' processing feel
 };
-
   if (loading) return <div className="min-h-screen flex items-center justify-center font-bold">Loading...</div>;
 
   if (error || !product) {
