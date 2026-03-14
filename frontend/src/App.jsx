@@ -13,15 +13,14 @@ import Profile from "./pages/profile";
 import MyOrders from "./pages/myorders"; 
 import OrderDetails from "./pages/orderdetails";
 import Register from "./pages/Register";
+import Signup from "./pages/signup";
 
-// Context Providers ഇംപോർട്ട് ചെയ്യുന്നു
+// Context Providers
 import { CartProvider } from "./context/cartcontext";
 import { WishlistProvider } from "./context/wishlistcontext";
-import Signup from "./pages/signup";
 
 function App() {
   return (
-    // WishlistProvider-ഉം CartProvider-ഉം എല്ലാത്തിനും മുകളിൽ വരണം
     <WishlistProvider>
       <CartProvider>
         <div className="min-h-screen bg-[#0a0a0b]">
@@ -41,13 +40,17 @@ function App() {
           <Routes>
             {/* Public Routes */}
             <Route path="/" element={<Home />} />
+            
+            {/* ✅ Product Routes - Both work */}
+            <Route path="/products" element={<ProductPage />} />
             <Route path="/all-products" element={<ProductPage />} />
             <Route path="/product/:id" element={<ProductDetail />} />
+            
             <Route path="/cart" element={<Cart />} />
             <Route path="/wishlist" element={<Wishlist />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
-               <Route path="/signup" element={<Signup />} />
+            <Route path="/signup" element={<Signup />} />
             
             {/* User Related Routes */}
             <Route path="/profile" element={<Profile />} />

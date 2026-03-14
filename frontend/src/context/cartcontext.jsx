@@ -5,12 +5,16 @@ import toast from "react-hot-toast";
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
+  // Load cart from localStorage on initial load
   const [cartItems, setCartItems] = useState(() => {
     const savedCart = localStorage.getItem("zyphone_cart");
+    console.log("Loading cart from localStorage:", savedCart);
     return savedCart ? JSON.parse(savedCart) : [];
   });
 
+  // Save cart to localStorage whenever it changes
   useEffect(() => {
+    console.log("Saving cart to localStorage:", cartItems);
     localStorage.setItem("zyphone_cart", JSON.stringify(cartItems));
   }, [cartItems]);
 
@@ -35,7 +39,6 @@ export const CartProvider = ({ children }) => {
     toast.success("Item removed from cart");
   };
 
-  // ✅ Add clearCart function
   const clearCart = () => {
     setCartItems([]);
     localStorage.removeItem("zyphone_cart");
@@ -55,7 +58,7 @@ export const CartProvider = ({ children }) => {
       cartItems, 
       addToCart, 
       removeFromCart,
-      clearCart,  // ✅ Add this
+      clearCart,
       updateQuantity 
     }}>
       {children}

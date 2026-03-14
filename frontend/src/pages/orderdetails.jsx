@@ -3,14 +3,118 @@ import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/authcontext";
 import api from "../services/api";
-import { ArrowLeft, Package, Truck, CheckCircle, Clock } from "lucide-react";
+import { ArrowLeft, Package, Truck, CheckCircle, Clock, XCircle } from "lucide-react";
 import toast from "react-hot-toast";
 
+/* ─── Google Fonts ─────────────────────────────────────────────────────────── */
+const FontImport = () => (
+  <style>{`
+    @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=Outfit:wght@400;500;600&display=swap');
+  `}</style>
+);
+
+/* ─── Helpers ───────────────────────────────────────────────────────────────── */
+const fmt = (n) =>
+  Number(n || 0).toLocaleString("en-IN", { minimumFractionDigits: 0 });
+
+const fmtDate = (d, opts) =>
+  d ? new Date(d).toLocaleDateString("en-IN", opts) : "N/A";
+
+const getImageUrl = (imagePath) => {
+  if (!imagePath) return "https://via.placeholder.com/80/f3f4f6/9ca3af?text=";
+  if (imagePath.startsWith("http") || imagePath.startsWith("data:image"))
+    return imagePath;
+  const base = "http://127.0.0.1:8000";
+  if (imagePath.startsWith("/media/")) return `${base}${imagePath}`;
+  return `${base}/media/${imagePath}`;
+};
+
+const STATUS_CONFIG = {
+  pending:   { bg: "#fef3c7", color: "#92400e", Icon: Clock },
+  confirmed: { bg: "#dbeafe", color: "#1e40af", Icon: Package },
+  shipped:   { bg: "#ede9fe", color: "#5b21b6", Icon: Truck },
+  delivered: { bg: "#d1fae5", color: "#065f46", Icon: CheckCircle },
+  cancelled: { bg: "#fee2e2", color: "#991b1b", Icon: XCircle },
+};
+
+const StatusBadge = ({ status }) => {
+  const key = status?.toLowerCase() || "pending";
+  const cfg = STATUS_CONFIG[key] || { bg: "#f3f4f6", color: "#374151", Icon: Package };
+  return (
+    <span style={{
+      display: "inline-flex", alignItems: "center", gap: 5,
+      padding: "4px 11px", borderRadius: 20,
+      fontSize: 11, fontWeight: 500, letterSpacing: "0.05em",
+      textTransform: "uppercase", background: cfg.bg, color: cfg.color,
+      fontFamily: "'DM Mono', monospace",
+    }}>
+      <span style={{ width: 6, height: 6, borderRadius: "50%", background: cfg.color, display: "inline-block" }} />
+      {status || "Pending"}
+    </span>
+  );
+};
+
+/* ─── Status Timeline ───────────────────────────────────────────────────────── */
+const STEPS = ["pending", "confirmed", "shipped", "delivered"];
+
+const StatusTimeline = ({ status }) => {
+  const current = STEPS.indexOf(status?.toLowerCase());
+  const isCancelled = status?.toLowerCase() === "cancelled";
+
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 0, margin: "20px 0 4px" }}>
+      {STEPS.map((step, i) => {
+        const done = !isCancelled && current >= i;
+        const active = !isCancelled && current === i;
+        const cfg = STATUS_CONFIG[step];
+        const Icon = cfg.Icon;
+        return (
+          <React.Fragment key={step}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", flex: 1 }}>
+              <div style={{
+                width: 34, height: 34, borderRadius: "50%",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                background: done ? cfg.bg : "#f3f4f6",
+                border: active ? `2px solid ${cfg.color}` : "1.5px solid #e5e7eb",
+                transition: "all 0.3s",
+              }}>
+                <Icon size={15} color={done ? cfg.color : "#d1d5db"} />
+              </div>
+              <span style={{
+                fontSize: 10, marginTop: 6, fontFamily: "'DM Mono', monospace",
+                letterSpacing: "0.08em", textTransform: "uppercase",
+                color: done ? cfg.color : "#9ca3af", fontWeight: active ? 500 : 400,
+              }}>
+                {step}
+              </span>
+            </div>
+            {i < STEPS.length - 1 && (
+              <div style={{
+                height: 1.5, flex: 1, marginBottom: 22,
+                background: !isCancelled && current > i ? "#c7d2fe" : "#e5e7eb",
+                transition: "background 0.3s",
+              }} />
+            )}
+          </React.Fragment>
+        );
+      })}
+    </div>
+  );
+};
+
+/* ─── Section Card ──────────────────────────────────────────────────────────── */
+const SectionCard = ({ title, children, style }) => (
+  <div style={{ ...s.card, ...style }}>
+    <p style={s.sectionLabel}>{title}</p>
+    {children}
+  </div>
+);
+
+/* ─── Main Component ────────────────────────────────────────────────────────── */
 const OrderDetails = () => {
   const { orderId } = useParams();
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
-  
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
   const [imageErrors, setImageErrors] = useState({});
@@ -21,473 +125,344 @@ const OrderDetails = () => {
       navigate("/login");
       return;
     }
-
     fetchOrderDetails();
   }, [orderId]);
 
   const fetchOrderDetails = async () => {
     try {
-      console.log(`Fetching order details for ID: ${orderId}`);
       const response = await api.get(`orders/${orderId}/`);
-      console.log("Order details response:", response.data);
       setOrder(response.data);
-    } catch (error) {
-      console.error("Error fetching order details:", error);
+    } catch {
       toast.error("Failed to load order details");
     } finally {
       setLoading(false);
     }
   };
 
-  const getImageUrl = (imagePath) => {
-    if (!imagePath) return "https://via.placeholder.com/100/1a1a1a/666?text=No+Image";
-    if (imagePath.startsWith('http')) return imagePath;
-    if (imagePath.startsWith('data:image')) return imagePath;
-    
-    const baseURL = 'http://127.0.0.1:8000';
-    if (imagePath.startsWith('/media/')) {
-      return `${baseURL}${imagePath}`;
-    }
-    return `${baseURL}/media/${imagePath}`;
-  };
+  const handleImageError = (key) =>
+    setImageErrors((prev) => ({ ...prev, [key]: true }));
 
-  const handleImageError = (itemId) => {
-    setImageErrors(prev => ({ ...prev, [itemId]: true }));
-  };
+  const imgSrc = (path, key) =>
+    imageErrors[key]
+      ? "https://via.placeholder.com/80/f3f4f6/9ca3af?text="
+      : getImageUrl(path);
 
-  const getStatusIcon = (status) => {
-    switch(status?.toLowerCase()) {
-      case 'delivered': return <CheckCircle size={20} color="#10b981" />;
-      case 'shipped': return <Truck size={20} color="#8b5cf6" />;
-      case 'pending': return <Clock size={20} color="#f59e0b" />;
-      default: return <Package size={20} color="#6b7280" />;
-    }
-  };
-
-  const getStatusColor = (status) => {
-    switch(status?.toLowerCase()) {
-      case 'delivered': return '#10b981';
-      case 'shipped': return '#8b5cf6';
-      case 'confirmed': return '#3b82f6';
-      case 'pending': return '#f59e0b';
-      case 'cancelled': return '#ef4444';
-      default: return '#6b7280';
-    }
-  };
-
+  /* ── Loading ── */
   if (loading) {
     return (
-      <div style={styles.page}>
-        <div style={styles.container}>
-          <div style={styles.loading}>Loading order details...</div>
+      <>
+        <FontImport />
+        <div style={s.page}>
+          <div style={s.loadingWrap}>
+            <span style={s.loadingText}>Loading order details…</span>
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 
+  /* ── Not Found ── */
   if (!order) {
     return (
-      <div style={styles.page}>
-        <div style={styles.container}>
-          <div style={styles.errorState}>
-            <Package size={60} color="#333" />
-            <h2 style={styles.errorTitle}>Order not found</h2>
-            <button 
-              onClick={() => navigate("/my-orders")}
-              style={styles.backBtn}
-            >
-              Back to Orders
+      <>
+        <FontImport />
+        <div style={s.page}>
+          <div style={s.container}>
+            <button onClick={() => navigate("/my-orders")} style={s.backBtn}>
+              <ArrowLeft size={15} /> Back to Orders
             </button>
+            <div style={{ ...s.card, textAlign: "center", padding: "60px 40px" }}>
+              <Package size={48} color="#c7d2fe" />
+              <h2 style={{ fontFamily: "'DM Serif Display', serif", fontSize: 22, color: "#1a2744", marginTop: 20 }}>
+                Order not found
+              </h2>
+              <button onClick={() => navigate("/my-orders")} style={{ ...s.primaryBtn, marginTop: 24, maxWidth: 200 }}>
+                Back to Orders
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
 
+  const subtotal = order.items?.reduce(
+    (sum, it) => sum + Number(it.price) * Number(it.quantity), 0
+  ) || 0;
+
   return (
-    <div style={styles.page}>
-      <div style={styles.container}>
-        {/* Header */}
-        <div style={styles.header}>
-          <button 
-            onClick={() => navigate(-1)} 
-            style={styles.backButton}
-          >
-            <ArrowLeft size={20} />
+    <>
+      <FontImport />
+      <div style={s.page}>
+        <div style={s.container}>
+
+          {/* Back */}
+          <button onClick={() => navigate(-1)} style={s.backBtn}>
+            <ArrowLeft size={15} /> Back
           </button>
-          <h1 style={styles.title}>Order Details</h1>
-          <div style={styles.icon}>
-            <Package size={24} />
-          </div>
-        </div>
 
-        {/* Order Status */}
-        <div style={styles.statusCard}>
-          <div style={styles.statusHeader}>
-            <span style={styles.statusLabel}>Order Status</span>
-            <span style={{
-              ...styles.statusBadge,
-              backgroundColor: getStatusColor(order.status),
-              color: '#fff'
-            }}>
-              {order.status || 'Pending'}
-            </span>
-          </div>
-          <div style={styles.statusInfo}>
-            <div style={styles.statusItem}>
-              {getStatusIcon(order.status)}
-              <span style={styles.statusText}>
-                {order.status === 'delivered' ? 'Delivered on' : 'Expected delivery'}
-              </span>
+          {/* Page Header */}
+          <div style={s.pageHead}>
+            <div>
+              <p style={s.pageLabel}>Order / Details</p>
+              <h1 style={s.pageTitle}>Order Details</h1>
             </div>
-            <span style={styles.statusDate}>
-              {order.created_at ? new Date(order.created_at).toLocaleDateString('en-IN', {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric'
-              }) : 'N/A'}
-            </span>
+            <div style={{ textAlign: "right" }}>
+              <p style={s.pageLabel}>Order ID</p>
+              <p style={s.pageOrderId}>ORD-{String(order.id).padStart(5, "0")}</p>
+            </div>
           </div>
-        </div>
 
-        {/* Order Summary */}
-        <div style={styles.summaryCard}>
-          <h3 style={styles.sectionTitle}>Order Summary</h3>
-          <div style={styles.summaryRow}>
-            <span style={styles.summaryLabel}>Order ID:</span>
-            <span style={styles.summaryValue}>#{order.id}</span>
-          </div>
-          <div style={styles.summaryRow}>
-            <span style={styles.summaryLabel}>Order Date:</span>
-            <span style={styles.summaryValue}>
-              {order.created_at ? new Date(order.created_at).toLocaleString('en-IN') : 'N/A'}
-            </span>
-          </div>
-          <div style={styles.summaryRow}>
-            <span style={styles.summaryLabel}>Payment Method:</span>
-            <span style={styles.summaryValue}>{order.payment_method || 'COD'}</span>
-          </div>
-          <div style={styles.summaryRow}>
-            <span style={styles.summaryLabel}>Total Items:</span>
-            <span style={styles.summaryValue}>{order.items?.length || 0}</span>
-          </div>
-          <div style={styles.totalRow}>
-            <span style={styles.totalLabel}>Total Amount:</span>
-            <span style={styles.totalValue}>₹{Number(order.total_price || 0).toLocaleString('en-IN')}</span>
-          </div>
-        </div>
+          {/* Status Card */}
+          <SectionCard title="Order Status">
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                {(() => {
+                  const key = order.status?.toLowerCase() || "pending";
+                  const cfg = STATUS_CONFIG[key] || STATUS_CONFIG.pending;
+                  const Icon = cfg.Icon;
+                  return <Icon size={18} color={cfg.color} />;
+                })()}
+                <span style={{ fontSize: 14, color: "#374151", fontWeight: 500 }}>
+                  {order.status === "delivered" ? "Delivered on" : "Order placed on"}{" "}
+                  {fmtDate(order.created_at, { day: "numeric", month: "long", year: "numeric" })}
+                </span>
+              </div>
+              <StatusBadge status={order.status} />
+            </div>
+            <StatusTimeline status={order.status} />
+          </SectionCard>
 
-        {/* Shipping Details */}
-        <div style={styles.shippingCard}>
-          <h3 style={styles.sectionTitle}>Shipping Details</h3>
-          <div style={styles.shippingRow}>
-            <span style={styles.shippingLabel}>Address:</span>
-            <span style={styles.shippingValue}>{order.shipping_address}</span>
-          </div>
-          <div style={styles.shippingRow}>
-            <span style={styles.shippingLabel}>Phone:</span>
-            <span style={styles.shippingValue}>{order.phone}</span>
-          </div>
-        </div>
+          {/* Two-column: Summary + Shipping */}
+          <div style={s.twoCol}>
 
-        {/* Order Items */}
-        <div style={styles.itemsCard}>
-          <h3 style={styles.sectionTitle}>Order Items</h3>
-          {order.items && order.items.map((item, index) => {
-            const imgUrl = imageErrors[item.id] 
-              ? "https://via.placeholder.com/80/1a1a1a/666?text=No+Image"
-              : getImageUrl(item.product_image);
-            
-            const itemTotal = Number(item.price) * Number(item.quantity);
-            
-            return (
-              <div key={index} style={styles.itemRow}>
-                <img 
-                  src={imgUrl}
-                  alt={item.product_name}
-                  style={styles.itemImage}
-                  onError={() => handleImageError(item.id)}
-                />
-                <div style={styles.itemDetails}>
-                  <span style={styles.itemName}>{item.product_name}</span>
-                  <div style={styles.itemMeta}>
-                    <span style={styles.itemPrice}>₹{Number(item.price).toLocaleString('en-IN')}</span>
-                    <span style={styles.itemQty}>x {item.quantity}</span>
-                  </div>
-                  <span style={styles.itemTotal}>₹{itemTotal.toLocaleString('en-IN')}</span>
+            {/* Order Summary */}
+            <SectionCard title="Order Summary">
+              {[
+                ["Order ID",       `ORD-${String(order.id).padStart(5, "0")}`],
+                ["Date",           fmtDate(order.created_at, { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })],
+                ["Payment",        order.payment_method || "COD"],
+                ["Items",          order.items?.length || 0],
+              ].map(([label, val]) => (
+                <div key={label} style={s.infoRow}>
+                  <span style={s.infoLabel}>{label}</span>
+                  <span style={s.infoVal}>{val}</span>
+                </div>
+              ))}
+              <div style={s.totalRow}>
+                <span style={s.totalLabel}>Order Total</span>
+                <span style={s.totalVal}>₹{fmt(order.total_price)}</span>
+              </div>
+            </SectionCard>
+
+            {/* Shipping */}
+            <SectionCard title="Shipping Details">
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                <div>
+                  <p style={s.infoLabel}>Delivery Address</p>
+                  <p style={{ ...s.infoVal, marginTop: 4, lineHeight: 1.6, color: "#374151" }}>
+                    {order.shipping_address}
+                  </p>
+                </div>
+                <div>
+                  <p style={s.infoLabel}>Phone</p>
+                  <p style={{ ...s.infoVal, marginTop: 4, fontFamily: "'DM Mono', monospace", color: "#374151" }}>
+                    {order.phone}
+                  </p>
                 </div>
               </div>
-            );
-          })}
-        </div>
+            </SectionCard>
+          </div>
 
-        {/* Action Buttons */}
-        <div style={styles.actionButtons}>
-          <button 
-            onClick={() => navigate("/my-orders")}
-            style={styles.secondaryBtn}
-          >
-            Back to Orders
-          </button>
-          <button 
-            onClick={() => navigate("/products")}
-            style={styles.primaryBtn}
-          >
-            Continue Shopping
-          </button>
+          {/* Order Items */}
+          <SectionCard title="Order Items">
+            <table style={s.table}>
+              <thead>
+                <tr>
+                  {["Item", "Qty", "Unit Price", "Total"].map((h) => (
+                    <th key={h} style={{ ...s.th, textAlign: h === "Item" ? "left" : "right" }}>
+                      {h}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {order.items?.map((item, i) => (
+                  <tr key={i}>
+                    <td style={s.td}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                        <img
+                          src={imgSrc(item.product_image, `item-${i}`)}
+                          alt={item.product_name}
+                          style={s.itemImg}
+                          onError={() => handleImageError(`item-${i}`)}
+                        />
+                        <span style={s.itemName}>{item.product_name}</span>
+                      </div>
+                    </td>
+                    <td style={{ ...s.td, ...s.mono, textAlign: "right", color: "#6b7280" }}>
+                      ×{item.quantity}
+                    </td>
+                    <td style={{ ...s.td, ...s.mono, textAlign: "right" }}>
+                      ₹{fmt(item.price)}
+                    </td>
+                    <td style={{ ...s.td, ...s.mono, textAlign: "right", fontWeight: 600 }}>
+                      ₹{fmt(Number(item.price) * Number(item.quantity))}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            {/* Price Breakdown */}
+            <div style={s.priceBreakdown}>
+              <div style={s.priceRow}>
+                <span style={s.priceLabel}>Subtotal</span>
+                <span style={{ ...s.mono, fontSize: 14, color: "#374151" }}>₹{fmt(subtotal)}</span>
+              </div>
+              <div style={s.priceRow}>
+                <span style={s.priceLabel}>Shipping</span>
+                <span style={{ ...s.mono, fontSize: 14, color: "#059669" }}>Free</span>
+              </div>
+              <div style={{ ...s.priceRow, borderTop: "1.5px solid #1a2744", paddingTop: 12, marginTop: 4 }}>
+                <span style={{ fontFamily: "'DM Serif Display', serif", fontSize: 16, color: "#1a2744" }}>
+                  Grand Total
+                </span>
+                <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 20, fontWeight: 600, color: "#2a5bd7" }}>
+                  ₹{fmt(order.total_price)}
+                </span>
+              </div>
+            </div>
+          </SectionCard>
+
+          {/* Action Buttons */}
+          <div style={s.actions}>
+            <button onClick={() => navigate("/my-orders")} style={s.secondaryBtn}>
+              ← Back to Orders
+            </button>
+            <button onClick={() => navigate("/products")} style={s.primaryBtn}>
+              Continue Shopping
+            </button>
+          </div>
+
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
-const styles = {
+/* ─── Styles ─────────────────────────────────────────────────────────────────── */
+const FONT_BODY    = "'Outfit', sans-serif";
+const FONT_MONO    = "'DM Mono', monospace";
+const FONT_DISPLAY = "'DM Serif Display', serif";
+
+const s = {
   page: {
     minHeight: "100vh",
-    background: "#0a0a0a",
-    color: "#fff",
-    padding: "40px 20px"
+    background: "#f8f7f4",
+    padding: "40px 20px 60px",
+    fontFamily: FONT_BODY,
   },
-  container: {
-    maxWidth: "800px",
-    margin: "0 auto"
-  },
-  header: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: "30px"
-  },
-  backButton: {
-    background: "#1a1a1a",
-    border: "1px solid #333",
-    borderRadius: "50%",
-    width: "40px",
-    height: "40px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    cursor: "pointer",
-    color: "#fff",
-    transition: "all 0.2s"
-  },
-  title: {
-    fontSize: "2rem",
-    fontWeight: "600",
-    margin: 0,
-    borderLeft: "4px solid #3b82f6",
-    paddingLeft: "20px"
-  },
-  icon: {
-    width: "40px",
-    height: "40px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    color: "#3b82f6"
-  },
-  loading: {
-    textAlign: "center",
-    padding: "50px",
-    color: "#888"
-  },
-  errorState: {
-    textAlign: "center",
-    padding: "60px 20px",
-    background: "#1a1a1a",
-    borderRadius: "12px"
-  },
-  errorTitle: {
-    fontSize: "1.5rem",
-    marginTop: "20px",
-    marginBottom: "30px"
-  },
+  container: { maxWidth: 780, margin: "0 auto" },
+  loadingWrap: { display: "flex", alignItems: "center", justifyContent: "center", minHeight: "100vh" },
+  loadingText: { fontFamily: FONT_MONO, fontSize: 14, color: "#9ca3af", letterSpacing: "0.05em" },
+
+  /* Back */
   backBtn: {
-    padding: "12px 30px",
-    background: "#3b82f6",
-    color: "#fff",
-    border: "none",
-    borderRadius: "8px",
-    fontSize: "1rem",
-    cursor: "pointer"
+    display: "inline-flex", alignItems: "center", gap: 6,
+    fontSize: 13, color: "#6b7280", background: "none",
+    border: "0.5px solid #e5e7eb", borderRadius: 6,
+    padding: "6px 12px", cursor: "pointer",
+    marginBottom: 28, fontFamily: FONT_BODY,
   },
-  statusCard: {
-    background: "#1a1a1a",
-    borderRadius: "12px",
-    padding: "20px",
-    marginBottom: "20px",
-    border: "1px solid #2a2a2a"
+
+  /* Page Head */
+  pageHead: {
+    display: "flex", alignItems: "flex-end", justifyContent: "space-between",
+    borderBottom: "2px solid #1a2744", paddingBottom: 14, marginBottom: 24,
   },
-  statusHeader: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: "15px"
+  pageLabel: {
+    fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase",
+    color: "#9ca3af", fontFamily: FONT_MONO, marginBottom: 4, margin: 0,
   },
-  statusLabel: {
-    color: "#888",
-    fontSize: "0.9rem"
+  pageTitle: { fontFamily: FONT_DISPLAY, fontSize: 30, color: "#1a2744", margin: 0 },
+  pageOrderId: { fontFamily: FONT_MONO, fontSize: 15, fontWeight: 600, color: "#2a5bd7", margin: 0, marginTop: 4 },
+
+  /* Card */
+  card: {
+    background: "#fff", border: "0.5px solid #e5e7eb",
+    borderRadius: 12, padding: "20px 22px", marginBottom: 16,
   },
-  statusBadge: {
-    padding: "5px 12px",
-    borderRadius: "20px",
-    fontSize: "0.9rem",
-    fontWeight: "500"
+  sectionLabel: {
+    fontSize: 10, letterSpacing: "0.14em", textTransform: "uppercase",
+    color: "#9ca3af", fontFamily: FONT_MONO, margin: "0 0 16px 0",
   },
-  statusInfo: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center"
+
+  /* Two column */
+  twoCol: {
+    display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 0,
   },
-  statusItem: {
-    display: "flex",
-    alignItems: "center",
-    gap: "8px"
-  },
-  statusText: {
-    color: "#fff",
-    fontSize: "0.95rem"
-  },
-  statusDate: {
-    color: "#888",
-    fontSize: "0.9rem"
-  },
-  summaryCard: {
-    background: "#1a1a1a",
-    borderRadius: "12px",
-    padding: "20px",
-    marginBottom: "20px",
-    border: "1px solid #2a2a2a"
-  },
-  sectionTitle: {
-    fontSize: "1.1rem",
-    fontWeight: "600",
-    marginBottom: "15px",
-    color: "#fff"
-  },
-  summaryRow: {
-    display: "flex",
-    justifyContent: "space-between",
-    marginBottom: "10px",
-    fontSize: "0.95rem"
-  },
-  summaryLabel: {
-    color: "#888"
-  },
-  summaryValue: {
-    color: "#fff"
-  },
+
+  /* Info rows */
+  infoRow: { display: "flex", justifyContent: "space-between", marginBottom: 10 },
+  infoLabel: { fontSize: 12, color: "#9ca3af", fontFamily: FONT_MONO },
+  infoVal: { fontSize: 13, color: "#111827", fontWeight: 500, textAlign: "right" },
+
   totalRow: {
-    display: "flex",
-    justifyContent: "space-between",
-    marginTop: "15px",
-    paddingTop: "15px",
-    borderTop: "1px solid #2a2a2a"
+    display: "flex", justifyContent: "space-between", alignItems: "center",
+    borderTop: "0.5px solid #e5e7eb", paddingTop: 14, marginTop: 8,
   },
-  totalLabel: {
-    fontSize: "1rem",
-    fontWeight: "600",
-    color: "#fff"
+  totalLabel: { fontFamily: FONT_DISPLAY, fontSize: 15, color: "#1a2744" },
+  totalVal: { fontFamily: FONT_MONO, fontSize: 20, fontWeight: 600, color: "#2a5bd7" },
+
+  /* Table */
+  table: { width: "100%", borderCollapse: "collapse", marginBottom: 20 },
+  th: {
+    fontSize: 10, letterSpacing: "0.12em", textTransform: "uppercase",
+    color: "#9ca3af", fontFamily: FONT_MONO, fontWeight: 500,
+    padding: "0 0 10px 0", borderBottom: "0.5px solid #e5e7eb",
   },
-  totalValue: {
-    fontSize: "1.2rem",
-    fontWeight: "700",
-    color: "#3b82f6"
+  td: {
+    padding: "13px 0", borderBottom: "0.5px solid #f3f4f6",
+    fontSize: 13, color: "#111827", verticalAlign: "middle",
   },
-  shippingCard: {
-    background: "#1a1a1a",
-    borderRadius: "12px",
-    padding: "20px",
-    marginBottom: "20px",
-    border: "1px solid #2a2a2a"
+  mono: { fontFamily: FONT_MONO },
+  itemImg: {
+    width: 48, height: 48, borderRadius: 8,
+    objectFit: "cover", border: "0.5px solid #e5e7eb",
+    background: "#f3f4f6", flexShrink: 0,
   },
-  shippingRow: {
-    display: "flex",
-    marginBottom: "10px"
+  itemName: { fontSize: 13, fontWeight: 500, color: "#111827" },
+
+  /* Price breakdown */
+  priceBreakdown: {
+    background: "#f9fafb", borderRadius: 8,
+    padding: "16px 18px", display: "flex", flexDirection: "column", gap: 10,
   },
-  shippingLabel: {
-    color: "#888",
-    width: "80px"
-  },
-  shippingValue: {
-    color: "#fff",
-    flex: 1
-  },
-  itemsCard: {
-    background: "#1a1a1a",
-    borderRadius: "12px",
-    padding: "20px",
-    marginBottom: "20px",
-    border: "1px solid #2a2a2a"
-  },
-  itemRow: {
-    display: "flex",
-    gap: "15px",
-    padding: "15px 0",
-    borderBottom: "1px solid #2a2a2a"
-  },
-  itemImage: {
-    width: "80px",
-    height: "80px",
-    borderRadius: "8px",
-    objectFit: "cover",
-    background: "#111"
-  },
-  itemDetails: {
-    flex: 1
-  },
-  itemName: {
-    display: "block",
-    fontSize: "1rem",
-    fontWeight: "500",
-    marginBottom: "5px",
-    color: "#fff"
-  },
-  itemMeta: {
-    display: "flex",
-    gap: "15px",
-    marginBottom: "5px"
-  },
-  itemPrice: {
-    fontSize: "0.95rem",
-    color: "#888"
-  },
-  itemQty: {
-    fontSize: "0.95rem",
-    color: "#888"
-  },
-  itemTotal: {
-    fontSize: "1rem",
-    fontWeight: "600",
-    color: "#3b82f6"
-  },
-  actionButtons: {
-    display: "flex",
-    gap: "15px",
-    marginTop: "20px"
-  },
+  priceRow: { display: "flex", justifyContent: "space-between", alignItems: "center" },
+  priceLabel: { fontSize: 13, color: "#6b7280" },
+
+  /* Actions */
+  actions: { display: "flex", gap: 12, marginTop: 8 },
   primaryBtn: {
-    flex: 1,
-    padding: "14px",
-    background: "#3b82f6",
-    color: "#fff",
-    border: "none",
-    borderRadius: "8px",
-    fontSize: "1rem",
-    fontWeight: "600",
-    cursor: "pointer"
+    flex: 1, padding: "13px", background: "#2a5bd7",
+    color: "#fff", border: "none", borderRadius: 8,
+    fontSize: 14, fontWeight: 500, cursor: "pointer", fontFamily: FONT_BODY,
   },
   secondaryBtn: {
-    flex: 1,
-    padding: "14px",
-    background: "transparent",
-    color: "#fff",
-    border: "2px solid #333",
-    borderRadius: "8px",
-    fontSize: "1rem",
-    fontWeight: "600",
-    cursor: "pointer"
-  }
+    flex: 1, padding: "13px", background: "transparent",
+    color: "#374151", border: "0.5px solid #d1d5db", borderRadius: 8,
+    fontSize: 14, fontWeight: 500, cursor: "pointer", fontFamily: FONT_BODY,
+  },
 };
+
+/* Responsive: stack two-col on small screens */
+const ResponsiveStyle = () => (
+  <style>{`
+    @media (max-width: 560px) {
+      .order-two-col { grid-template-columns: 1fr !important; }
+    }
+  `}</style>
+);
 
 export default OrderDetails;

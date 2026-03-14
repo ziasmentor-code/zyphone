@@ -36,3 +36,233 @@ INFO 2026-03-14 12:39:39,824 autoreload 7204 7328 C:\Users\pc\Desktop\zyphone\ba
 INFO 2026-03-14 12:39:40,246 autoreload 18112 9780 Watching for file changes with StatReloader
 INFO 2026-03-14 12:40:45,890 autoreload 18240 15916 Watching for file changes with StatReloader
 INFO 2026-03-14 12:52:30,456 autoreload 16952 12548 Watching for file changes with StatReloader
+INFO 2026-03-14 12:53:42,720 log 16952 8176 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 12:53:42,745 log 16952 8176 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 12:53:51,192 log 16952 8176 "POST /api/orders/create/ HTTP/1.1" 201 71
+INFO 2026-03-14 12:53:56,258 log 16952 8176 "GET /api/orders/ HTTP/1.1" 200 5341
+INFO 2026-03-14 12:53:56,296 log 16952 8176 "GET /api/orders/ HTTP/1.1" 200 5341
+INFO 2026-03-14 12:54:06,337 log 16952 8176 "GET /api/orders/ HTTP/1.1" 200 5341
+INFO 2026-03-14 12:54:06,375 log 16952 8176 "GET /api/orders/ HTTP/1.1" 200 5341
+INFO 2026-03-14 12:54:12,032 log 16952 8176 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 12:54:12,060 log 16952 8176 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 12:54:13,351 log 16952 8176 "GET /api/products/17/ HTTP/1.1" 200 287
+INFO 2026-03-14 12:54:13,377 log 16952 8176 "GET /api/products/17/ HTTP/1.1" 200 287
+INFO 2026-03-14 12:54:19,628 log 16952 8176 "GET /api/products/17/ HTTP/1.1" 200 287
+INFO 2026-03-14 12:54:19,653 log 16952 8176 "GET /api/products/17/ HTTP/1.1" 200 287
+INFO 2026-03-14 12:55:19,849 log 16952 8176 "GET /api/products/17/ HTTP/1.1" 200 287
+INFO 2026-03-14 12:55:19,875 log 16952 8176 "GET /api/products/17/ HTTP/1.1" 200 287
+INFO 2026-03-14 12:57:11,612 log 16952 8176 "GET /api/products/17/ HTTP/1.1" 200 287
+INFO 2026-03-14 12:57:33,235 log 16952 8176 "POST /api/orders/create/ HTTP/1.1" 201 70
+INFO 2026-03-14 12:57:38,302 log 16952 8176 "GET /api/orders/ HTTP/1.1" 200 5723
+INFO 2026-03-14 12:57:38,340 log 16952 8176 "GET /api/orders/ HTTP/1.1" 200 5723
+INFO 2026-03-14 12:59:15,017 log 16952 8176 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 12:59:15,044 log 16952 8176 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 13:01:20,306 log 16952 8176 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 13:01:20,332 log 16952 8176 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 13:01:31,316 log 16952 8176 "POST /api/orders/create/ HTTP/1.1" 201 69
+INFO 2026-03-14 13:01:32,711 log 16952 8176 "GET /api/orders/ HTTP/1.1" 200 6098
+INFO 2026-03-14 13:01:32,750 log 16952 8176 "GET /api/orders/ HTTP/1.1" 200 6098
+INFO 2026-03-14 13:01:51,129 log 16952 8176 "GET /api/orders/ HTTP/1.1" 200 6098
+INFO 2026-03-14 13:01:53,889 log 16952 8176 "POST /api/token/ HTTP/1.1" 200 489
+INFO 2026-03-14 13:01:56,142 log 16952 8176 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 13:01:56,168 log 16952 8176 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 13:02:00,185 log 16952 8176 "GET /api/products/18/ HTTP/1.1" 200 351
+INFO 2026-03-14 13:02:00,210 log 16952 8176 "GET /api/products/18/ HTTP/1.1" 200 351
+INFO 2026-03-14 13:02:02,944 log 16952 8176 "OPTIONS /api/cart/add/ HTTP/1.1" 200 0
+WARNING 2026-03-14 13:02:02,948 log 16952 8176 Not Found: /api/cart/add/
+WARNING 2026-03-14 13:02:02,949 log 16952 8176 "POST /api/cart/add/ HTTP/1.1" 404 4896
+WARNING 2026-03-14 13:02:04,995 log 16952 8176 Not Found: /api/cart/add/
+WARNING 2026-03-14 13:02:04,995 log 16952 8176 "POST /api/cart/add/ HTTP/1.1" 404 4896
+WARNING 2026-03-14 13:02:05,516 log 16952 8176 Not Found: /api/cart/add/
+WARNING 2026-03-14 13:02:05,517 log 16952 8176 "POST /api/cart/add/ HTTP/1.1" 404 4896
+WARNING 2026-03-14 13:02:06,893 log 16952 8176 Not Found: /api/cart/add/
+WARNING 2026-03-14 13:02:06,893 log 16952 8176 "POST /api/cart/add/ HTTP/1.1" 404 4896
+WARNING 2026-03-14 13:02:07,058 log 16952 8176 Not Found: /api/cart/add/
+WARNING 2026-03-14 13:02:07,059 log 16952 8176 "POST /api/cart/add/ HTTP/1.1" 404 4896
+WARNING 2026-03-14 13:02:07,219 log 16952 8176 Not Found: /api/cart/add/
+WARNING 2026-03-14 13:02:07,220 log 16952 8176 "POST /api/cart/add/ HTTP/1.1" 404 4896
+WARNING 2026-03-14 13:02:07,396 log 16952 8176 Not Found: /api/cart/add/
+WARNING 2026-03-14 13:02:07,396 log 16952 8176 "POST /api/cart/add/ HTTP/1.1" 404 4896
+INFO 2026-03-14 13:02:14,615 log 16952 8176 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 13:02:14,754 log 16952 8176 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 13:02:48,000 log 16952 8176 "POST /api/orders/create/ HTTP/1.1" 201 70
+INFO 2026-03-14 13:02:53,079 log 16952 8176 "GET /api/orders/ HTTP/1.1" 200 6443
+INFO 2026-03-14 13:02:53,235 log 16952 8176 "GET /api/orders/ HTTP/1.1" 200 6443
+INFO 2026-03-14 13:38:37,415 log 16952 21480 "OPTIONS /api/orders/ HTTP/1.1" 200 0
+INFO 2026-03-14 13:38:37,417 log 16952 19496 "OPTIONS /api/orders/ HTTP/1.1" 200 0
+INFO 2026-03-14 13:38:37,467 log 16952 21480 "GET /api/orders/ HTTP/1.1" 200 6443
+INFO 2026-03-14 13:38:37,468 log 16952 19496 "GET /api/orders/ HTTP/1.1" 200 6443
+INFO 2026-03-14 13:40:19,232 log 16952 21480 "OPTIONS /api/orders/ HTTP/1.1" 200 0
+INFO 2026-03-14 13:40:19,285 log 16952 21480 "GET /api/orders/ HTTP/1.1" 200 6443
+INFO 2026-03-14 13:40:19,404 log 16952 20840 "GET /media/products/earpode11.png HTTP/1.1" 200 14075
+INFO 2026-03-14 13:40:19,409 log 16952 21936 "GET /media/products/phone1.webp HTTP/1.1" 200 4468
+INFO 2026-03-14 13:40:19,410 log 16952 22072 "GET /media/products/PHONE5.avif HTTP/1.1" 200 11252
+INFO 2026-03-14 13:40:19,411 log 16952 21940 "GET /media/products/earpode8.webp HTTP/1.1" 200 26768
+INFO 2026-03-14 13:40:19,411 log 16952 21944 "GET /media/products/phone2.webp HTTP/1.1" 200 5906
+INFO 2026-03-14 13:40:19,411 log 16952 10732 "GET /media/products/earpode14.webp HTTP/1.1" 200 9054
+INFO 2026-03-14 13:42:22,727 log 16952 21940 "GET /media/products/phone2.webp HTTP/1.1" 200 5906
+INFO 2026-03-14 13:42:22,727 log 16952 21944 "GET /media/products/earpode14.webp HTTP/1.1" 200 9054
+INFO 2026-03-14 13:42:22,727 log 16952 10732 "GET /media/products/phone1.webp HTTP/1.1" 200 4468
+INFO 2026-03-14 13:42:27,892 log 16952 21940 "GET /media/products/phone2.webp HTTP/1.1" 200 5906
+INFO 2026-03-14 13:42:27,892 log 16952 10732 "GET /media/products/phone1.webp HTTP/1.1" 200 4468
+INFO 2026-03-14 13:42:27,892 log 16952 21944 "GET /media/products/earpode14.webp HTTP/1.1" 200 9054
+INFO 2026-03-14 13:42:31,064 log 16952 21944 "GET /media/products/phone1.webp HTTP/1.1" 200 4468
+INFO 2026-03-14 13:42:31,064 log 16952 21940 "GET /media/products/phone2.webp HTTP/1.1" 200 5906
+INFO 2026-03-14 13:42:31,064 log 16952 10732 "GET /media/products/earpode14.webp HTTP/1.1" 200 9054
+INFO 2026-03-14 13:42:35,889 log 16952 21940 "GET /media/products/phone1.webp HTTP/1.1" 200 4468
+INFO 2026-03-14 13:42:35,889 log 16952 21944 "GET /media/products/phone2.webp HTTP/1.1" 200 5906
+INFO 2026-03-14 13:42:35,889 log 16952 10732 "GET /media/products/earpode14.webp HTTP/1.1" 200 9054
+INFO 2026-03-14 13:42:44,316 log 16952 10732 "GET /media/products/phone1.webp HTTP/1.1" 200 4468
+INFO 2026-03-14 13:42:44,316 log 16952 21944 "GET /media/products/phone2.webp HTTP/1.1" 200 5906
+INFO 2026-03-14 13:42:44,316 log 16952 21940 "GET /media/products/earpode14.webp HTTP/1.1" 200 9054
+INFO 2026-03-14 13:42:56,780 log 16952 21480 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 13:42:56,806 log 16952 21480 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 13:43:00,418 log 16952 21480 "POST /api/token/ HTTP/1.1" 200 489
+INFO 2026-03-14 13:43:04,339 log 16952 21480 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 13:43:04,372 log 16952 21480 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 13:43:10,339 log 16952 21480 "GET /api/products/18/ HTTP/1.1" 200 351
+INFO 2026-03-14 13:43:10,364 log 16952 21480 "GET /api/products/18/ HTTP/1.1" 200 351
+INFO 2026-03-14 13:43:15,382 log 16952 21480 "POST /api/orders/create/ HTTP/1.1" 201 70
+INFO 2026-03-14 13:43:16,633 log 16952 21480 "GET /api/orders/ HTTP/1.1" 200 6819
+INFO 2026-03-14 13:43:16,679 log 16952 21480 "GET /api/orders/ HTTP/1.1" 200 6819
+INFO 2026-03-14 13:48:05,440 log 16952 21480 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 13:48:05,467 log 16952 21480 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 13:48:25,376 log 16952 21480 "POST /api/orders/create/ HTTP/1.1" 201 72
+INFO 2026-03-14 13:48:27,304 log 16952 21480 "GET /api/orders/ HTTP/1.1" 200 7188
+INFO 2026-03-14 13:48:27,350 log 16952 21480 "GET /api/orders/ HTTP/1.1" 200 7188
+INFO 2026-03-14 13:48:48,159 log 16952 21480 "GET /api/orders/ HTTP/1.1" 200 7188
+INFO 2026-03-14 13:48:48,204 log 16952 21480 "GET /api/orders/ HTTP/1.1" 200 7188
+INFO 2026-03-14 13:52:40,280 autoreload 20712 21944 Watching for file changes with StatReloader
+INFO 2026-03-14 13:53:24,899 log 16952 10484 "GET /api/orders/ HTTP/1.1" 200 7188
+INFO 2026-03-14 13:53:28,018 log 16952 10484 "POST /api/token/ HTTP/1.1" 200 489
+INFO 2026-03-14 13:53:29,638 log 16952 10484 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 13:53:29,667 log 16952 10484 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 13:53:32,563 log 16952 10484 "GET /api/products/13/ HTTP/1.1" 200 193
+INFO 2026-03-14 13:53:32,587 log 16952 10484 "GET /api/products/13/ HTTP/1.1" 200 193
+INFO 2026-03-14 13:53:39,718 log 16952 10484 "POST /api/orders/create/ HTTP/1.1" 201 71
+INFO 2026-03-14 13:53:41,072 log 16952 10484 "GET /api/orders/ HTTP/1.1" 200 7565
+INFO 2026-03-14 13:53:41,117 log 16952 10484 "GET /api/orders/ HTTP/1.1" 200 7565
+INFO 2026-03-14 13:55:28,383 log 16952 10484 "GET /api/orders/ HTTP/1.1" 200 7565
+INFO 2026-03-14 13:57:25,063 log 16952 10484 "POST /api/token/ HTTP/1.1" 200 489
+INFO 2026-03-14 13:57:27,156 log 16952 10484 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 13:57:27,187 log 16952 10484 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 13:57:35,338 log 16952 10484 "POST /api/orders/create/ HTTP/1.1" 201 70
+INFO 2026-03-14 13:57:37,170 log 16952 10484 "GET /api/orders/ HTTP/1.1" 200 7955
+INFO 2026-03-14 13:57:37,218 log 16952 10484 "GET /api/orders/ HTTP/1.1" 200 7955
+INFO 2026-03-14 13:57:51,890 log 16952 10484 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 13:57:51,916 log 16952 10484 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 13:58:01,001 log 16952 10484 "GET /api/products/17/ HTTP/1.1" 200 287
+INFO 2026-03-14 13:58:01,027 log 16952 10484 "GET /api/products/17/ HTTP/1.1" 200 287
+INFO 2026-03-14 14:00:56,171 log 16952 19208 "GET /api/products/17/ HTTP/1.1" 200 287
+INFO 2026-03-14 14:00:56,171 log 16952 12752 "GET /api/products/?featured=true&limit=4 HTTP/1.1" 200 2357
+WARNING 2026-03-14 14:01:05,366 log 16952 12752 Not Found: /api/cart/add/
+WARNING 2026-03-14 14:01:05,367 log 16952 12752 "POST /api/cart/add/ HTTP/1.1" 404 4896
+INFO 2026-03-14 14:03:25,833 log 16952 12752 "GET /api/orders/ HTTP/1.1" 200 7955
+INFO 2026-03-14 14:03:25,878 log 16952 12752 "GET /api/orders/ HTTP/1.1" 200 7955
+INFO 2026-03-14 14:03:33,054 log 16952 12752 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 14:03:33,080 log 16952 12752 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 14:03:38,332 log 16952 12752 "GET /api/products/17/ HTTP/1.1" 200 287
+INFO 2026-03-14 14:03:38,334 log 16952 19208 "GET /api/products/?featured=true&limit=4 HTTP/1.1" 200 2357
+INFO 2026-03-14 14:03:38,360 log 16952 12752 "GET /api/products/17/ HTTP/1.1" 200 287
+INFO 2026-03-14 14:03:38,362 log 16952 19208 "GET /api/products/?featured=true&limit=4 HTTP/1.1" 200 2357
+INFO 2026-03-14 14:07:57,245 log 16952 12752 "GET /api/products/?featured=true&limit=4 HTTP/1.1" 200 2357
+INFO 2026-03-14 14:07:57,245 log 16952 19208 "GET /api/products/17/ HTTP/1.1" 200 287
+INFO 2026-03-14 14:07:57,273 log 16952 12752 "GET /api/products/?featured=true&limit=4 HTTP/1.1" 200 2357
+INFO 2026-03-14 14:07:57,273 log 16952 19208 "GET /api/products/17/ HTTP/1.1" 200 287
+INFO 2026-03-14 14:07:58,144 log 16952 12752 "GET /api/products/?featured=true&limit=4 HTTP/1.1" 200 2357
+INFO 2026-03-14 14:07:58,145 log 16952 19208 "GET /api/products/17/ HTTP/1.1" 200 287
+INFO 2026-03-14 14:07:58,172 log 16952 12752 "GET /api/products/?featured=true&limit=4 HTTP/1.1" 200 2357
+INFO 2026-03-14 14:07:58,172 log 16952 19208 "GET /api/products/17/ HTTP/1.1" 200 287
+INFO 2026-03-14 14:07:58,317 log 16952 12752 "GET /api/products/?featured=true&limit=4 HTTP/1.1" 200 2357
+INFO 2026-03-14 14:07:58,317 log 16952 19208 "GET /api/products/17/ HTTP/1.1" 200 287
+INFO 2026-03-14 14:07:58,347 log 16952 12752 "GET /api/products/?featured=true&limit=4 HTTP/1.1" 200 2357
+INFO 2026-03-14 14:07:58,347 log 16952 19208 "GET /api/products/17/ HTTP/1.1" 200 287
+INFO 2026-03-14 14:07:58,500 log 16952 12752 "GET /api/products/?featured=true&limit=4 HTTP/1.1" 200 2357
+INFO 2026-03-14 14:07:58,500 log 16952 19208 "GET /api/products/17/ HTTP/1.1" 200 287
+INFO 2026-03-14 14:07:58,529 log 16952 12752 "GET /api/products/17/ HTTP/1.1" 200 287
+INFO 2026-03-14 14:07:58,529 log 16952 19208 "GET /api/products/?featured=true&limit=4 HTTP/1.1" 200 2357
+INFO 2026-03-14 14:09:39,548 log 16952 12752 "GET /api/orders/ HTTP/1.1" 200 7955
+INFO 2026-03-14 14:09:39,600 log 16952 12752 "GET /api/orders/ HTTP/1.1" 200 7955
+INFO 2026-03-14 14:09:44,482 log 16952 12752 "POST /api/token/ HTTP/1.1" 200 489
+INFO 2026-03-14 14:12:26,305 log 16952 12752 "GET /api/orders/ HTTP/1.1" 200 7955
+INFO 2026-03-14 14:12:26,349 log 16952 12752 "GET /api/orders/ HTTP/1.1" 200 7955
+INFO 2026-03-14 14:12:30,638 log 16952 12752 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 14:12:30,665 log 16952 12752 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 14:15:49,058 log 16952 12752 "GET /api/orders/ HTTP/1.1" 200 7955
+INFO 2026-03-14 14:15:49,102 log 16952 12752 "GET /api/orders/ HTTP/1.1" 200 7955
+INFO 2026-03-14 14:16:16,017 log 16952 12752 "POST /api/token/ HTTP/1.1" 200 489
+INFO 2026-03-14 14:17:14,829 log 16952 12752 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 14:17:14,855 log 16952 12752 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 14:17:24,314 log 16952 12752 "GET /api/products/17/ HTTP/1.1" 200 287
+INFO 2026-03-14 14:17:24,314 log 16952 4992 "GET /api/products/?featured=true&limit=4 HTTP/1.1" 200 2357
+INFO 2026-03-14 14:17:24,341 log 16952 12752 "GET /api/products/?featured=true&limit=4 HTTP/1.1" 200 2357
+INFO 2026-03-14 14:17:24,349 log 16952 4992 "GET /api/products/17/ HTTP/1.1" 200 287
+INFO 2026-03-14 14:23:29,720 log 16952 22252 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 14:23:29,753 log 16952 22252 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 14:24:05,121 log 16952 22252 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 14:24:05,152 log 16952 22252 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 14:24:09,183 log 16952 22252 "GET /api/orders/ HTTP/1.1" 200 7955
+INFO 2026-03-14 14:24:09,229 log 16952 22252 "GET /api/orders/ HTTP/1.1" 200 7955
+INFO 2026-03-14 14:24:15,588 log 16952 22252 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 14:24:15,619 log 16952 22252 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 14:24:32,517 log 16952 22252 "OPTIONS /api/orders/create/ HTTP/1.1" 200 0
+INFO 2026-03-14 14:24:32,550 log 16952 22252 "POST /api/orders/create/ HTTP/1.1" 201 70
+INFO 2026-03-14 14:24:34,054 log 16952 22252 "GET /api/orders/ HTTP/1.1" 200 8336
+INFO 2026-03-14 14:24:34,100 log 16952 4416 "GET /api/orders/ HTTP/1.1" 200 8336
+INFO 2026-03-14 14:24:49,878 log 16952 4416 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 14:24:49,905 log 16952 4416 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 14:24:52,478 log 16952 4416 "GET /api/products/16/ HTTP/1.1" 200 463
+INFO 2026-03-14 14:24:52,478 log 16952 22252 "GET /api/products/?featured=true&limit=4 HTTP/1.1" 200 2357
+INFO 2026-03-14 14:24:52,509 log 16952 4416 "GET /api/products/?featured=true&limit=4 HTTP/1.1" 200 2357
+INFO 2026-03-14 14:24:52,511 log 16952 22252 "GET /api/products/16/ HTTP/1.1" 200 463
+INFO 2026-03-14 14:24:56,077 log 16952 22252 "GET /api/products/18/ HTTP/1.1" 200 351
+INFO 2026-03-14 14:24:56,077 log 16952 4416 "GET /api/products/?featured=true&limit=4 HTTP/1.1" 200 2357
+INFO 2026-03-14 14:24:58,376 log 16952 4416 "GET /api/products/12/ HTTP/1.1" 200 307
+INFO 2026-03-14 14:24:58,378 log 16952 22252 "GET /api/products/?featured=true&limit=4 HTTP/1.1" 200 2357
+INFO 2026-03-14 14:25:00,244 log 16952 22252 "GET /api/products/13/ HTTP/1.1" 200 193
+INFO 2026-03-14 14:25:00,244 log 16952 4416 "GET /api/products/?featured=true&limit=4 HTTP/1.1" 200 2357
+WARNING 2026-03-14 14:25:03,044 log 16952 4416 Not Found: /api/cart/add/
+WARNING 2026-03-14 14:25:03,044 log 16952 4416 "POST /api/cart/add/ HTTP/1.1" 404 4896
+INFO 2026-03-14 14:26:27,160 log 16952 4416 "GET /api/products/13/ HTTP/1.1" 200 193
+WARNING 2026-03-14 14:26:31,405 log 16952 4416 Not Found: /api/cart/add/
+WARNING 2026-03-14 14:26:31,405 log 16952 4416 "POST /api/cart/add/ HTTP/1.1" 404 4896
+INFO 2026-03-14 14:26:36,220 log 16952 4416 "GET /api/products/13/ HTTP/1.1" 200 193
+INFO 2026-03-14 14:26:36,220 log 16952 22252 "GET /api/products/?featured=true&limit=4 HTTP/1.1" 200 2357
+WARNING 2026-03-14 14:36:23,629 log 16952 19792 Not Found: /api/cart/add/
+WARNING 2026-03-14 14:36:23,629 log 16952 19792 "POST /api/cart/add/ HTTP/1.1" 404 4896
+INFO 2026-03-14 14:37:13,348 autoreload 16952 12548 C:\Users\pc\Desktop\zyphone\backend\cart\urls.py changed, reloading.
+INFO 2026-03-14 14:37:13,349 autoreload 20712 21944 C:\Users\pc\Desktop\zyphone\backend\cart\urls.py changed, reloading.
+INFO 2026-03-14 14:37:13,850 autoreload 21268 10168 Watching for file changes with StatReloader
+INFO 2026-03-14 14:37:13,874 autoreload 19872 16220 Watching for file changes with StatReloader
+INFO 2026-03-14 14:38:04,329 autoreload 21268 10168 C:\Users\pc\Desktop\zyphone\backend\cart\urls.py changed, reloading.
+INFO 2026-03-14 14:38:04,330 autoreload 19872 16220 C:\Users\pc\Desktop\zyphone\backend\cart\urls.py changed, reloading.
+INFO 2026-03-14 14:38:04,786 autoreload 17684 18440 Watching for file changes with StatReloader
+INFO 2026-03-14 14:38:04,786 autoreload 4124 19244 Watching for file changes with StatReloader
+INFO 2026-03-14 14:39:23,715 log 4124 19756 "OPTIONS /api/cart/add/13/ HTTP/1.1" 200 0
+WARNING 2026-03-14 14:39:23,738 log 4124 19756 Forbidden (Origin checking failed - http://localhost:5173 does not match any trusted origins.): /api/cart/add/13/
+WARNING 2026-03-14 14:39:23,739 log 4124 19756 "POST /api/cart/add/13/ HTTP/1.1" 403 2554
+INFO 2026-03-14 14:41:22,921 autoreload 4124 19244 C:\Users\pc\Desktop\zyphone\backend\cart\views.py changed, reloading.
+INFO 2026-03-14 14:41:22,922 autoreload 17684 18440 C:\Users\pc\Desktop\zyphone\backend\cart\views.py changed, reloading.
+INFO 2026-03-14 14:41:23,393 autoreload 3636 20532 Watching for file changes with StatReloader
+INFO 2026-03-14 14:41:23,394 autoreload 20448 15484 Watching for file changes with StatReloader
+INFO 2026-03-14 14:41:41,663 log 3636 328 "OPTIONS /api/cart/add/13/ HTTP/1.1" 200 0
+ERROR 2026-03-14 14:41:41,712 log 3636 328 Internal Server Error: /api/cart/add/13/
+ERROR 2026-03-14 14:41:41,712 log 3636 328 "POST /api/cart/add/13/ HTTP/1.1" 500 47
+ERROR 2026-03-14 14:41:46,147 log 3636 328 Internal Server Error: /api/cart/add/13/
+ERROR 2026-03-14 14:41:46,147 log 3636 328 "POST /api/cart/add/13/ HTTP/1.1" 500 47
+INFO 2026-03-14 14:41:47,853 log 3636 328 "GET /api/products/18/ HTTP/1.1" 200 351
+INFO 2026-03-14 14:41:47,853 log 3636 19956 "GET /api/products/?featured=true&limit=4 HTTP/1.1" 200 2357
+INFO 2026-03-14 14:41:49,344 log 3636 328 "OPTIONS /api/cart/add/18/ HTTP/1.1" 200 0
+ERROR 2026-03-14 14:41:49,372 log 3636 328 Internal Server Error: /api/cart/add/18/
+ERROR 2026-03-14 14:41:49,372 log 3636 328 "POST /api/cart/add/18/ HTTP/1.1" 500 47
+INFO 2026-03-14 14:43:10,279 autoreload 3636 20532 C:\Users\pc\Desktop\zyphone\backend\cart\views.py changed, reloading.
+INFO 2026-03-14 14:43:10,281 autoreload 20448 15484 C:\Users\pc\Desktop\zyphone\backend\cart\views.py changed, reloading.
+INFO 2026-03-14 14:43:10,728 autoreload 21868 7804 Watching for file changes with StatReloader
+INFO 2026-03-14 14:43:10,739 autoreload 10328 7764 Watching for file changes with StatReloader
+INFO 2026-03-14 14:43:16,124 log 10328 21220 "OPTIONS /api/cart/add/18/ HTTP/1.1" 200 0
+ERROR 2026-03-14 14:43:16,191 log 10328 21220 Internal Server Error: /api/cart/add/18/
+ERROR 2026-03-14 14:43:16,191 log 10328 21220 "POST /api/cart/add/18/ HTTP/1.1" 500 47
+INFO 2026-03-14 14:45:50,966 autoreload 21868 7804 C:\Users\pc\Desktop\zyphone\backend\cart\views.py changed, reloading.
+INFO 2026-03-14 14:45:50,966 autoreload 10328 7764 C:\Users\pc\Desktop\zyphone\backend\cart\views.py changed, reloading.
+INFO 2026-03-14 14:45:51,424 autoreload 9376 11168 Watching for file changes with StatReloader
+INFO 2026-03-14 14:45:51,431 autoreload 19060 10836 Watching for file changes with StatReloader
