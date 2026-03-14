@@ -1,0 +1,38 @@
+INFO 2026-03-14 12:18:37,779 autoreload 10320 11132 Watching for file changes with StatReloader
+INFO 2026-03-14 12:18:43,615 log 10320 11004 "POST /api/orders/create/ HTTP/1.1" 201 71
+INFO 2026-03-14 12:19:09,749 autoreload 9816 7812 Watching for file changes with StatReloader
+INFO 2026-03-14 12:19:28,516 log 9816 15792 "POST /api/orders/create/ HTTP/1.1" 201 71
+INFO 2026-03-14 12:20:34,983 autoreload 3840 18440 Watching for file changes with StatReloader
+INFO 2026-03-14 12:20:57,935 log 3840 8488 "POST /api/orders/create/ HTTP/1.1" 201 71
+INFO 2026-03-14 12:22:12,696 autoreload 17540 3120 Watching for file changes with StatReloader
+INFO 2026-03-14 12:24:09,659 log 17540 1956 "OPTIONS /api/orders/create/ HTTP/1.1" 200 0
+INFO 2026-03-14 12:24:09,710 log 17540 1956 "POST /api/orders/create/ HTTP/1.1" 201 71
+INFO 2026-03-14 12:26:52,561 autoreload 14684 16784 Watching for file changes with StatReloader
+INFO 2026-03-14 12:28:52,475 log 14684 1592 "POST /api/orders/create/ HTTP/1.1" 201 71
+WARNING 2026-03-14 12:31:05,150 log 14684 1592 Not Found: /api/orders/
+WARNING 2026-03-14 12:31:05,150 log 14684 1592 "GET /api/orders/ HTTP/1.1" 404 3749
+INFO 2026-03-14 12:31:09,015 autoreload 17116 17724 Watching for file changes with StatReloader
+INFO 2026-03-14 12:31:16,920 log 17116 10176 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 12:31:16,947 log 17116 10176 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 12:31:31,153 log 17116 10176 "GET /api/products/13/ HTTP/1.1" 200 193
+INFO 2026-03-14 12:31:31,178 log 17116 10176 "GET /api/products/13/ HTTP/1.1" 200 193
+INFO 2026-03-14 12:35:02,972 autoreload 17116 17724 C:\Users\pc\Desktop\zyphone\backend\orders\views.py changed, reloading.
+INFO 2026-03-14 12:35:03,376 autoreload 12564 14256 Watching for file changes with StatReloader
+INFO 2026-03-14 12:35:16,856 autoreload 12564 14256 C:\Users\pc\Desktop\zyphone\backend\orders\urls.py changed, reloading.
+INFO 2026-03-14 12:35:17,273 autoreload 17444 18044 Watching for file changes with StatReloader
+INFO 2026-03-14 12:35:54,422 log 17444 17560 "OPTIONS /api/token/ HTTP/1.1" 200 0
+INFO 2026-03-14 12:35:55,275 log 17444 17560 "POST /api/token/ HTTP/1.1" 200 489
+INFO 2026-03-14 12:36:03,055 log 17444 17560 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 12:36:03,084 log 17444 17560 "GET /api/products/ HTTP/1.1" 200 2357
+WARNING 2026-03-14 12:36:14,193 log 17444 17560 Not Found: /api/orders/create/
+WARNING 2026-03-14 12:36:14,194 log 17444 17560 "POST /api/orders/create/ HTTP/1.1" 404 4614
+INFO 2026-03-14 12:37:22,171 autoreload 17444 18044 C:\Users\pc\Desktop\zyphone\backend\orders\urls.py changed, reloading.
+INFO 2026-03-14 12:37:22,618 autoreload 14856 9340 Watching for file changes with StatReloader
+INFO 2026-03-14 12:38:41,429 autoreload 14856 9340 C:\Users\pc\Desktop\zyphone\backend\orders\urls.py changed, reloading.
+INFO 2026-03-14 12:38:41,814 autoreload 17092 10732 Watching for file changes with StatReloader
+INFO 2026-03-14 12:39:25,912 autoreload 17092 10732 C:\Users\pc\Desktop\zyphone\backend\orders\urls.py changed, reloading.
+INFO 2026-03-14 12:39:26,325 autoreload 7204 7328 Watching for file changes with StatReloader
+INFO 2026-03-14 12:39:39,824 autoreload 7204 7328 C:\Users\pc\Desktop\zyphone\backend\backend\urls.py changed, reloading.
+INFO 2026-03-14 12:39:40,246 autoreload 18112 9780 Watching for file changes with StatReloader
+INFO 2026-03-14 12:40:45,890 autoreload 18240 15916 Watching for file changes with StatReloader
+INFO 2026-03-14 12:52:30,456 autoreload 16952 12548 Watching for file changes with StatReloader

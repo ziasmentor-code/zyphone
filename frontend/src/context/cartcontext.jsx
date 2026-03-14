@@ -1,33 +1,63 @@
-import React, { createContext, useState, useEffect } from "react";
+// context/cartcontext.jsx
+import { createContext, useState, useEffect } from "react";
+import toast from "react-hot-toast";
 
-// Initial state eppozhum empty array aayi vekkuka
-export const CartContext = createContext({
-  cartItems: [],
-  addToCart: () => {},
-  removeFromCart: () => {}
-});
+export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState(() => {
+    const savedCart = localStorage.getItem("zyphone_cart");
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
 
-  // Add to cart function
+  useEffect(() => {
+    localStorage.setItem("zyphone_cart", JSON.stringify(cartItems));
+  }, [cartItems]);
+
   const addToCart = (product) => {
-    if (!product) return;
     setCartItems((prev) => {
-      const exists = prev.find((item) => item.id === product.id);
-      if (exists) return prev;
-      return [...prev, product];
+      const isExist = prev.find(item => item.id === product.id);
+      if (isExist) {
+        toast.success("Item quantity updated");
+        return prev.map(item => 
+          item.id === product.id 
+            ? { ...item, quantity: (item.quantity || 1) + 1 } 
+            : item
+        );
+      }
+      toast.success("Added to Cart!");
+      return [...prev, { ...product, quantity: 1 }];
     });
   };
 
-  // Remove from cart function
   const removeFromCart = (id) => {
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
+    setCartItems((prev) => prev.filter(item => item.id !== id));
+    toast.success("Item removed from cart");
   };
 
-  // VALUE object eppozhum pass cheyyunnu ennu urappu varuthuka
+  // ✅ Add clearCart function
+  const clearCart = () => {
+    setCartItems([]);
+    localStorage.removeItem("zyphone_cart");
+    console.log("Cart cleared");
+  };
+
+  const updateQuantity = (id, newQuantity) => {
+    setCartItems((prev) =>
+      prev.map(item =>
+        item.id === id ? { ...item, quantity: newQuantity } : item
+      )
+    );
+  };
+
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart }}>
+    <CartContext.Provider value={{ 
+      cartItems, 
+      addToCart, 
+      removeFromCart,
+      clearCart,  // ✅ Add this
+      updateQuantity 
+    }}>
       {children}
     </CartContext.Provider>
   );

@@ -1,65 +1,170 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { CheckCircle, ArrowRight } from 'lucide-react';
+// pages/OrderSuccess.jsx
+import React, { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { CheckCircle, Package } from "lucide-react";
 
-export default function OrderSuccess() {
+const OrderSuccess = () => {
   const navigate = useNavigate();
-  const [seconds, setSeconds] = useState(5); // 5 സെക്കൻഡ് ടൈമർ
+  const location = useLocation();
+  const { orderId, total } = location.state || {};
+  const [countdown, setCountdown] = useState(5);
 
   useEffect(() => {
-    // ഓരോ സെക്കൻഡിലും കൗണ്ട് കുറയ്ക്കുന്നു
-    const timer = setInterval(() => {
-      setSeconds((prev) => prev - 1);
-    }, 1000);
+    // If no order data, redirect to home
+    if (!orderId) {
+      navigate("/");
+      return;
+    }
 
-    // 5 സെക്കൻഡ് കഴിയുമ്പോൾ Order Page-ലേക്ക് വിടുന്നു
-    const redirect = setTimeout(() => {
+    // Auto redirect to my-orders after 5 seconds
+    const timer = setTimeout(() => {
       navigate("/my-orders");
     }, 5000);
 
-    // കമ്പോണന്റ് മാറുമ്പോൾ ടൈമറുകൾ ക്ലിയർ ചെയ്യുന്നു (Memory leak ഒഴിവാക്കാൻ)
+    // Countdown timer
+    const interval = setInterval(() => {
+      setCountdown((prev) => prev - 1);
+    }, 1000);
+
+    // Cleanup timers
     return () => {
-      clearInterval(timer);
-      clearTimeout(redirect);
+      clearTimeout(timer);
+      clearInterval(interval);
     };
-  }, [navigate]);
+  }, [orderId, navigate]);
 
   return (
-    <div className="min-h-screen bg-[#0a0a0b] flex flex-col items-center justify-center text-white p-6">
-      {/* Success Icon with Animation */}
-      <div className="bg-green-500/10 p-8 rounded-full mb-8 relative">
-         <CheckCircle size={100} className="text-green-500 animate-pulse" />
-      </div>
-
-      <h1 className="text-4xl md:text-5xl font-bold mb-4 text-center">Order Placed!</h1>
-      <p className="text-gray-400 text-center mb-8 max-w-md text-lg">
-        Thank you for shopping with ZYPHONE. Your order has been confirmed.
-      </p>
-
-      {/* Timer Display */}
-      <div className="bg-white/5 border border-white/10 px-6 py-3 rounded-2xl flex items-center gap-3 mb-8">
-        <div className="w-8 h-8 flex items-center justify-center bg-green-500 text-black font-bold rounded-full text-sm">
-          {seconds}
+    <div style={styles.page}>
+      <div style={styles.container}>
+        <div style={styles.card}>
+          <CheckCircle size={80} color="#4ade80" style={styles.icon} />
+          
+          <h1 style={styles.title}>Order Placed Successfully!</h1>
+          
+          <p style={styles.message}>
+            Thank you for your purchase. Your order has been confirmed.
+          </p>
+          
+          <div style={styles.details}>
+            <div style={styles.detailRow}>
+              <span style={styles.detailLabel}>Order ID:</span>
+              <span style={styles.detailValue}>#{orderId}</span>
+            </div>
+            <div style={styles.detailRow}>
+              <span style={styles.detailLabel}>Total Amount:</span>
+              <span style={styles.detailValue}>₹{total?.toLocaleString('en-IN')}</span>
+            </div>
+          </div>
+          
+          <div style={styles.redirectMessage}>
+            <p>Redirecting to My Orders in <span style={styles.countdown}>{countdown}</span> seconds...</p>
+          </div>
+          
+          <div style={styles.buttonGroup}>
+            <button 
+              onClick={() => navigate("/my-orders")}
+              style={styles.ordersButton}
+            >
+              <Package size={16} />
+              View My Orders Now
+            </button>
+          </div>
+          
+          <p style={styles.note}>
+            You will receive an email confirmation shortly.
+          </p>
         </div>
-        <p className="text-sm text-gray-300">Redirecting to your orders...</p>
-      </div>
-
-      <div className="flex flex-col sm:flex-row gap-4">
-        <button 
-          onClick={() => navigate("/my-orders")}
-          className="px-10 py-4 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-all flex items-center gap-2 group"
-        >
-          View My Orders
-          <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-        </button>
-        
-        <button 
-          onClick={() => navigate("/all-products")}
-          className="px-10 py-4 bg-white/5 border border-white/10 text-white font-bold rounded-full hover:bg-white/10 transition-all"
-        >
-          Continue Shopping
-        </button>
       </div>
     </div>
   );
-}
+};
+
+const styles = {
+  page: {
+    minHeight: "100vh",
+    background: "#0a0a0a",
+    color: "#fff",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "20px"
+  },
+  container: {
+    maxWidth: "500px",
+    width: "100%"
+  },
+  card: {
+    background: "#1a1a1a",
+    padding: "40px",
+    borderRadius: "16px",
+    border: "1px solid #2a2a2a",
+    textAlign: "center"
+  },
+  icon: {
+    marginBottom: "20px"
+  },
+  title: {
+    fontSize: "2rem",
+    marginBottom: "10px",
+    fontWeight: "600"
+  },
+  message: {
+    color: "#888",
+    marginBottom: "30px",
+    lineHeight: "1.6"
+  },
+  details: {
+    background: "#222",
+    padding: "20px",
+    borderRadius: "8px",
+    marginBottom: "20px",
+    textAlign: "left"
+  },
+  detailRow: {
+    display: "flex",
+    justifyContent: "space-between",
+    marginBottom: "10px"
+  },
+  detailLabel: {
+    color: "#888"
+  },
+  detailValue: {
+    color: "#fff",
+    fontWeight: "600"
+  },
+  redirectMessage: {
+    marginBottom: "20px",
+    color: "#888"
+  },
+  countdown: {
+    color: "#3b82f6",
+    fontWeight: "bold",
+    fontSize: "1.2rem"
+  },
+  buttonGroup: {
+    display: "flex",
+    gap: "15px",
+    justifyContent: "center",
+    marginBottom: "20px"
+  },
+  ordersButton: {
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
+    background: "#3b82f6",
+    color: "#fff",
+    border: "none",
+    borderRadius: "8px",
+    padding: "12px 24px",
+    fontSize: "1rem",
+    fontWeight: "600",
+    cursor: "pointer",
+    transition: "background 0.2s"
+  },
+  note: {
+    color: "#666",
+    fontSize: "0.9rem"
+  }
+};
+
+export default OrderSuccess;

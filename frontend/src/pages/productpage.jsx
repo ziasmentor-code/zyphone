@@ -26,6 +26,20 @@ export default function ProductPage() {
   const { addToCart } = useContext(CartContext);
   const { addToWishlist, wishlistItems } = useContext(WishlistContext);
 
+  // ✅ Fixed login check function
+  const checkLoginBeforeAction = (action, product) => {
+    const token = localStorage.getItem("access");
+    
+    if (!token) {
+      toast.error("Please login to continue");
+      navigate("/login?redirect=products");
+      return false;
+    }
+    
+    action(product);
+    return true;
+  };
+
   // Fetch products
   useEffect(() => {
     axios.get("http://127.0.0.1:8000/api/products/")
@@ -133,35 +147,73 @@ export default function ProductPage() {
           {filteredProducts.length > 0 ? filteredProducts.map(p => (
             <div key={p.id} className="flex flex-col md:flex-row p-8 border-b border-gray-100 hover:bg-gray-50 gap-8 cursor-pointer group m-2 rounded-2xl">
               <div className="w-full md:w-[200px] h-[200px] flex justify-center items-center relative rounded-3xl p-4 bg-gray-50">
+                {/* ✅ Fixed Heart click handler */}
                 <Heart
-                  onClick={e => { e.stopPropagation(); addToWishlist(p); toast.success("Added to wishlist ❤️"); }}
-                  className={`absolute top-2 right-2 transition-colors ${wishlistItems.some(item => item.id === p.id) ? 'text-rose-600' : 'text-gray-400 hover:text-rose-600'}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    checkLoginBeforeAction(() => {
+                      addToWishlist(p);
+                      toast.success("Added to wishlist ❤️");
+                    }, p);
+                  }}
+                  className={`absolute top-2 right-2 cursor-pointer transition-colors ${
+                    wishlistItems.some(item => item.id === p.id)
+                      ? "text-rose-600 fill-rose-600"
+                      : "text-gray-400 hover:text-rose-600"
+                  }`}
                   size={18}
                 />
-                <img src={`http://127.0.0.1:8000${p.image}`} alt={p.name} className="max-h-full object-contain" />
+                <img 
+                  src={`http://127.0.0.1:8000${p.image}`} 
+                  alt={p.name} 
+                  className="max-h-full object-contain"
+                  onError={(e) => {
+                    e.target.src = "https://via.placeholder.com/200/1a1a1a/666?text=No+Image";
+                  }}
+                />
               </div>
 
               <div className="flex-1">
                 <h2 className="text-xl font-bold mb-3 text-black">{p.name}</h2>
                 <div className="flex items-center gap-2 mb-4">
-                  <span className="bg-green-700 text-white text-xs px-2 py-1 rounded-full flex items-center gap-1">4.7 <Star size={10} fill="white" /></span>
+                  <span className="bg-green-700 text-white text-xs px-2 py-1 rounded-full flex items-center gap-1">
+                    4.7 <Star size={10} fill="white" />
+                  </span>
                   <span className="text-gray-500 text-xs">910 Ratings</span>
                 </div>
-                <p className="text-xs text-gray-600 line-clamp-2">{p.description}</p>
+                {/* ✅ Description is now properly displayed */}
+                <p className="text-sm text-gray-600 line-clamp-3 mb-4">{p.description}</p>
               </div>
 
               <div className="w-full md:w-[220px] flex flex-col justify-center items-start md:items-end gap-3">
-                <span className="text-3xl font-black text-black">₹{Number(p.price).toLocaleString("en-IN")}</span>
+                <span className="text-3xl font-black text-black">
+                  ₹{Number(p.price).toLocaleString("en-IN")}
+                </span>
                 <div className="flex gap-3">
+                  {/* ✅ Fixed Add to Cart button */}
                   <button
-                    onClick={e => { e.stopPropagation(); addToCart(p); toast.success("Item added to cart 🛒"); }}
-                    className="bg-black text-white px-5 py-2 rounded-full text-xs font-bold hover:bg-gray-800"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      checkLoginBeforeAction(() => {
+                        // ✅ Make sure all product data is passed to cart
+                        addToCart({
+                          id: p.id,
+                          name: p.name,
+                          price: p.price,
+                          image: p.image,
+                          description: p.description,  // ✅ Important: Include description
+                          category: p.category
+                        });
+                        toast.success("Item added to cart 🛒");
+                      }, p);
+                    }}
+                    className="bg-black text-white px-5 py-2 rounded-full text-xs font-bold hover:bg-gray-800 transition-colors"
                   >
                     Add to Cart
                   </button>
                   <button
                     onClick={() => navigate(`/product/${p.id}`)}
-                    className="bg-rose-600 text-white px-5 py-2 rounded-full text-xs font-bold hover:bg-rose-700"
+                    className="bg-rose-600 text-white px-5 py-2 rounded-full text-xs font-bold hover:bg-rose-700 transition-colors"
                   >
                     View Details
                   </button>
@@ -173,6 +225,8 @@ export default function ProductPage() {
           )}
         </div>
       </div>
+
+      {/* EXPLORE LINE-UP SECTION */}
       <section className="max-w-[1400px] mx-auto py-24 px-6 bg-[#f5f5f7]">
         <div className="mb-16">
           <h2 className="text-5xl md:text-6xl font-bold text-black tracking-tight mb-4">Explore the line-up.</h2>
@@ -199,331 +253,51 @@ export default function ProductPage() {
                 <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4">{item.desc}</p>
                 <p className="text-lg font-bold text-gray-900 mb-8">{item.price}</p>
                 <button className="bg-[#0071e3] text-white px-6 py-2 rounded-full text-xs font-bold hover:bg-[#0077ed] transition-all">Learn more</button>
-                <button className="mt-4 text-[#0071e3] text-sm font-bold flex items-center group/btn">Buy <ArrowRight size={14} className="ml-1 group-hover/btn:translate-x-1 transition-transform" /></button>
+                <button className="mt-4 text-[#0071e3] text-sm font-bold flex items-center group/btn">
+                  Buy <ArrowRight size={14} className="ml-1 group-hover/btn:translate-x-1 transition-transform" />
+                </button>
               </div>
             </div>
           ))}
         </div>
       </section>
 
-       <section className="bg-white py-32 px-6 overflow-hidden">
-
-
-
-
-
-
-
-  <div className="max-w-[1400px] mx-auto">
-
-
-
-
-
-
-
-    <h2 className="text-4xl md:text-5xl font-bold mb-16 text-black">Get to know Zyphone.</h2>
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    <div className="flex overflow-x-auto gap-8 pb-12 no-scrollbar">
-
-
-
-
-
-
-
-      {[
-
-
-
-
-
-
-
-        { title: "Innovation", sub: "Beautiful and durable, by design.", color: "text-white", img: "/images/feat1.png" },
-
-
-
-
-
-
-
-        { title: "Cameras", sub: "Picture your best photos and videos.", color: "text-white", img: "/images/feat2.png" },
-
-
-
-
-
-
-
-        { title: "Performance", sub: "Fast that lasts with A19 Chip.", color: "text-black", img: "/images/feat3.png" },
-
-
-
-
-
-
-
-        { title: "Intelligence", sub: "New look. Even more magic.", color: "text-white", img: "/images/feat4.png" }
-
-
-
-
-
-
-
-      ].map((card, i) => (
-
-
-
-
-
-
-
-        <div 
-
-
-
-
-
-
-
-          key={i} 
-
-
-
-
-
-
-
-          className={`min-w-[400px] h-[550px] rounded-[3rem] p-12 flex flex-col justify-between shadow-lg relative overflow-hidden ${card.color} bg-gray-100`}
-
-
-
-
-
-
-
-        >
-
-
-
-
-
-
-
-          {/* 1. ഇമേജ് കാർഡ് ഫുൾ ആകാൻ ഈ ഭാഗം ശ്രദ്ധിക്കുക */}
-
-
-
-
-
-
-
-          <img 
-
-
-
-
-
-
-
-            src={card.img} 
-
-
-
-
-
-
-
-            alt="" 
-
-
-
-
-
-
-
-            className="absolute inset-0 w-full h-full object-cover z-0" 
-
-
-
-
-
-
-
-          />
-
-
-
-
-
-
-
-          
-
-
-
-
-
-
-
-          {/* 2. ഇമേജിന് മുകളിൽ ഒരു ചെറിയ ഇരുണ്ട ഷേഡ് നൽകാൻ (Overlay) - ഓപ്ഷണൽ */}
-
-
-
-
-
-
-
-          <div className="absolute inset-0 bg-black/10 z-[1]" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-          {/* Content - ഇതിന് z-index നൽകി ഇമേജിന് മുകളിൽ കൊണ്ടുവരുന്നു */}
-
-
-
-
-
-
-
-          <div className="relative z-10">
-
-
-
-
-
-
-
-            <p className="text-[10px] font-black mb-4 uppercase tracking-[0.2em] opacity-80">{card.title}</p>
-
-
-
-
-
-
-
-            <h3 className="text-4xl font-bold leading-[1.1] tracking-tight">{card.sub}</h3>
-
-
-
-
-
-
-
+      {/* FEATURE SECTION */}
+      <section className="bg-white py-32 px-6 overflow-hidden">
+        <div className="max-w-[1400px] mx-auto">
+          <h2 className="text-4xl md:text-5xl font-bold mb-16 text-black">Get to know Zyphone.</h2>
+          <div className="flex overflow-x-auto gap-8 pb-12 no-scrollbar">
+            {[
+              { title: "Innovation", sub: "Beautiful and durable, by design.", color: "text-white", img: "/images/feat1.png" },
+              { title: "Cameras", sub: "Picture your best photos and videos.", color: "text-white", img: "/images/feat2.png" },
+              { title: "Performance", sub: "Fast that lasts with A19 Chip.", color: "text-black", img: "/images/feat3.png" },
+              { title: "Intelligence", sub: "New look. Even more magic.", color: "text-white", img: "/images/feat4.png" }
+            ].map((card, i) => (
+              <div 
+                key={i} 
+                className={`min-w-[400px] h-[550px] rounded-[3rem] p-12 flex flex-col justify-between shadow-lg relative overflow-hidden ${card.color} bg-gray-100`}
+              >
+                <img 
+                  src={card.img} 
+                  alt="" 
+                  className="absolute inset-0 w-full h-full object-cover z-0" 
+                />
+                <div className="absolute inset-0 bg-black/10 z-[1]" />
+                <div className="relative z-10">
+                  <p className="text-[10px] font-black mb-4 uppercase tracking-[0.2em] opacity-80">{card.title}</p>
+                  <h3 className="text-4xl font-bold leading-[1.1] tracking-tight">{card.sub}</h3>
+                </div>
+                <div className="relative z-10">
+                  {/* Optional button can go here */}
+                </div>
+              </div>
+            ))}
           </div>
-
-
-
-
-
-
-
-          
-
-
-
-
-
-
-
-          {/* താഴെയുള്ള എംപ്റ്റി ഡിവിനെ നമുക്ക് ഒഴിവാക്കാം അല്ലെങ്കിൽ ബട്ടണുകൾ ചേർക്കാം */}
-
-
-
-
-
-
-
-          <div className="relative z-10">
-
-
-
-
-
-
-
-             {/* ആവശ്യമെങ്കിൽ ഇവിടെ ഒരു 'Learn More' ബട്ടൺ നൽകാം */}
-
-
-
-
-
-
-
-          </div>
-
-
-
-
-
-
-
         </div>
-
-
-
-
-
-
-
-      ))}
-
-
-
-
-
-
-
-    </div>
-
-
-
-
-
-
-
-  </div>
-
-
-
-
-
-
-
-</section>
-
+      </section>
 
       {/* FEATURE AND LINE-UP SECTIONS */}
-      {/* ... Add your EXPLORE LINE-UP, FEATURE, and WHY ZYPHONE sections here exactly as in your previous code ... */}
-       <section className="bg-white py-24 px-6 overflow-hidden">
+      <section className="bg-white py-24 px-6 overflow-hidden">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-4xl md:text-5xl font-bold mb-16 text-black tracking-tight">Get to know Zyphone.</h2>
           <div className="flex flex-col md:flex-row items-stretch bg-[#f5f5f7] rounded-[3rem] overflow-hidden min-h-[600px]">
@@ -566,15 +340,16 @@ export default function ProductPage() {
                 <p className="text-[10px] font-black mb-5 uppercase tracking-widest text-gray-500">{info.title}</p>
                 <h3 className="text-2xl font-bold text-black">{info.desc}</h3>
               </div>
-              <button className="absolute bottom-8 right-8 bg-black/80 text-white w-10 h-10 rounded-full font-bold text-xl">+</button>
+              <button className="absolute bottom-8 right-8 bg-black/80 text-white w-10 h-10 rounded-full font-bold text-xl hover:bg-black transition-colors">+</button>
             </div>
           ))}
         </div>
       </section>
+      
       <div className="text-center pb-20 mt-10">
-         <p className="text-gray-400 text-[10px] font-black tracking-[0.3em] uppercase cursor-pointer hover:text-rose-600 transition-colors inline-block border-b border-transparent hover:border-rose-600 pb-2">
-            ← Back to Experience
-         </p>
+        <p className="text-gray-400 text-[10px] font-black tracking-[0.3em] uppercase cursor-pointer hover:text-rose-600 transition-colors inline-block border-b border-transparent hover:border-rose-600 pb-2">
+          ← Back to Experience
+        </p>
       </div>
     </div>
   );

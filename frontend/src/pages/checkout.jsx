@@ -1,166 +1,486 @@
-import React, { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+// pages/Checkout.jsx
+import React, { useContext, useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { CartContext } from "../context/cartcontext";
 import { AuthContext } from "../context/authcontext";
-import toast from 'react-hot-toast';
-import { ArrowLeft, CreditCard, MapPin, User } from 'lucide-react';
+import api from "../services/api";
+import toast from "react-hot-toast";
 
-export default function Checkout() {
+const Checkout = () => {
   const { cartItems, clearCart } = useContext(CartContext);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
 
-  // ഫോം ഡാറ്റ സ്റ്റേറ്റ്
-  const [formData, setFormData] = useState({
-    fullName: user?.displayName || user?.name || "",
-    email: user?.email || "",
-    phone: user?.phone || "",
-    address: user?.address || ""
+  // Get data from navigation state or localStorage
+  const [checkoutItems, setCheckoutItems] = useState([]);
+  const [checkoutQuantities, setCheckoutQuantities] = useState({});
+  const [shippingData, setShippingData] = useState({ 
+    shipping_address: "", 
+    phone: "",
+    payment_method: "COD"
   });
+  const [loading, setLoading] = useState(false);
+  const [dataLoaded, setDataLoaded] = useState(false);
 
-  // കാർട്ടിലുള്ള ഐറ്റങ്ങളുടെ ആകെ തുക കണക്കാക്കുന്നു
-  const subtotal = cartItems.reduce((acc, item) => acc + (Number(item.price) || 0), 0);
+  // Load checkout data
+  useEffect(() => {
+    console.log("Loading checkout data...");
+    console.log("Location state:", location.state);
+    console.log("Cart items from context:", cartItems);
+    console.log("LocalStorage cartData:", localStorage.getItem("cartData"));
+
+    // First try to get from location state
+    if (location.state?.items && location.state.items.length > 0) {
+      console.log("Using location state items:", location.state.items);
+      setCheckoutItems(location.state.items);
+      setCheckoutQuantities(location.state.quantities || {});
+      setDataLoaded(true);
+    } 
+    // Then try from cart context
+    else if (cartItems && cartItems.length > 0) {
+      console.log("Using cart context items:", cartItems);
+      setCheckoutItems(cartItems);
+      const qty = {};
+      cartItems.forEach(item => {
+        qty[item.id] = item.quantity || 1;
+      });
+      setCheckoutQuantities(qty);
+      setDataLoaded(true);
+    }
+    // Finally try from localStorage
+    else {
+      const savedCartData = localStorage.getItem("cartData");
+      if (savedCartData) {
+        try {
+          const parsed = JSON.parse(savedCartData);
+          console.log("Using localStorage items:", parsed);
+          if (parsed.items && parsed.items.length > 0) {
+            setCheckoutItems(parsed.items || []);
+            setCheckoutQuantities(parsed.quantities || {});
+            setDataLoaded(true);
+          } else {
+            setDataLoaded(true);
+          }
+        } catch (e) {
+          console.error("Error parsing localStorage data:", e);
+          setDataLoaded(true);
+        }
+      } else {
+        setDataLoaded(true);
+      }
+    }
+  }, [location.state, cartItems]);
+
+  // Protect route - redirect to login if not authenticated
+  useEffect(() => {
+    if (dataLoaded && !user && checkoutItems.length > 0) {
+      toast.error("Please login to checkout");
+      navigate("/login", { 
+        state: { 
+          from: "/cart",
+          redirectTo: "/checkout",
+          message: "Please login to complete your purchase"
+        } 
+      });
+    }
+  }, [user, checkoutItems, navigate, dataLoaded]);
+
+  // Redirect if cart is empty
+  useEffect(() => {
+    if (dataLoaded && user && checkoutItems.length === 0) {
+      toast.error("Your cart is empty");
+      navigate("/cart");
+    }
+  }, [checkoutItems, user, navigate, dataLoaded]);
+
+  // Calculate total
+  const cartTotal = checkoutItems.reduce((total, item) => {
+    const price = Number(item.price) || Number(item.product?.price) || 0;
+    const quantity = checkoutQuantities[item.id] || item.quantity || 1;
+    return total + (price * quantity);
+  }, 0);
 
   const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setShippingData({ ...shippingData, [e.target.name]: e.target.value });
   };
 
-  const handlePlaceOrder = (e) => {
+  // ✅ FIXED: handlePlaceOrder function
+  const handlePlaceOrder = async (e) => {
     e.preventDefault();
+    
+    console.log("Current shipping data:", shippingData);
 
-    if (cartItems.length === 0) {
-      toast.error("Your cart is empty!");
+    if (!user) {
+      toast.error("Please login to place an order.");
+      navigate("/login", { state: { from: "/checkout" } });
       return;
     }
 
-    const loadingToast = toast.loading("Processing your order...");
+    if (checkoutItems.length === 0) {
+      toast.error("Your cart is empty.");
+      navigate("/cart");
+      return;
+    }
 
-    // 2 സെക്കൻഡിന് ശേഷം ഓർഡർ കൺഫേം ആകുന്നു
-    setTimeout(() => {
-      // പുതിയ ഓർഡർ ഒബ്ജക്റ്റ് ഉണ്ടാക്കുന്നു (ഇതിൽ കാർട്ടിലെ ഇമേജുകളും ഉൾപ്പെടും)
-      const newOrder = {
-        id: "ORD-" + Math.floor(Math.random() * 90000 + 10000),
-        date: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
-        status: "Processing",
-        total: subtotal.toLocaleString("en-IN"),
-        items: cartItems.map(item => ({
-          name: item.name,
-          image: item.image, // ബാക്കെൻഡിൽ നിന്നുള്ള ഇമേജ് പാത്ത്
-          price: item.price
-        })),
-        customerName: formData.fullName,
-        deliveryAddress: formData.address
-      };
+    // Validate form data
+    if (!shippingData.shipping_address || shippingData.shipping_address.trim() === "") {
+      toast.error("Please enter shipping address");
+      return;
+    }
+    if (!shippingData.phone || shippingData.phone.trim() === "") {
+      toast.error("Please enter phone number");
+      return;
+    }
 
-      // localStorage-ലേക്ക് സേവ് ചെയ്യുന്നു
-      try {
-        const existingOrders = JSON.parse(localStorage.getItem("myOrders") || "[]");
-        const updatedOrders = [newOrder, ...existingOrders];
-        localStorage.setItem("myOrders", JSON.stringify(updatedOrders));
+    setLoading(true);
+
+    // Prepare order data
+    const orderData = {
+      shipping_address: shippingData.shipping_address.trim(),
+      phone: shippingData.phone.trim(),
+      total_price: parseFloat(cartTotal).toFixed(2),
+      payment_method: shippingData.payment_method || "COD",
+      is_paid: false,
+      status: "pending",
+      items: checkoutItems.map((item) => ({
+        product_id: parseInt(item.id),
+        quantity: parseInt(checkoutQuantities[item.id] || item.quantity || 1),
+        price: parseFloat(item.price || 0).toFixed(2)
+      })),
+    };
+
+    console.log("Sending order data:", JSON.stringify(orderData, null, 2));
+
+    try {
+      const response = await api.post("orders/create/", orderData);
+      
+      console.log("Order response:", response.data);
+      
+      if (response.status === 201 || response.status === 200) {
+        toast.success("Order Placed Successfully!");
         
-        toast.dismiss(loadingToast);
-        toast.success(`Order Placed Successfully, ${formData.fullName}! 🎉`);
+        // ✅ Safe cart clearing
+        try {
+          if (clearCart && typeof clearCart === 'function') {
+            clearCart();
+          } else {
+            // Fallback: clear localStorage directly
+            localStorage.removeItem("zyphone_cart");
+            // ✅ FIXED: Correct array check
+            if (cartItems && Array.isArray(cartItems)) {
+              console.log("Cart had items but no clearCart function");
+            }
+          }
+        } catch (cartError) {
+          console.error("Error clearing cart:", cartError);
+        }
         
-        if (clearCart) clearCart();
-        navigate("/order-success");
-      } catch (error) {
-        toast.dismiss(loadingToast);
-        toast.error("Something went wrong!");
-        console.error("Order Save Error:", error);
+        // Clear temporary data
+        localStorage.removeItem("cartData");
+        localStorage.removeItem("redirectAfterLogin");
+        
+        navigate("/order-success", { 
+          state: { 
+            orderId: response.data.order_id || response.data.id,
+            total: cartTotal 
+          } 
+        });
       }
-    }, 2000);
+    } catch (error) {
+      console.error("Error placing order:", error);
+      
+      if (error.response) {
+        console.error("Error response data:", error.response.data);
+        console.error("Error response status:", error.response.status);
+        
+        if (error.response.status === 500) {
+          toast.error("Server error. Please check Django console for details.");
+        } else if (error.response.data?.error) {
+          toast.error(error.response.data.error);
+        } else {
+          toast.error(`Error ${error.response.status}: Failed to place order`);
+        }
+      } else if (error.request) {
+        console.error("No response received:", error.request);
+        toast.error("No response from server. Please check if Django server is running.");
+      } else {
+        console.error("Error message:", error.message);
+        toast.error("Failed to place order. Please try again.");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
-  return (
-    <div className="min-h-screen bg-[#0a0a0b] text-white p-6 flex items-center justify-center">
-      <div className="absolute top-0 left-0 w-96 h-96 bg-red-600/5 blur-[120px] pointer-events-none"></div>
-      
-      <div className="max-w-3xl w-full bg-[#111113] p-8 sm:p-12 rounded-[40px] border border-white/5 shadow-2xl relative z-10">
-        <button onClick={() => navigate("/cart")} className="flex items-center gap-2 text-gray-500 hover:text-white mb-8 transition-colors text-sm">
-          <ArrowLeft size={16} /> Back to shopping bag
-        </button>
+  // If data not loaded yet, show loading
+  if (!dataLoaded) {
+    return (
+      <div style={styles.page}>
+        <div style={styles.container}>
+          <div style={styles.loadingContainer}>
+            <p>Loading checkout...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
-        <div className="mb-10 text-center sm:text-left">
-          <h2 className="text-3xl font-bold text-white tracking-tight">Shipping Details</h2>
-          <p className="text-gray-500 mt-2">Confirm your information to place the order</p>
+  // If no user or no items, don't render
+  if (!user || checkoutItems.length === 0) {
+    return null;
+  }
+
+  return (
+    <div style={styles.page}>
+      <div style={styles.container}>
+        <h2 style={styles.title}>Checkout</h2>
+        
+        {/* Order Summary */}
+        <div style={styles.summaryCard}>
+          <h3 style={styles.subtitle}>Order Summary</h3>
+          {checkoutItems.map((item) => {
+            const quantity = checkoutQuantities[item.id] || item.quantity || 1;
+            const price = Number(item.price) || Number(item.product?.price) || 0;
+            const itemTotal = price * quantity;
+            
+            return (
+              <div key={item.id} style={styles.itemRow}>
+                <div style={styles.itemInfo}>
+                  <span style={styles.itemName}>{item.name}</span>
+                  <span style={styles.itemQty}>x{quantity}</span>
+                </div>
+                <span style={styles.itemPrice}>₹{itemTotal.toLocaleString('en-IN')}</span>
+              </div>
+            );
+          })}
+          
+          <div style={styles.totalRow}>
+            <span style={styles.totalLabel}>Total Amount:</span>
+            <span style={styles.totalAmount}>₹{cartTotal.toLocaleString('en-IN')}</span>
+          </div>
         </div>
 
-        <form onSubmit={handlePlaceOrder} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <label className="text-xs font-bold text-gray-500 uppercase ml-1">Full Name</label>
-              <div className="relative">
-                <User className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600" size={18} />
-                <input 
-                  name="fullName"
-                  value={formData.fullName}
-                  onChange={handleInputChange}
-                  type="text" 
-                  placeholder="Enter your name" 
-                  required 
-                  className="w-full p-4 pl-12 bg-white/[0.03] border border-white/10 rounded-2xl outline-none focus:border-green-500 transition-all text-white" 
-                />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-xs font-bold text-gray-500 uppercase ml-1">Contact Number</label>
-              <input 
-                name="phone"
-                value={formData.phone}
-                onChange={handleInputChange}
-                type="tel" 
-                placeholder="+91 0000000000" 
-                required 
-                className="w-full p-4 bg-white/[0.03] border border-white/10 rounded-2xl outline-none focus:border-green-500 transition-all text-white" 
-              />
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-xs font-bold text-gray-500 uppercase ml-1">Delivery Address</label>
-            <div className="relative">
-              <MapPin className="absolute left-4 top-5 text-gray-600" size={18} />
-              <textarea 
-                name="address"
-                value={formData.address}
-                onChange={handleInputChange}
-                placeholder="House No, Street, City, Pincode" 
-                required 
-                className="w-full p-4 pl-12 bg-white/[0.03] border border-white/10 rounded-2xl outline-none focus:border-green-500 transition-all text-white h-32 resize-none"
-              ></textarea>
-            </div>
-          </div>
+        {/* Shipping Form */}
+        <form onSubmit={handlePlaceOrder} style={styles.form}>
+          <h3 style={styles.subtitle}>Shipping Information</h3>
           
-          <div className="bg-white/[0.02] p-6 rounded-3xl border border-white/5 flex items-center justify-between group hover:border-green-500/30 transition-all cursor-pointer">
-             <div className="flex items-center gap-4">
-                <div className="bg-green-500/10 p-3 rounded-xl">
-                   <CreditCard className="text-green-500" size={24} />
-                </div>
-                <div>
-                   <p className="font-bold text-white">Cash on Delivery</p>
-                   <p className="text-xs text-gray-500">Pay when you receive the phone</p>
-                </div>
-             </div>
-             <div className="w-6 h-6 rounded-full border-2 border-green-500 flex items-center justify-center">
-                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-             </div>
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Shipping Address *</label>
+            <input
+              type="text"
+              name="shipping_address"
+              placeholder="Enter your full address"
+              value={shippingData.shipping_address}
+              onChange={handleInputChange}
+              required
+              style={styles.input}
+            />
           </div>
 
-          <div className="pt-4 border-t border-white/5">
-            <div className="flex justify-between items-center mb-6">
-              <span className="text-gray-400">Total Amount</span>
-              <span className="text-2xl font-bold">₹{subtotal.toLocaleString("en-IN")}</span>
-            </div>
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Phone Number *</label>
+            <input
+              type="tel"
+              name="phone"
+              placeholder="e.g. +91 9876543210"
+              value={shippingData.phone}
+              onChange={handleInputChange}
+              required
+              style={styles.input}
+            />
+          </div>
+
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Payment Method</label>
+            <select
+              name="payment_method"
+              value={shippingData.payment_method}
+              onChange={handleInputChange}
+              style={styles.select}
+            >
+              <option value="COD">Cash on Delivery</option>
+              <option value="CARD">Credit/Debit Card</option>
+              <option value="UPI">UPI</option>
+            </select>
+          </div>
+
+          <div style={styles.buttonGroup}>
+            <button 
+              type="button" 
+              onClick={() => navigate("/cart")}
+              style={styles.backButton}
+            >
+              Back to Cart
+            </button>
+            
             <button 
               type="submit" 
-              className="w-full bg-white text-black py-5 rounded-2xl font-bold text-lg hover:bg-green-400 hover:scale-[0.99] transition-all flex items-center justify-center gap-3 shadow-xl shadow-white/5"
+              disabled={loading} 
+              style={{
+                ...styles.submitButton,
+                ...(loading ? styles.disabledButton : {})
+              }}
             >
-              Confirm Order & Pay
+              {loading ? "Processing Order..." : "Confirm Order"}
             </button>
           </div>
         </form>
       </div>
     </div>
   );
-}
+};
+
+// Styles
+const styles = {
+  page: {
+    padding: "40px 20px",
+    backgroundColor: "#0a0a0a",
+    color: "#fff",
+    minHeight: "100vh"
+  },
+  container: {
+    maxWidth: "800px",
+    margin: "0 auto"
+  },
+  title: {
+    fontSize: "2rem",
+    textAlign: "center",
+    marginBottom: "40px",
+    fontWeight: "600",
+    borderLeft: "4px solid #3b82f6",
+    paddingLeft: "20px"
+  },
+  subtitle: {
+    fontSize: "1.3rem",
+    marginBottom: "20px",
+    color: "#fff",
+    fontWeight: "500"
+  },
+  summaryCard: {
+    background: "#1a1a1a",
+    padding: "25px",
+    borderRadius: "12px",
+    border: "1px solid #2a2a2a",
+    marginBottom: "30px"
+  },
+  itemRow: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "10px 0",
+    borderBottom: "1px solid #2a2a2a"
+  },
+  itemInfo: {
+    display: "flex",
+    gap: "15px",
+    alignItems: "center"
+  },
+  itemName: {
+    fontSize: "1rem",
+    color: "#fff"
+  },
+  itemQty: {
+    fontSize: "0.9rem",
+    color: "#888"
+  },
+  itemPrice: {
+    fontSize: "1rem",
+    color: "#3b82f6",
+    fontWeight: "600"
+  },
+  totalRow: {
+    display: "flex",
+    justifyContent: "space-between",
+    marginTop: "20px",
+    paddingTop: "20px",
+    borderTop: "2px solid #2a2a2a",
+    fontSize: "1.2rem"
+  },
+  totalLabel: {
+    fontWeight: "600",
+    color: "#fff"
+  },
+  totalAmount: {
+    fontWeight: "700",
+    color: "#3b82f6",
+    fontSize: "1.4rem"
+  },
+  form: {
+    background: "#1a1a1a",
+    padding: "25px",
+    borderRadius: "12px",
+    border: "1px solid #2a2a2a"
+  },
+  formGroup: {
+    marginBottom: "20px"
+  },
+  label: {
+    display: "block",
+    marginBottom: "8px",
+    color: "#aaa",
+    fontSize: "0.95rem"
+  },
+  input: {
+    width: "100%",
+    padding: "12px",
+    borderRadius: "8px",
+    border: "1px solid #333",
+    backgroundColor: "#222",
+    color: "#fff",
+    fontSize: "1rem",
+    outline: "none",
+    transition: "border 0.2s"
+  },
+  select: {
+    width: "100%",
+    padding: "12px",
+    borderRadius: "8px",
+    border: "1px solid #333",
+    backgroundColor: "#222",
+    color: "#fff",
+    fontSize: "1rem",
+    outline: "none",
+    cursor: "pointer"
+  },
+  buttonGroup: {
+    display: "flex",
+    gap: "15px",
+    marginTop: "30px"
+  },
+  backButton: {
+    flex: 1,
+    padding: "15px",
+    backgroundColor: "transparent",
+    color: "#fff",
+    fontWeight: "600",
+    border: "2px solid #333",
+    borderRadius: "8px",
+    cursor: "pointer",
+    transition: "all 0.2s"
+  },
+  submitButton: {
+    flex: 2,
+    padding: "15px",
+    backgroundColor: "#3b82f6",
+    color: "#fff",
+    fontWeight: "600",
+    border: "none",
+    borderRadius: "8px",
+    cursor: "pointer",
+    transition: "background 0.2s"
+  },
+  disabledButton: {
+    backgroundColor: "#666",
+    cursor: "not-allowed"
+  },
+  loadingContainer: {
+    textAlign: "center",
+    padding: "50px",
+    background: "#1a1a1a",
+    borderRadius: "12px",
+    color: "#888"
+  }
+};
+
+export default Checkout;
