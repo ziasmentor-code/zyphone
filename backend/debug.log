@@ -2339,3 +2339,67 @@ INFO 2026-03-15 15:35:48,185 log 21356 16164 "GET /media/products/dime_evo.webp 
 INFO 2026-03-15 15:35:48,185 log 21356 17960 "GET /media/products/H1.png HTTP/1.1" 200 24665
 INFO 2026-03-15 15:35:48,186 log 21356 9596 "GET /media/products/EARP1.png HTTP/1.1" 200 96045
 INFO 2026-03-15 15:35:51,837 autoreload 26972 27956 Watching for file changes with StatReloader
+INFO 2026-03-15 15:36:11,009 log 26972 20692 "GET /api/products/ HTTP/1.1" 200 2328
+INFO 2026-03-15 15:36:11,044 log 26972 20692 "GET /api/products/ HTTP/1.1" 200 2328
+INFO 2026-03-15 15:36:22,237 log 26972 20692 "GET /api/products/ HTTP/1.1" 200 2328
+INFO 2026-03-15 15:36:22,266 log 26972 20692 "GET /api/products/ HTTP/1.1" 200 2328
+INFO 2026-03-15 15:37:24,593 log 26972 20692 "GET /api/products/ HTTP/1.1" 200 2328
+INFO 2026-03-15 15:37:24,622 log 26972 20692 "GET /api/products/ HTTP/1.1" 200 2328
+INFO 2026-03-15 15:39:53,950 log 26972 20692 "POST /api/orders/create/ HTTP/1.1" 201 69
+INFO 2026-03-15 15:39:55,191 log 26972 20692 "GET /api/orders/ HTTP/1.1" 200 2440
+INFO 2026-03-15 15:39:55,228 log 26972 20692 "GET /api/orders/ HTTP/1.1" 200 2440
+INFO 2026-03-15 15:39:58,385 log 26972 20692 "OPTIONS /api/orders/8/ HTTP/1.1" 200 0
+INFO 2026-03-15 15:39:58,387 log 26972 19944 "OPTIONS /api/orders/8/ HTTP/1.1" 200 0
+INFO 2026-03-15 15:39:58,414 log 26972 20692 "GET /api/orders/8/ HTTP/1.1" 200 349
+INFO 2026-03-15 15:39:58,446 log 26972 20692 "GET /api/orders/8/ HTTP/1.1" 200 349
+INFO 2026-03-15 15:43:34,033 autoreload 18916 17932 Watching for file changes with StatReloader
+INFO 2026-03-15 15:47:30,224 log 18916 2840 "OPTIONS /api/subscribe/ HTTP/1.1" 200 0
+WARNING 2026-03-15 15:47:30,230 log 18916 2840 Not Found: /api/subscribe/
+WARNING 2026-03-15 15:47:30,230 log 18916 2840 "POST /api/subscribe/ HTTP/1.1" 404 3965
+INFO 2026-03-15 15:47:42,412 log 18916 2840 "GET /api/products/ HTTP/1.1" 200 2328
+INFO 2026-03-15 15:47:42,444 log 18916 2840 "GET /api/products/ HTTP/1.1" 200 2328
+WARNING 2026-03-15 15:48:09,517 log 18916 2840 Not Found: /api/subscribe/
+WARNING 2026-03-15 15:48:09,517 log 18916 2840 "POST /api/subscribe/ HTTP/1.1" 404 3965
+WARNING 2026-03-15 15:48:10,158 log 18916 2840 Not Found: /api/subscribe/
+WARNING 2026-03-15 15:48:10,158 log 18916 2840 "POST /api/subscribe/ HTTP/1.1" 404 3965
+INFO 2026-03-15 15:49:35,504 autoreload 18916 17932 C:\Users\pc\Desktop\zyphone\backend\api\urls.py changed, reloading.
+INFO 2026-03-15 15:49:35,928 autoreload 26816 4892 Watching for file changes with StatReloader
+INFO 2026-03-15 15:49:41,241 autoreload 26816 4892 C:\Users\pc\Desktop\zyphone\backend\api\urls.py changed, reloading.
+INFO 2026-03-15 15:49:41,673 autoreload 11500 19884 Watching for file changes with StatReloader
+INFO 2026-03-15 15:49:46,914 autoreload 11500 19884 C:\Users\pc\Desktop\zyphone\backend\api\urls.py changed, reloading.
+INFO 2026-03-15 15:49:47,356 autoreload 11932 18764 Watching for file changes with StatReloader
+INFO 2026-03-15 15:50:19,175 autoreload 11932 18764 C:\Users\pc\Desktop\zyphone\backend\api\views.py changed, reloading.
+INFO 2026-03-15 15:50:19,635 autoreload 1892 8048 Watching for file changes with StatReloader
+INFO 2026-03-15 15:52:19,347 autoreload 1892 8048 C:\Users\pc\Desktop\zyphone\backend\products\admin.py changed, reloading.
+INFO 2026-03-15 15:52:19,797 autoreload 13264 21040 Watching for file changes with StatReloader
+INFO 2026-03-15 15:52:26,313 autoreload 26204 18076 Watching for file changes with StatReloader
+INFO 2026-03-15 15:53:11,877 autoreload 26204 18076 C:\Users\pc\Desktop\zyphone\backend\products\models.py changed, reloading.
+INFO 2026-03-15 15:53:12,262 autoreload 23664 22924 Watching for file changes with StatReloader
+INFO 2026-03-15 15:53:17,869 autoreload 14624 8256 Watching for file changes with StatReloader
+INFO 2026-03-15 15:53:35,132 autoreload 18624 18252 Watching for file changes with StatReloader
+INFO 2026-03-15 15:53:43,993 log 18624 28576 "POST /api/subscribe/ HTTP/1.1" 201 38
+INFO 2026-03-15 15:55:50,643 log 18624 28576 "GET /api/products/ HTTP/1.1" 200 2328
+INFO 2026-03-15 15:55:50,661 log 18624 9920 "GET /media/products/iphone17p.png HTTP/1.1" 304 0
+INFO 2026-03-15 15:55:50,661 log 18624 20808 "GET /media/products/17promax.png HTTP/1.1" 304 0
+INFO 2026-03-15 15:55:50,663 log 18624 3616 "GET /media/products/I16.png HTTP/1.1" 304 0
+INFO 2026-03-15 15:55:50,663 log 18624 9920 "GET /media/products/I16PLUS.png HTTP/1.1" 304 0
+INFO 2026-03-15 15:55:50,677 log 18624 28576 "GET /api/products/ HTTP/1.1" 200 2328
+INFO 2026-03-15 15:57:50,301 log 18624 28576 "GET /api/products/ HTTP/1.1" 200 2328
+INFO 2026-03-15 15:57:50,317 log 18624 3616 "GET /media/products/15PRO.webp HTTP/1.1" 304 0
+INFO 2026-03-15 15:57:50,317 log 18624 9920 "GET /media/products/G24.jpg HTTP/1.1" 304 0
+INFO 2026-03-15 15:57:50,329 log 18624 28576 "GET /api/products/ HTTP/1.1" 200 2328
+INFO 2026-03-15 15:58:09,310 log 18624 28576 "GET /api/products/12/ HTTP/1.1" 200 144
+INFO 2026-03-15 15:58:09,313 log 18624 25612 "GET /api/products/?featured=true&limit=4 HTTP/1.1" 200 2328
+INFO 2026-03-15 15:58:09,345 log 18624 28576 "GET /api/products/12/ HTTP/1.1" 200 144
+INFO 2026-03-15 15:58:09,347 log 18624 12348 "GET /api/products/?featured=true&limit=4 HTTP/1.1" 200 2328
+INFO 2026-03-15 15:58:16,085 log 18624 12348 "POST /api/orders/create/ HTTP/1.1" 201 70
+INFO 2026-03-15 15:58:17,462 log 18624 12348 "GET /api/orders/ HTTP/1.1" 200 2779
+INFO 2026-03-15 15:58:17,499 log 18624 12348 "GET /api/orders/ HTTP/1.1" 200 2779
+INFO 2026-03-15 15:58:20,619 log 18624 28576 "OPTIONS /api/orders/9/ HTTP/1.1" 200 0
+INFO 2026-03-15 15:58:20,620 log 18624 12348 "OPTIONS /api/orders/9/ HTTP/1.1" 200 0
+INFO 2026-03-15 15:58:20,649 log 18624 12348 "GET /api/orders/9/ HTTP/1.1" 200 355
+INFO 2026-03-15 15:58:20,680 log 18624 12348 "GET /api/orders/9/ HTTP/1.1" 200 355
+INFO 2026-03-15 15:59:17,893 log 18624 12348 "GET /api/products/ HTTP/1.1" 200 2328
+INFO 2026-03-15 15:59:17,923 log 18624 12348 "GET /api/products/ HTTP/1.1" 200 2328
+INFO 2026-03-15 16:00:50,333 log 18624 12348 "GET /api/products/ HTTP/1.1" 200 2328
+INFO 2026-03-15 16:00:50,365 log 18624 12348 "GET /api/products/ HTTP/1.1" 200 2328

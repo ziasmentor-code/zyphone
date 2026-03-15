@@ -4,6 +4,7 @@ import ProductPage from "./pages/productpage";
 import Cart from "./pages/cart";
 import ProductDetail from "./pages/productdetail";
 import Navbar from "./components/navbar";
+import Footer from "./components/footer"; // 👈 Puthiya footer import cheyyuka
 import { Toaster } from "react-hot-toast";
 import Wishlist from "./pages/wishlist"; 
 import Checkout from "./pages/checkout";
@@ -24,7 +25,9 @@ function App() {
   return (
     <WishlistProvider>
       <CartProvider>
-        <div className="min-h-screen bg-[#0a0a0b]">
+        {/* Main Wrapper with Background */}
+        <div className="min-h-screen bg-[#0a0a0b] flex flex-col">
+          
           <Navbar />
           
           <Toaster 
@@ -38,32 +41,39 @@ function App() {
             }}
           />
 
-          <Routes>
-            {/* Public Routes */}
-            <Route path="/" element={<Home />} />
-            
-            {/* ✅ Product Routes - Both work */}
-            <Route path="/products" element={<ProductPage />} />
-            <Route path="/all-products" element={<ProductPage />} />
-            <Route path="/product/:id" element={<ProductDetail />} />
-            
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/wishlist" element={<Wishlist />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            
-            {/* User Related Routes */}
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/my-orders" element={<MyOrders />} />
-            <Route path="/order-success" element={<OrderSuccess />} />
-            <Route path="/order/:orderId" element={<OrderDetails />} />
-            <Route path="/add-product" element={<AddProduct />} />
+          {/* Main Content Area */}
+          <main className="flex-grow">
+            <Routes>
+              {/* Public Routes */}
+              <Route path="/" element={<Home />} />
+              
+              {/* Product Routes */}
+              <Route path="/products" element={<ProductPage />} />
+              <Route path="/all-products" element={<ProductPage />} />
+              <Route path="/product/:id" element={<ProductDetail />} />
+              
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/wishlist" element={<Wishlist />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              
+              {/* User Related Routes */}
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/my-orders" element={<MyOrders />} />
+              <Route path="/order-success" element={<OrderSuccess />} />
+              <Route path="/order/:orderId" element={<OrderDetails />} />
+              <Route path="/add-product" element={<AddProduct />} />
 
-            {/* Default Route */}
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
+              {/* Default Route - Redirect to Home */}
+              <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
+          </main>
+
+          {/* ─────────────── BIG FOOTER SECTION ─────────────── */}
+          <Footer /> 
+          
         </div>
       </CartProvider>
     </WishlistProvider>
