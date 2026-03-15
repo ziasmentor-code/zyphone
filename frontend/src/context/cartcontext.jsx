@@ -5,17 +5,15 @@ import toast from "react-hot-toast";
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-  // Load cart from localStorage on initial load
+  // Load cart from localStorage - works for both logged in and guest users
   const [cartItems, setCartItems] = useState(() => {
-    const savedCart = localStorage.getItem("zyphone_cart");
-    console.log("Loading cart from localStorage:", savedCart);
+    const savedCart = localStorage.getItem("guest_cart");
     return savedCart ? JSON.parse(savedCart) : [];
   });
 
-  // Save cart to localStorage whenever it changes
+  // Save to localStorage whenever cart changes
   useEffect(() => {
-    console.log("Saving cart to localStorage:", cartItems);
-    localStorage.setItem("zyphone_cart", JSON.stringify(cartItems));
+    localStorage.setItem("guest_cart", JSON.stringify(cartItems));
   }, [cartItems]);
 
   const addToCart = (product) => {
@@ -41,8 +39,7 @@ export const CartProvider = ({ children }) => {
 
   const clearCart = () => {
     setCartItems([]);
-    localStorage.removeItem("zyphone_cart");
-    console.log("Cart cleared");
+    localStorage.removeItem("guest_cart");
   };
 
   const updateQuantity = (id, newQuantity) => {

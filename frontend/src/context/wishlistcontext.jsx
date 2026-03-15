@@ -5,15 +5,15 @@ import toast from "react-hot-toast";
 export const WishlistContext = createContext();
 
 export const WishlistProvider = ({ children }) => {
-  // Load wishlist from localStorage
+  // Load wishlist from localStorage - works for both logged in and guest users
   const [wishlistItems, setWishlistItems] = useState(() => {
-    const savedWishlist = localStorage.getItem("zyphone_wishlist");
+    const savedWishlist = localStorage.getItem("guest_wishlist");
     return savedWishlist ? JSON.parse(savedWishlist) : [];
   });
 
   // Save to localStorage whenever wishlist changes
   useEffect(() => {
-    localStorage.setItem("zyphone_wishlist", JSON.stringify(wishlistItems));
+    localStorage.setItem("guest_wishlist", JSON.stringify(wishlistItems));
   }, [wishlistItems]);
 
   const addToWishlist = (product) => {
@@ -35,11 +35,17 @@ export const WishlistProvider = ({ children }) => {
     });
   };
 
+  const clearWishlist = () => {
+    setWishlistItems([]);
+    localStorage.removeItem("guest_wishlist");
+  };
+
   return (
     <WishlistContext.Provider value={{
       wishlistItems,
       addToWishlist,
-      removeFromWishlist
+      removeFromWishlist,
+      clearWishlist
     }}>
       {children}
     </WishlistContext.Provider>

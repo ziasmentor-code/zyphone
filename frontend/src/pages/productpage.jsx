@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import { CartContext } from "../context/cartcontext";
 import { WishlistContext } from "../context/wishlistcontext";
 import { useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 const featureData = [
   { id: 0, title: "Zyphone and Mac", desc: "With Zyphone Mirroring, you can view your phone screen on your Mac...", img: "/images/mac1.png" },
@@ -21,6 +22,8 @@ export default function ProductPage() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
+  const [searchParams] = useSearchParams();
+const categoryFilter = searchParams.get("category");
 
   const navigate = useNavigate();
   const { addToCart } = useContext(CartContext);
@@ -49,19 +52,49 @@ export default function ProductPage() {
       })
       .catch(err => console.log("API Error:", err));
   }, []);
+  
 
   // Search and filter logic
-  useEffect(() => {
-    let result = products;
-    if (searchQuery) {
-      result = result.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()));
-    }
-    if (activeCategory !== "All") {
-      result = result.filter(p => p.category === activeCategory);
-    }
-    setFilteredProducts(result);
-  }, [searchQuery, activeCategory, products]);
+// Search and filter logic update cheythathu
+// Search and filter logic - FIXED VERSION
+useEffect(() => {
+  let result = products;
+  
+  // URL-il ninnu "Headset" allenkil "Watch" kittunnu
+  const urlCategory = searchParams.get("category")?.toLowerCase();
 
+  // 1. Search Bar filtering
+  if (searchQuery) {
+    result = result.filter(p => p.name?.toLowerCase().includes(searchQuery.toLowerCase()));
+  }
+
+  // 2. Category Click filtering (Fleet section-il ninnu varumpol)
+  if (urlCategory) {
+    result = result.filter(p => {
+      const prodName = p.name?.toLowerCase() || "";
+      
+      if (urlCategory === "headset") {
+        // Name-il earbuds, headphones, allenkil buds ennu kandaal select cheyyum
+        return prodName.includes("earbuds") || 
+               prodName.includes("headphones") || 
+               prodName.includes("buds") ||
+               prodName.includes("airdoze");
+      }
+      
+      if (urlCategory === "watch") {
+        return prodName.includes("watch");
+      }
+
+      if (urlCategory === "phone") {
+        return prodName.includes("iphone") || prodName.includes("samsung") || prodName.includes("galaxy");
+      }
+
+      return true;
+    });
+  }
+
+  setFilteredProducts(result);
+}, [searchQuery, products, searchParams]); // activeCategory ippo avashyamilla, URL filter mathi
   return (
     <div className="min-h-screen bg-[#f5f5f7] pt-24 font-['DM_Sans']">
       

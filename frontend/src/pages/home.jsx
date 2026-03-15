@@ -1,27 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { Smartphone, Laptop, Watch, Headphones, ArrowRight, ChevronDown } from "lucide-react";
+import { Smartphone, Laptop, Watch, Headphones, ArrowRight, ChevronDown, ShoppingCart, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-// Image Imports (Existing files)
+// Image Imports
 import image3     from "../assets/images/image3.jpg";
 import image7     from "../assets/images/image7.jpg";
 import image8     from "../assets/images/image8.jpg";
 import image9     from "../assets/images/image9.jpg";
-import image16    from "../assets/images/image16.jpg";
-
-// ERROR FIX: Image 17-20 vareyulla files folder-il illatha kond 
-// existing images-ine aayathu aayi thalkkaalam assign cheyyunnu.
-import image17    from "../assets/image17.jpg"; // assets ഫോൾഡറിൽ നേരിട്ട്
+import image16    from "../assets/images/image16.jpg"; 
+import image17    from "../assets/image17.jpg"; 
 import image18    from "../assets/images/image18.jpg"; 
 import image19    from "../assets/images/image19.jpg"; 
-import image20    from "../assets/images/image20.jpg";
-import image21   from "../assets/images/image21.jpg";
+import image20    from "../assets/images/image20.jpg"; 
+import image21    from "../assets/images/image21.jpg";
+import img20      from "../assets/images/img20.jpg"; 
 
 // Media Imports
-const earpodeImg = image8; 
 import heroVideo  from "../assets/images/herovideo.mp4";
 import bottomVideo from "../assets/images/herovideo1.mp4";
-import modalVideo from "../assets/images/vedio1.mp4";
 
 const globalStyles = `
   @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&display=swap');
@@ -56,15 +52,6 @@ const globalStyles = `
   ::-webkit-scrollbar-thumb { background: #BE123C; border-radius: 10px; }
 `;
 
-const products = [
-  { id: 1, name: "Zyphone 15R", price: "₹32,924", img: image9 },
-  { id: 2, name: "Zyphone S26 Ultra", price: "₹1,26,099", img: image16, highlight: true },
-  { id: 3, name: "Zyphone Classic", price: "₹20,990", img: image3 },
-  { id: 4, name: "Zyphone Buds Pro", price: "₹4,990", img: image7 },
-  { id: 5, name: "Zyphone Airpods 3", price: "₹12,990", img: image8 },
-  { id: 6, name: "Zyphone Earpodes Plus", price: "₹2,499", img: earpodeImg },
-];
-
 const stats = [
   { num: "2M+",   label: "Devices Sold" },
   { num: "150+", label: "Service Centers" },
@@ -76,7 +63,6 @@ const tickerItems = ["LIMITED TIME OFFERS", "NO-COST EMI AVAILABLE", "FREE EXPRE
 
 export default function Home() {
   const navigate = useNavigate();
-  const [showModal, setShowModal] = useState(false);
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
@@ -84,9 +70,28 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-const goToProducts = () => {
-  navigate("/all-products");
+  // Button clicks handle cheyyaan ulla common function
+  const handleBuyNow = (productId) => {
+    // Product details page-ilekk povaan (id undenkil)
+    if (productId) {
+      navigate(`/product/${productId}`);
+    } else {
+      navigate("/all-products");
+    }
+  };
+const handleFleetNavigation = (productName) => {
+  const name = productName.toLowerCase();
+  
+  if (name.includes("buds")) {
+    // Ninte database-il exact enthanu category peril ullath (e.g., "Headset" or "Earbuds") athu kodukkuka
+    navigate("/all-products?category=Headset"); 
+  } else if (name.includes("watch")) {
+    navigate("/all-products?category=Headset");
+  } else {
+    navigate("/all-products");
+  }
 };
+
   return (
     <>
       <style>{globalStyles}</style>
@@ -107,7 +112,7 @@ const goToProducts = () => {
             </h1>
             <div className="anim-3 flex gap-5 mt-12">
              <button 
-                onClick={goToProducts}
+                onClick={() => navigate("/all-products")}
                 className="bg-gradient-to-r from-[#BE123C] to-[#F43F5E] px-10 py-4 rounded-full font-bold text-[10px] tracking-widest uppercase hover:scale-105 transition-transform shadow-lg"
               >
                 Explore Features
@@ -137,21 +142,6 @@ const goToProducts = () => {
           ))}
         </div>
 
-        {/* ─────────────── PRODUCT GRID ─────────────── */}
-        <section className="px-[7vw] py-32">
-          <h2 className="font-display text-6xl tracking-tight mb-16 italic">TRENDING MODELS</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-5">
-            {products.map(item => (
-              <div key={item.id} className="group p-8 rounded-[2rem] bg-white/[0.03] border border-white/5 hover:border-rose-500/30 transition-all duration-500">
-                <div className="h-40 flex items-center justify-center mb-8">
-                  <img src={item.img} alt="" className="max-h-full object-contain group-hover:scale-110 transition-transform duration-500" />
-                </div>
-                <p className="font-display text-3xl text-rose-500">{item.price}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
         {/* ─────────────── BEYOND LIMITS ─────────────── */}
         <section className="relative w-full h-screen flex items-center overflow-hidden">
           <div className="absolute inset-0">
@@ -163,7 +153,9 @@ const goToProducts = () => {
             <h2 className="font-display text-[13vw] md:text-[10vw] leading-[0.8] mb-12 uppercase text-white">
               BEYOND <br/><span className="text-rose-600">LIMITS</span>
             </h2>
-            <button className="bg-white text-black font-bold text-[10px] tracking-[0.3em] px-12 py-5 rounded-full hover:bg-rose-600 hover:text-white transition-all">
+            <button 
+              onClick={() => navigate("/all-products")}
+              className="bg-white text-black font-bold text-[10px] tracking-[0.3em] px-12 py-5 rounded-full hover:bg-rose-600 hover:text-white transition-all">
               PRE-ORDER NOW
             </button>
           </div>
@@ -184,183 +176,117 @@ const goToProducts = () => {
               EXPERIENCE <br/><span className="text-rose-600">EXCELLENCE</span>
             </h2>
             <div className="flex flex-col md:flex-row gap-6 justify-center">
-              <button className="bg-white text-black font-bold text-[10px] tracking-widest px-14 py-5 rounded-full hover:bg-rose-600 hover:text-white transition-all shadow-2xl">
+              <button 
+                onClick={() => navigate("/all-products")}
+                className="bg-white text-black font-bold text-[10px] tracking-widest px-14 py-5 rounded-full hover:bg-rose-600 hover:text-white transition-all shadow-2xl">
                 BUY ZYPHONE S26
               </button>
-              <button className="flex items-center gap-4 text-white font-bold text-[10px] tracking-widest uppercase group">
-                WATCH THE FILM 
-                <span className="w-12 h-12 border border-white/20 rounded-full flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">▶</span>
-              </button>
             </div>
           </div>
         </section>
 
-        {/* ─────────────── PRODUCT COMPARISON SECTION (SAMSUNG STYLE) ─────────────── */}
-       {/* ─────────────── PRODUCT COMPARISON SECTION ─────────────── */}
-{/* ─────────────── PRODUCT COMPARISON SECTION (SAMSUNG STYLE) ─────────────── */}
-<section className="bg-white py-24 px-[7vw] text-black">
-          <div className="text-center mb-16">
-            <a href="#" className="text-sm font-bold border-b-2 border-black pb-1 inline-flex items-center gap-2 group">
-              Go to Find your Zyphone <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-            </a>
+        {/* ─────────────── COMPARISON FLEET SECTION ─────────────── */}
+        <section className="bg-white text-black py-40 px-[8vw]">
+          <div className="mb-24 flex flex-col items-center text-center border-b border-gray-100 pb-12">
+             <h2 className="font-display text-[10vw] leading-none mb-4 tracking-tighter">THE FLEET.</h2>
+             <p className="text-gray-400 font-bold tracking-widest text-[11px] uppercase">Compare and Conquer</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 max-w-[95vw] mx-auto">
-            
-            {/* 1. Zy Buds Pro 2 (Image 17) */}
-            <div className="flex flex-col items-center">
-              <div className="w-full border-b-[3px] border-black pb-3 mb-10">
-                <h3 className="font-bold text-2xl tracking-tight uppercase">Zy Buds Pro 2</h3>
-              </div>
-              <div className="h-64 flex items-center justify-center mb-6 group">
-                <img src={image17} alt="Buds Pro 2" className="max-h-full object-contain mix-blend-multiply group-hover:scale-110 transition-transform duration-500" />
-              </div>
-              <div className="text-center">
-                <h4 className="font-bold text-sm mb-2 uppercase">Zy Buds Pro 2</h4>
-                <p className="text-[11px] text-gray-400 font-bold mb-4 uppercase">Silver Edition</p>
-                <div className="flex gap-2 justify-center mb-6">
-                   <span className="w-4 h-4 rounded-full bg-gray-200 border border-gray-300"></span>
-                   <span className="w-4 h-4 rounded-full bg-black border border-gray-800"></span>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+            {[
+              { name: "Zy Buds Pro 2", price: "₹16,999", img: image17, color: "Lunar Silver" },
+              { name: "Zy Buds Air",   price: "₹8,499",  img: image18, color: "Cloud White" },
+              { name: "Zy Watch X",    price: "₹24,999", img: image19, color: "Obsidian" },
+              { name: "Zy S26 Pro",    price: "₹1,19,999", img: image20, color: "Titanium" }
+            ].map((prod, i) => (
+              <div key={i} className="flex flex-col group border-b-2 border-transparent hover:border-black transition-all pb-10">
+                <div className="h-64 flex items-center justify-center mb-12 bg-[#F9F9FB] rounded-[3rem] p-10 group-hover:bg-[#F1F1F4] transition-colors">
+                  <img src={prod.img} alt="" className="max-h-full object-contain group-hover:scale-110 transition-transform duration-700" />
                 </div>
-                <p className="font-bold text-xl mb-6">₹16,999</p>
-                <button className="bg-black text-white px-12 py-3 rounded-full text-[11px] font-bold hover:bg-rose-600 transition-colors uppercase">BUY NOW</button>
-              </div>
-            </div>
-
-            {/* 2. Zy Buds Air (Image 18) */}
-            <div className="flex flex-col items-center">
-              <div className="w-full border-b-[3px] border-gray-100 pb-3 mb-10 flex justify-between items-center">
-                <h3 className="font-bold text-2xl tracking-tight text-gray-800 uppercase">Zy Buds Air</h3>
-                <ChevronDown size={24} className="text-gray-300" />
-              </div>
-              <div className="h-64 flex items-center justify-center mb-6 group">
-                <img src={image18} alt="Buds Air" className="max-h-full object-contain mix-blend-multiply group-hover:scale-110 transition-transform duration-500" />
-              </div>
-              <div className="text-center">
-                <h4 className="font-bold text-sm mb-2 uppercase">Zy Buds Air</h4>
-                <p className="text-[11px] text-gray-400 font-bold mb-4 uppercase">Cloud White</p>
-                <div className="flex gap-2 justify-center mb-6">
-                   <span className="w-4 h-4 rounded-full bg-white border border-gray-200"></span>
-                   <span className="w-4 h-4 rounded-full bg-pink-100 border border-pink-200"></span>
+                <h4 className="font-display text-4xl mb-2 tracking-tight">{prod.name}</h4>
+                <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-6">{prod.color}</p>
+                <div className="mt-auto flex justify-between items-center">
+                   <p className="text-xl font-black">{prod.price}</p>
+                   {/* Arrow-il click cheythaal correct category-ilekk pokum */}
+                   <button 
+                     onClick={() => handleFleetNavigation(prod.name)}
+                     className="w-10 h-10 bg-black text-white rounded-full flex items-center justify-center hover:bg-rose-600 transition-colors"
+                   >
+                      <ArrowRight size={18} />
+                   </button>
                 </div>
-                <p className="font-bold text-xl mb-6">₹8,499</p>
-                <button className="bg-black text-white px-12 py-3 rounded-full text-[11px] font-bold hover:bg-rose-600 transition-colors uppercase">BUY NOW</button>
               </div>
-            </div>
-
-            {/* 3. Zy Watch X (Image 19) */}
-            <div className="flex flex-col items-center">
-              <div className="w-full border-b-[3px] border-gray-100 pb-3 mb-10 flex justify-between items-center">
-                <h3 className="font-bold text-2xl tracking-tight text-gray-800 uppercase">Zy Watch X</h3>
-                <ChevronDown size={24} className="text-gray-300" />
-              </div>
-              <div className="h-64 flex items-center justify-center mb-6 group">
-                <img src={image19} alt="Watch X" className="max-h-full object-contain mix-blend-multiply group-hover:scale-110 transition-transform duration-500" />
-              </div>
-              <div className="text-center">
-                <h4 className="font-bold text-sm mb-2 uppercase">Zy Watch X</h4>
-                <p className="text-[11px] text-gray-400 font-bold mb-4 uppercase">Midnight Blue</p>
-                <div className="flex gap-2 justify-center mb-6">
-                   <span className="w-4 h-4 rounded-full bg-blue-900 border border-blue-950"></span>
-                   <span className="w-4 h-4 rounded-full bg-gray-500 border border-gray-600"></span>
-                </div>
-                <p className="font-bold text-xl mb-6">₹24,999</p>
-                <button className="bg-black text-white px-12 py-3 rounded-full text-[11px] font-bold hover:bg-rose-600 transition-colors uppercase">BUY NOW</button>
-              </div>
-            </div>
-
-            {/* 4. Zy S26 Pro (Image 20) */}
-            <div className="flex flex-col items-center">
-              <div className="w-full border-b-[3px] border-gray-100 pb-3 mb-10 flex justify-between items-center">
-                <h3 className="font-bold text-2xl tracking-tight text-gray-800 uppercase">Zy S26 Pro</h3>
-                <ChevronDown size={24} className="text-gray-300" />
-              </div>
-              <div className="h-64 flex items-center justify-center mb-6 group">
-                <img src={image20} alt="S26 Pro" className="max-h-full object-contain mix-blend-multiply group-hover:scale-110 transition-transform duration-500" />
-              </div>
-              <div className="text-center">
-                <h4 className="font-bold text-sm mb-2 uppercase">Zyphone S26 Pro</h4>
-                <p className="text-[11px] text-gray-400 font-bold mb-4 uppercase">Titanium Black</p>
-                <div className="flex gap-2 justify-center mb-6">
-                   <span className="w-4 h-4 rounded-full bg-black border border-gray-800"></span>
-                   <span className="w-4 h-4 rounded-full bg-zinc-600 border border-zinc-700"></span>
-                </div>
-                <p className="font-bold text-xl mb-6">₹1,19,999</p>
-                <button className="bg-black text-white px-12 py-3 rounded-full text-[11px] font-bold hover:bg-rose-600 transition-colors uppercase">BUY NOW</button>
-              </div>
-            </div>
-
+            ))}
           </div>
         </section>
-        {showModal && selectedProduct && (
-          <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 modal-blur overflow-y-auto">
-            <div className="bg-white rounded-[40px] overflow-hidden max-w-5xl w-full flex flex-col md:flex-row shadow-2xl relative my-auto">
-              <button onClick={() => setShowModal(false)} className="absolute top-6 right-6 z-[210] bg-black text-white p-2 rounded-full hover:bg-red-600 transition-all">
-                <X size={24}/>
-              </button>
-              <div className="w-full md:w-1/2 h-[400px] md:h-auto bg-black">
-                 <video autoPlay loop muted playsInline className="w-full h-full object-cover">
-                    <source src={modalVideo} type="video/mp4" />
-                 </video>
-              </div>
-              <div className="w-full md:w-1/2 p-12 flex flex-col justify-center text-black">
-                <h2 className="text-4xl font-black mb-2 uppercase tracking-tight">{selectedProduct.name}</h2>
-                <p className="text-3xl font-black text-red-600 mb-8">{selectedProduct.price}</p>
-                <button className="w-full bg-black text-white py-5 rounded-2xl font-black hover:bg-red-600 transition-all flex items-center justify-center gap-3 uppercase text-xs tracking-widest">
-                   ADD TO CART <ShoppingCart size={20}/>
-                </button>
-              </div>
+
+        {/* ─────────────── HOPPUP STYLE FEATURE ─────────────── */}
+        <section className="flex flex-col md:flex-row w-full min-h-[80vh] bg-[#1A1D2B] overflow-hidden">
+          <div className="w-full md:w-1/2 relative bg-[#F3F3F3] flex items-center justify-center p-10">
+            <img src={image21} alt="Z50" className="max-h-[70vh] object-contain hover:scale-105 transition-transform duration-700" />
+          </div>
+          <div className="w-full md:w-1/2 bg-[#1E2337] flex flex-col justify-center items-center text-center p-12 md:p-24">
+            <p className="text-rose-400 font-bold tracking-[0.3em] uppercase text-[10px] mb-4">Enter The Dream Scape</p>
+            <h2 className="font-display text-5xl md:text-7xl text-white mb-6 tracking-tight uppercase">AirDoze Z50 Edition</h2>
+            <p className="text-gray-400 text-sm md:text-base leading-relaxed max-w-md mb-10 font-light">
+              Experience the future of sound with the Zyphone AirDoze Z50—where sleek design meets superior audio quality.
+            </p>
+            <button 
+              onClick={() => navigate("/all-products")}
+              className="bg-white text-black px-12 py-4 rounded-full font-bold text-xs tracking-widest hover:bg-rose-600 hover:text-white transition-all shadow-xl uppercase">
+              Buy Now
+            </button>
+          </div>
+        </section>
+
+        {/* ─────────────── LIFESTYLE FEATURE SECTION ─────────────── */}
+        <section className="relative w-full h-screen flex items-center overflow-hidden">
+          <div className="absolute inset-0">
+            <img 
+              src={img20} 
+              className="w-full h-full object-cover object-center" 
+              alt="Premium Sound" 
+            />
+            <div className="absolute inset-0 bg-black/30" />
+          </div>
+
+          <div className="relative z-10 px-[7vw] max-w-4xl">
+            <h2 className="font-display text-[70px] md:text-[100px] leading-[0.9] mb-4 text-white tracking-tight uppercase">
+              PREMIUM SOUND <br />
+              <span className="text-white">PREMIUM STYLE</span>
+            </h2>
+            <p className="text-white/90 text-sm md:text-lg max-w-lg mb-10 font-medium leading-relaxed">
+              Icon ANC takes a legendary look and levels it up with powerful, immersive 
+              audio and premium comfort. Turn up the music, block out the noise, and step 
+              into a sound experience that hits as hard as it looks.
+            </p>
+
+            <button 
+              onClick={() => navigate("/all-products")}
+              className="bg-[#0071E3] hover:bg-[#0077ED] text-white font-bold text-[11px] tracking-widest px-12 py-4 rounded-md transition-all uppercase shadow-lg">
+              SHOP NOW 
+            </button>
+          </div>
+
+          {/* Trust Badges Bar */}
+          <div className="absolute bottom-0 w-full bg-[#D4E67E] py-4 flex flex-wrap justify-center gap-8 md:gap-16 px-4">
+            <div className="flex items-center gap-3 text-black font-bold text-[10px] tracking-tighter uppercase">
+              <span className="text-lg">🚚</span> FREE SHIPPING
+            </div>
+            <div className="flex items-center gap-3 text-black font-bold text-[10px] tracking-tighter uppercase">
+              <span className="text-lg">🧾</span> GST BILLING
+            </div>
+            <div className="flex items-center gap-3 text-black font-bold text-[10px] tracking-tighter uppercase">
+              <span className="text-lg">🛡️</span> 1-YEAR PRODUCT WARRANTY
             </div>
           </div>
-        )}
+        </section>
 
-        {/* ─────────────── NEW PRODUCT FEATURE SECTION (HOPPUP STYLE) ─────────────── */}
-<section className="flex flex-col md:flex-row w-full min-h-[80vh] bg-[#1A1D2B] overflow-hidden">
-  
-  {/* Left Side: Product Image */}
-  <div className="w-full md:w-1/2 relative bg-[#F3F3F3] flex items-center justify-center p-10">
-    <img 
-      src={image21} // നിന്റെ കയ്യിലുള്ള Zyphone ഇമേജ് ഇവിടെ നൽകാം
-      alt="Zyphone Featured" 
-      className="max-h-[70vh] object-contain hover:scale-105 transition-transform duration-700"
-    />
-  </div>
-
-  {/* Right Side: Content */}
-  <div className="w-full md:w-1/2 bg-[#1E2337] flex flex-col justify-center items-center text-center p-12 md:p-24">
-    {/* Icon or Small Logo */}
-    <div className="mb-6">
-       <div className="w-12 h-12 border-2 border-white/20 rounded-xl flex items-center justify-center">
-          <span className="text-white text-2xl">👍</span>
-       </div>
-    </div>
-
-    <p className="text-rose-400 font-bold tracking-[0.3em] uppercase text-[10px] mb-4">
-      Enter The Dream Scape
-    </p>
-
-    <h2 className="font-display text-5xl md:text-7xl text-white mb-6 tracking-tight uppercase">
-      AirDoze Z50 Edition
-    </h2>
-
-    <p className="text-gray-400 text-sm md:text-base leading-relaxed max-w-md mb-10 font-light">
-      Experience the future of sound with the Zyphone AirDoze Z50—where sleek design meets superior audio quality, 
-      Dual Mic AI ENC, and 40-hour playtime for an unparalleled, immersive journey in music, calls, and gaming.
-    </p>
-
-    <button className="bg-white text-black px-12 py-4 rounded-full font-bold text-xs tracking-widest hover:bg-rose-600 hover:text-white transition-all shadow-xl uppercase">
-      Buy Now
-    </button>
-  </div>
-</section>
-
-
-        
         {/* ─────────────── FOOTER ─────────────── */}
-        <footer className="bg-black py-20 px-[7vw] text-center md:text-left border-t border-white/5">
+        <footer className="bg-black py-20 px-[7vw] border-t border-white/5">
           <div className="flex flex-col md:flex-row justify-between items-center opacity-40">
-             <h2 className="font-display text-4xl">ZYPHONE</h2>
-             <p className="text-[10px] tracking-[.3em] uppercase">© 2026 ZYPHONE INDUSTRIES — KERALA</p>
+             <h2 className="font-display text-4xl text-white cursor-pointer" onClick={() => navigate("/")}>ZYPHONE</h2>
+             <p className="text-[10px] tracking-[.3em] uppercase text-white">© 2026 ZYPHONE INDUSTRIES — KERALA</p>
           </div>
         </footer>
 
