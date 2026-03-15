@@ -3,91 +3,34 @@ import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/authcontext";
 import api from "../services/api";
-import { Package, ArrowLeft, ChevronDown, ChevronUp } from "lucide-react";
+import { 
+  Package, 
+  ArrowLeft, 
+  Clock, 
+  CheckCircle, 
+  Truck,
+  TrendingUp,
+  ChevronRight,
+  Search,
+  Filter,
+  Download,
+  Eye
+} from "lucide-react";
 import toast from "react-hot-toast";
 
-/* ─── Google Fonts ─────────────────────────────────────────────────────────── */
-const FontImport = () => (
-  <style>{`
-    @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=Outfit:wght@400;500;600&display=swap');
-  `}</style>
-);
-
-/* ─── Helpers ───────────────────────────────────────────────────────────────── */
-const fmt = (n) =>
-  Number(n || 0).toLocaleString("en-IN", { minimumFractionDigits: 0 });
-
-const fmtDate = (d) =>
-  d
-    ? new Date(d).toLocaleDateString("en-IN", {
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      })
-    : "N/A";
-
-const getImageUrl = (imagePath) => {
-  if (!imagePath) return "https://via.placeholder.com/40/eef2ff/6366f1?text=";
-  if (imagePath.startsWith("http") || imagePath.startsWith("data:image"))
-    return imagePath;
-  const base = "http://127.0.0.1:8000";
-  if (imagePath.startsWith("/media/")) return `${base}${imagePath}`;
-  if (imagePath.startsWith("/")) return `${base}/media${imagePath}`;
-  return `${base}/media/${imagePath}`;
-};
-
-const STATUS_CONFIG = {
-  pending:   { bg: "#fef3c7", color: "#92400e" },
-  confirmed: { bg: "#dbeafe", color: "#1e40af" },
-  shipped:   { bg: "#ede9fe", color: "#5b21b6" },
-  delivered: { bg: "#d1fae5", color: "#065f46" },
-  cancelled: { bg: "#fee2e2", color: "#991b1b" },
-};
-
-const StatusBadge = ({ status }) => {
-  const key = status?.toLowerCase() || "pending";
-  const cfg = STATUS_CONFIG[key] || { bg: "#f3f4f6", color: "#374151" };
-  return (
-    <span
-      style={{
-        display: "inline-flex",
-        alignItems: "center",
-        gap: 5,
-        padding: "4px 11px",
-        borderRadius: 20,
-        fontSize: 11,
-        fontWeight: 500,
-        letterSpacing: "0.05em",
-        textTransform: "uppercase",
-        background: cfg.bg,
-        color: cfg.color,
-        fontFamily: "'DM Mono', monospace",
-      }}
-    >
-      <span
-        style={{
-          width: 6,
-          height: 6,
-          borderRadius: "50%",
-          background: cfg.color,
-          display: "inline-block",
-        }}
-      />
-      {status || "Pending"}
-    </span>
-  );
-};
-
-/* ─── Main Component ────────────────────────────────────────────────────────── */
 const MyOrders = () => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [expandedOrder, setExpandedOrder] = useState(null);
-  const [imageErrors, setImageErrors] = useState({});
+  const [filter, setFilter] = useState('all'); // all, pending, delivered, etc.
+  const [searchTerm, setSearchTerm] = useState('');
+  const [stats, setStats] = useState({
+    totalOrders: 0,
+    totalSpent: 0,
+    pending: 0,
+    delivered: 0
+  });
 
   useEffect(() => {
     if (!user) {
@@ -101,535 +44,603 @@ const MyOrders = () => {
   const fetchOrders = async () => {
     try {
       const response = await api.get("orders/");
-      setOrders(Array.isArray(response.data) ? response.data : []);
-    } catch {
+      const ordersData = response.data;
+      setOrders(ordersData);
+      
+      // Calculate stats
+      const stats = ordersData.reduce((acc, order) => {
+        acc.totalOrders++;
+        acc.totalSpent += Number(order.total_price || 0);
+        if (order.status?.toLowerCase() === 'pending') acc.pending++;
+        if (order.status?.toLowerCase() === 'delivered') acc.delivered++;
+        return acc;
+      }, { totalOrders: 0, totalSpent: 0, pending: 0, delivered: 0 });
+      
+      setStats(stats);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
       toast.error("Failed to load orders");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleImageError = (key) =>
-    setImageErrors((prev) => ({ ...prev, [key]: true }));
+  const getStatusColor = (status) => {
+    switch(status?.toLowerCase()) {
+      case 'pending': return { bg: '#fef3c7', text: '#92400e', dot: '#f59e0b' };
+      case 'confirmed': return { bg: '#dbeafe', text: '#1e40af', dot: '#3b82f6' };
+      case 'shipped': return { bg: '#ede9fe', text: '#5b21b6', dot: '#8b5cf6' };
+      case 'delivered': return { bg: '#d1fae5', text: '#065f46', dot: '#10b981' };
+      case 'cancelled': return { bg: '#fee2e2', text: '#991b1b', dot: '#ef4444' };
+      default: return { bg: '#f3f4f6', text: '#4b5563', dot: '#6b7280' };
+    }
+  };
 
-  const imgSrc = (path, key) =>
-    imageErrors[key]
-      ? "https://via.placeholder.com/40/f3f4f6/9ca3af?text="
-      : getImageUrl(path);
+  const getStatusIcon = (status) => {
+    switch(status?.toLowerCase()) {
+      case 'pending': return <Clock size={14} />;
+      case 'delivered': return <CheckCircle size={14} />;
+      case 'shipped': return <Truck size={14} />;
+      default: return <Package size={14} />;
+    }
+  };
 
-  const totalSpent = orders.reduce(
-    (s, o) => s + Number(o.total_price || 0),
-    0
-  );
-  const pendingCount = orders.filter(
-    (o) => o.status?.toLowerCase() === "pending"
-  ).length;
+  const filteredOrders = orders.filter(order => {
+    // Filter by status
+    if (filter !== 'all' && order.status?.toLowerCase() !== filter) return false;
+    
+    // Search by order ID or product name
+    if (searchTerm) {
+      const searchLower = searchTerm.toLowerCase();
+      const matchesId = order.id.toString().includes(searchLower);
+      const matchesProduct = order.items?.some(item => 
+        item.product_name?.toLowerCase().includes(searchLower)
+      );
+      return matchesId || matchesProduct;
+    }
+    
+    return true;
+  });
 
-  /* ── Loading ── */
   if (loading) {
     return (
-      <>
-        <FontImport />
-        <div style={s.page}>
-          <div style={s.loadingWrap}>
-            <span style={s.loadingText}>Loading orders…</span>
-          </div>
-        </div>
-      </>
+      <div style={styles.loadingContainer}>
+        <div style={styles.loadingSpinner}></div>
+        <p>Loading your orders...</p>
+      </div>
     );
   }
 
-  /* ── Empty ── */
-  if (!orders.length) {
-    return (
-      <>
-        <FontImport />
-        <div style={s.page}>
-          <div style={s.container}>
-            <button onClick={() => navigate(-1)} style={s.backBtn}>
-              <ArrowLeft size={15} /> Back
-            </button>
-            <div style={s.emptyCard}>
-              <Package size={48} color="#c7d2fe" />
-              <h2 style={s.emptyTitle}>No orders yet</h2>
-              <p style={s.emptyText}>
-                You haven't placed any orders yet.
-              </p>
-              <button
-                onClick={() => navigate("/products")}
-                style={s.shopBtn}
-              >
-                Start Shopping
-              </button>
-            </div>
-          </div>
-        </div>
-      </>
-    );
-  }
-
-  /* ── Main ── */
   return (
-    <>
-      <FontImport />
-      <div style={s.page}>
-        <div style={s.container}>
-
-          {/* Back */}
-          <button onClick={() => navigate(-1)} style={s.backBtn}>
-            <ArrowLeft size={15} /> Back
+    <div style={styles.container}>
+      {/* Header with Stats */}
+      <div style={styles.header}>
+        <div style={styles.headerLeft}>
+          <button onClick={() => navigate(-1)} style={styles.backButton}>
+            <ArrowLeft size={20} />
           </button>
-
-          {/* Page Header */}
-          <div style={s.pageHead}>
-            <div>
-              <p style={s.pageLabel}>Account / Purchase History</p>
-              <h1 style={s.pageTitle}>My Orders</h1>
-            </div>
-            <div style={s.pageMeta}>
-              <span>As of {new Date().toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}</span>
-            </div>
+          <div>
+            <h1 style={styles.title}>My Orders</h1>
+            <p style={styles.subtitle}>Track and manage your orders</p>
           </div>
+        </div>
+        <div style={styles.headerRight}>
+          <button style={styles.downloadBtn}>
+            <Download size={16} />
+            Export
+          </button>
+        </div>
+      </div>
 
-          {/* Stats */}
-          <div style={s.statRow}>
-            {[
-              { label: "Total Orders", value: orders.length },
-              { label: "Total Spent", value: `₹${fmt(totalSpent)}` },
-              { label: "Pending", value: pendingCount },
-            ].map((st) => (
-              <div key={st.label} style={s.statCard}>
-                <p style={s.statLabel}>{st.label}</p>
-                <p style={s.statVal}>{st.value}</p>
-              </div>
-            ))}
+      {/* Stats Cards */}
+      <div style={styles.statsGrid}>
+        <div style={styles.statCard}>
+          <div style={styles.statIconBg}>
+            <Package size={20} color="#3b82f6" />
           </div>
+          <div>
+            <p style={styles.statLabel}>Total Orders</p>
+            <h2 style={styles.statValue}>{stats.totalOrders}</h2>
+          </div>
+        </div>
+        <div style={styles.statCard}>
+          <div style={styles.statIconBg}>
+            <TrendingUp size={20} color="#10b981" />
+          </div>
+          <div>
+            <p style={styles.statLabel}>Total Spent</p>
+            <h2 style={styles.statValue}>₹{stats.totalSpent.toLocaleString('en-IN')}</h2>
+          </div>
+        </div>
+        <div style={styles.statCard}>
+          <div style={styles.statIconBg}>
+            <Clock size={20} color="#f59e0b" />
+          </div>
+          <div>
+            <p style={styles.statLabel}>Pending</p>
+            <h2 style={styles.statValue}>{stats.pending}</h2>
+          </div>
+        </div>
+        <div style={styles.statCard}>
+          <div style={styles.statIconBg}>
+            <CheckCircle size={20} color="#10b981" />
+          </div>
+          <div>
+            <p style={styles.statLabel}>Delivered</p>
+            <h2 style={styles.statValue}>{stats.delivered}</h2>
+          </div>
+        </div>
+      </div>
 
-          {/* Orders List */}
-          <div style={s.list}>
-            {orders.map((order) => {
-              const isOpen = expandedOrder === order.id;
-              return (
-                <div key={order.id} style={s.card}>
+      {/* Filters and Search */}
+      <div style={styles.filtersSection}>
+        <div style={styles.filterTabs}>
+          <button 
+            onClick={() => setFilter('all')}
+            style={{
+              ...styles.filterTab,
+              ...(filter === 'all' ? styles.filterTabActive : {})
+            }}
+          >
+            All Orders
+          </button>
+          <button 
+            onClick={() => setFilter('pending')}
+            style={{
+              ...styles.filterTab,
+              ...(filter === 'pending' ? styles.filterTabActive : {})
+            }}
+          >
+            Pending
+          </button>
+          <button 
+            onClick={() => setFilter('delivered')}
+            style={{
+              ...styles.filterTab,
+              ...(filter === 'delivered' ? styles.filterTabActive : {})
+            }}
+          >
+            Delivered
+          </button>
+          <button 
+            onClick={() => setFilter('shipped')}
+            style={{
+              ...styles.filterTab,
+              ...(filter === 'shipped' ? styles.filterTabActive : {})
+            }}
+          >
+            Shipped
+          </button>
+        </div>
+        
+        <div style={styles.searchBox}>
+          <Search size={18} color="#666" />
+          <input
+            type="text"
+            placeholder="Search by order ID or product..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            style={styles.searchInput}
+          />
+        </div>
+      </div>
 
-                  {/* Card Header — clickable */}
-                  <div
-                    style={s.cardHead}
-                    onClick={() =>
-                      setExpandedOrder(isOpen ? null : order.id)
-                    }
-                  >
-                    <div>
-                      <p style={s.orderId}>ORD-{String(order.id).padStart(5, "0")}</p>
-                      <p style={s.orderDate}>{fmtDate(order.created_at)}</p>
+      {/* Orders List */}
+      {filteredOrders.length === 0 ? (
+        <div style={styles.emptyState}>
+          <Package size={60} color="#333" />
+          <h2>No orders found</h2>
+          <p>Try adjusting your filters or search term</p>
+          <button onClick={() => navigate("/products")} style={styles.shopBtn}>
+            Browse Products
+          </button>
+        </div>
+      ) : (
+        <div style={styles.ordersList}>
+          {filteredOrders.map((order) => {
+            const statusColors = getStatusColor(order.status);
+            const firstItem = order.items?.[0] || {};
+            
+            return (
+              <div key={order.id} style={styles.orderCard}>
+                <div style={styles.orderHeader}>
+                  <div style={styles.orderInfo}>
+                    <span style={styles.orderId}>#{order.id}</span>
+                    <span style={styles.orderDate}>
+                      {new Date(order.created_at).toLocaleDateString('en-IN', {
+                        day: 'numeric',
+                        month: 'short',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      })}
+                    </span>
+                  </div>
+                  <span style={{
+                    ...styles.statusBadge,
+                    backgroundColor: statusColors.bg,
+                    color: statusColors.text
+                  }}>
+                    <span style={{
+                      ...styles.statusDot,
+                      backgroundColor: statusColors.dot
+                    }} />
+                    {getStatusIcon(order.status)}
+                    <span>{order.status || 'Pending'}</span>
+                  </span>
+                </div>
+
+                <div style={styles.orderContent}>
+                  {/* Product Image */}
+                  <div style={styles.productImageContainer}>
+                    {firstItem.product_image ? (
+                      <img 
+                        src={`http://127.0.0.1:8000${firstItem.product_image}`}
+                        alt={firstItem.product_name}
+                        style={styles.productImage}
+                        onError={(e) => {
+                          e.target.src = "https://via.placeholder.com/80/1a1a1a/666?text=Product";
+                        }}
+                      />
+                    ) : (
+                      <div style={styles.noImage}>
+                        <Package size={24} color="#666" />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Order Details */}
+                  <div style={styles.orderDetails}>
+                    <div style={styles.productInfo}>
+                      <h3 style={styles.productName}>
+                        {firstItem.product_name || 'Product'}
+                      </h3>
+                      {order.items?.length > 1 && (
+                        <span style={styles.moreItems}>
+                          +{order.items.length - 1} more items
+                        </span>
+                      )}
                     </div>
-                    <div style={s.headRight}>
-                      <span style={s.orderAmt}>₹{fmt(order.total_price)}</span>
-                      <StatusBadge status={order.status} />
-                      <span style={{ ...s.chevron, transform: isOpen ? "rotate(180deg)" : "rotate(0deg)" }}>
-                        <ChevronDown size={16} color="#9ca3af" />
-                      </span>
+                    
+                    <div style={styles.orderMeta}>
+                      <div style={styles.metaItem}>
+                        <span style={styles.metaLabel}>Total:</span>
+                        <span style={styles.metaValue}>
+                          ₹{Number(order.total_price).toLocaleString('en-IN')}
+                        </span>
+                      </div>
+                      <div style={styles.metaItem}>
+                        <span style={styles.metaLabel}>Payment:</span>
+                        <span style={styles.metaValue}>{order.payment_method || 'COD'}</span>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Preview Strip (always visible) */}
-                  {order.items?.length > 0 && (
-                    <div style={s.previewStrip}>
-                      {order.items.slice(0, 3).map((item, i) => (
-                        <img
-                          key={i}
-                          src={imgSrc(item.product_image, `prev-${order.id}-${i}`)}
-                          alt={item.product_name}
-                          style={s.previewImg}
-                          onError={() => handleImageError(`prev-${order.id}-${i}`)}
-                        />
-                      ))}
-                      <span style={s.previewNames}>
-                        {order.items
-                          .slice(0, 2)
-                          .map((it) => it.product_name)
-                          .join(", ")}
-                        {order.items.length > 2 && ` +${order.items.length - 2} more`}
-                      </span>
-                      <span style={s.payMethod}>
-                        {order.payment_method || "COD"}
-                      </span>
-                    </div>
-                  )}
-
-                  {/* Expanded Body */}
-                  {isOpen && (
-                    <div style={s.cardBody}>
-
-                      {/* Items Table */}
-                      <table style={s.table}>
-                        <thead>
-                          <tr>
-                            {["Item", "Qty", "Unit Price", "Total"].map((h) => (
-                              <th
-                                key={h}
-                                style={{
-                                  ...s.th,
-                                  textAlign: h === "Item" ? "left" : "right",
-                                }}
-                              >
-                                {h}
-                              </th>
-                            ))}
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {order.items?.map((item, i) => (
-                            <tr key={i}>
-                              <td style={s.td}>
-                                <div style={s.itemNameWrap}>
-                                  <img
-                                    src={imgSrc(item.product_image, `exp-${order.id}-${i}`)}
-                                    alt={item.product_name}
-                                    style={s.itemImg}
-                                    onError={() => handleImageError(`exp-${order.id}-${i}`)}
-                                  />
-                                  <span style={s.itemName}>{item.product_name}</span>
-                                </div>
-                              </td>
-                              <td style={{ ...s.td, ...s.mono, textAlign: "right", color: "#6b7280" }}>
-                                ×{item.quantity}
-                              </td>
-                              <td style={{ ...s.td, ...s.mono, textAlign: "right" }}>
-                                ₹{fmt(item.price)}
-                              </td>
-                              <td style={{ ...s.td, ...s.mono, textAlign: "right", fontWeight: 600 }}>
-                                ₹{fmt(item.price * item.quantity)}
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-
-                      {/* Footer: shipping + total */}
-                      <div style={s.cardFooter}>
-                        <div>
-                          <p style={s.detailLabel}>Shipped to</p>
-                          <p style={s.detailVal}>{order.shipping_address}</p>
-                          <p style={{ ...s.detailVal, marginTop: 2 }}>{order.phone}</p>
-                        </div>
-                        <div style={{ textAlign: "right" }}>
-                          <p style={s.detailLabel}>Order Total</p>
-                          <p style={s.totalVal}>₹{fmt(order.total_price)}</p>
-                        </div>
-                      </div>
-
-                    </div>
-                  )}
+                  {/* View Button */}
+                  <button 
+                    onClick={() => navigate(`/order/${order.id}`)}
+                    style={styles.viewButton}
+                  >
+                    <Eye size={16} />
+                    <span>View</span>
+                    <ChevronRight size={16} />
+                  </button>
                 </div>
-              );
-            })}
-          </div>
-
+              </div>
+            );
+          })}
         </div>
-      </div>
-    </>
+      )}
+    </div>
   );
 };
 
-/* ─── Styles ─────────────────────────────────────────────────────────────────── */
-const FONT_BODY = "'Outfit', sans-serif";
-const FONT_MONO = "'DM Mono', monospace";
-const FONT_DISPLAY = "'DM Serif Display', serif";
-
-const s = {
-  page: {
-    minHeight: "100vh",
-    background: "#f8f7f4",
-    padding: "40px 20px 60px",
-    fontFamily: FONT_BODY,
-  },
+const styles = {
   container: {
-    maxWidth: 780,
-    margin: "0 auto",
+    maxWidth: '1200px',
+    margin: '0 auto',
+    padding: '40px 20px',
+    background: '#f8fafc',
+    minHeight: '100vh',
+    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
   },
-  loadingWrap: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    minHeight: "100vh",
+  header: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '30px'
   },
-  loadingText: {
-    fontFamily: FONT_MONO,
-    fontSize: 14,
-    color: "#9ca3af",
-    letterSpacing: "0.05em",
+  headerLeft: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '15px'
   },
-
-  /* Back */
-  backBtn: {
-    display: "inline-flex",
-    alignItems: "center",
-    gap: 6,
-    fontSize: 13,
-    color: "#6b7280",
-    background: "none",
-    border: "0.5px solid #e5e7eb",
-    borderRadius: 6,
-    padding: "6px 12px",
-    cursor: "pointer",
-    marginBottom: 28,
-    fontFamily: FONT_BODY,
+  backButton: {
+    width: '40px',
+    height: '40px',
+    borderRadius: '10px',
+    background: 'white',
+    border: '1px solid #e5e7eb',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    cursor: 'pointer',
+    color: '#374151',
+    transition: 'all 0.2s'
   },
-
-  /* Page head */
-  pageHead: {
-    display: "flex",
-    alignItems: "flex-end",
-    justifyContent: "space-between",
-    borderBottom: "2px solid #1a2744",
-    paddingBottom: 14,
-    marginBottom: 28,
+  title: {
+    fontSize: '28px',
+    fontWeight: '600',
+    color: '#111',
+    margin: 0
   },
-  pageLabel: {
-    fontSize: 11,
-    letterSpacing: "0.14em",
-    textTransform: "uppercase",
-    color: "#9ca3af",
-    fontFamily: FONT_MONO,
-    marginBottom: 4,
+  subtitle: {
+    fontSize: '14px',
+    color: '#6b7280',
+    margin: '5px 0 0'
   },
-  pageTitle: {
-    fontFamily: FONT_DISPLAY,
-    fontSize: 30,
-    color: "#1a2744",
-    margin: 0,
+  headerRight: {
+    display: 'flex',
+    gap: '10px'
   },
-  pageMeta: {
-    fontSize: 12,
-    color: "#9ca3af",
-    fontFamily: FONT_MONO,
-    textAlign: "right",
+  downloadBtn: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+    padding: '10px 16px',
+    background: 'white',
+    border: '1px solid #e5e7eb',
+    borderRadius: '8px',
+    color: '#374151',
+    fontSize: '14px',
+    fontWeight: '500',
+    cursor: 'pointer'
   },
-
-  /* Stats */
-  statRow: {
-    display: "grid",
-    gridTemplateColumns: "repeat(3, 1fr)",
-    gap: 12,
-    marginBottom: 28,
+  statsGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(4, 1fr)',
+    gap: '20px',
+    marginBottom: '30px'
   },
   statCard: {
-    background: "#fff",
-    border: "0.5px solid #e5e7eb",
-    borderRadius: 10,
-    padding: "14px 18px",
+    background: 'white',
+    padding: '20px',
+    borderRadius: '12px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '15px',
+    boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+    border: '1px solid #e5e7eb'
+  },
+  statIconBg: {
+    width: '48px',
+    height: '48px',
+    borderRadius: '12px',
+    background: '#f3f4f6',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   statLabel: {
-    fontSize: 11,
-    letterSpacing: "0.1em",
-    textTransform: "uppercase",
-    color: "#9ca3af",
-    marginBottom: 6,
-    fontFamily: FONT_MONO,
+    fontSize: '14px',
+    color: '#6b7280',
+    margin: 0
   },
-  statVal: {
-    fontSize: 24,
-    fontWeight: 600,
-    color: "#1a2744",
-    fontFamily: FONT_MONO,
-    margin: 0,
+  statValue: {
+    fontSize: '24px',
+    fontWeight: '600',
+    color: '#111',
+    margin: '5px 0 0'
   },
-
-  /* List */
-  list: {
-    display: "flex",
-    flexDirection: "column",
-    gap: 14,
+  filtersSection: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '30px',
+    flexWrap: 'wrap',
+    gap: '15px'
   },
-
-  /* Card */
-  card: {
-    background: "#fff",
-    border: "0.5px solid #e5e7eb",
-    borderRadius: 12,
-    overflow: "hidden",
+  filterTabs: {
+    display: 'flex',
+    gap: '10px',
+    background: '#f1f5f9',
+    padding: '4px',
+    borderRadius: '10px'
   },
-  cardHead: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: "16px 20px",
-    borderBottom: "0.5px solid #f3f4f6",
-    cursor: "pointer",
+  filterTab: {
+    padding: '8px 16px',
+    borderRadius: '8px',
+    border: 'none',
+    background: 'transparent',
+    color: '#64748b',
+    fontSize: '14px',
+    fontWeight: '500',
+    cursor: 'pointer',
+    transition: 'all 0.2s'
+  },
+  filterTabActive: {
+    background: 'white',
+    color: '#3b82f6',
+    boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
+  },
+  searchBox: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
+    background: 'white',
+    padding: '8px 16px',
+    borderRadius: '10px',
+    border: '1px solid #e5e7eb',
+    width: '300px'
+  },
+  searchInput: {
+    border: 'none',
+    outline: 'none',
+    fontSize: '14px',
+    width: '100%',
+    background: 'transparent'
+  },
+  ordersList: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '15px'
+  },
+  orderCard: {
+    background: 'white',
+    borderRadius: '12px',
+    border: '1px solid #e5e7eb',
+    overflow: 'hidden',
+    transition: 'box-shadow 0.2s'
+  },
+  orderHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '15px 20px',
+    background: '#f9fafb',
+    borderBottom: '1px solid #e5e7eb'
+  },
+  orderInfo: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '15px'
   },
   orderId: {
-    fontFamily: FONT_MONO,
-    fontSize: 13,
-    fontWeight: 500,
-    color: "#2a5bd7",
-    margin: 0,
-    marginBottom: 3,
+    fontSize: '16px',
+    fontWeight: '600',
+    color: '#111'
   },
   orderDate: {
-    fontSize: 12,
-    color: "#9ca3af",
-    margin: 0,
+    fontSize: '14px',
+    color: '#6b7280'
   },
-  headRight: {
-    display: "flex",
-    alignItems: "center",
-    gap: 14,
+  statusBadge: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '6px',
+    padding: '6px 12px',
+    borderRadius: '20px',
+    fontSize: '13px',
+    fontWeight: '500'
   },
-  orderAmt: {
-    fontFamily: FONT_MONO,
-    fontSize: 15,
-    fontWeight: 600,
-    color: "#1a2744",
+  statusDot: {
+    width: '6px',
+    height: '6px',
+    borderRadius: '50%'
   },
-  chevron: {
-    display: "flex",
-    alignItems: "center",
-    transition: "transform 0.2s ease",
+  orderContent: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '20px',
+    padding: '20px'
   },
-
-  /* Preview strip */
-  previewStrip: {
-    display: "flex",
-    alignItems: "center",
-    gap: 8,
-    padding: "10px 20px",
-    background: "#f9fafb",
-    borderBottom: "0.5px solid #f3f4f6",
-  },
-  previewImg: {
-    width: 30,
-    height: 30,
-    borderRadius: 6,
-    objectFit: "cover",
-    border: "0.5px solid #e5e7eb",
-    background: "#f3f4f6",
-  },
-  previewNames: {
-    flex: 1,
-    fontSize: 12,
-    color: "#6b7280",
-  },
-  payMethod: {
-    fontSize: 11,
-    color: "#9ca3af",
-    fontFamily: FONT_MONO,
-  },
-
-  /* Expanded body */
-  cardBody: {
-    padding: 20,
-  },
-  table: {
-    width: "100%",
-    borderCollapse: "collapse",
-    marginBottom: 20,
-  },
-  th: {
-    fontSize: 10,
-    letterSpacing: "0.12em",
-    textTransform: "uppercase",
-    color: "#9ca3af",
-    fontFamily: FONT_MONO,
-    fontWeight: 500,
-    padding: "0 0 10px 0",
-    borderBottom: "0.5px solid #e5e7eb",
-  },
-  td: {
-    padding: "12px 0",
-    borderBottom: "0.5px solid #f3f4f6",
-    fontSize: 13,
-    color: "#111827",
-    verticalAlign: "middle",
-  },
-  mono: {
-    fontFamily: FONT_MONO,
-  },
-  itemNameWrap: {
-    display: "inline-flex",
-    alignItems: "center",
-    gap: 10,
-  },
-  itemImg: {
-    width: 36,
-    height: 36,
-    borderRadius: 7,
-    objectFit: "cover",
-    border: "0.5px solid #e5e7eb",
-    background: "#f3f4f6",
+  productImageContainer: {
+    width: '80px',
+    height: '80px',
+    background: '#f3f4f6',
+    borderRadius: '8px',
+    overflow: 'hidden',
     flexShrink: 0,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
-  itemName: {
-    fontSize: 13,
-    fontWeight: 500,
-    color: "#111827",
+  productImage: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover'
   },
-
-  /* Footer */
-  cardFooter: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "flex-end",
-    paddingTop: 16,
-    borderTop: "0.5px solid #e5e7eb",
-    marginTop: 4,
+  noImage: {
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    background: '#f3f4f6',
+    color: '#9ca3af'
   },
-  detailLabel: {
-    fontSize: 10,
-    letterSpacing: "0.12em",
-    textTransform: "uppercase",
-    color: "#9ca3af",
-    fontFamily: FONT_MONO,
-    marginBottom: 4,
-    margin: 0,
+  orderDetails: {
+    flex: 1,
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
-  detailVal: {
-    fontSize: 13,
-    color: "#374151",
-    margin: 0,
-    marginTop: 4,
-    lineHeight: 1.5,
+  productInfo: {
+    flex: 1
   },
-  totalVal: {
-    fontFamily: FONT_MONO,
-    fontSize: 22,
-    fontWeight: 600,
-    color: "#2a5bd7",
-    margin: 0,
-    marginTop: 4,
+  productName: {
+    fontSize: '16px',
+    fontWeight: '500',
+    color: '#111',
+    margin: 0
   },
-
-  /* Empty state */
-  emptyCard: {
-    background: "#fff",
-    border: "0.5px solid #e5e7eb",
-    borderRadius: 12,
-    padding: "60px 40px",
-    textAlign: "center",
+  moreItems: {
+    fontSize: '13px',
+    color: '#6b7280'
   },
-  emptyTitle: {
-    fontFamily: FONT_DISPLAY,
-    fontSize: 22,
-    color: "#1a2744",
-    marginTop: 20,
-    marginBottom: 10,
+  orderMeta: {
+    textAlign: 'right'
   },
-  emptyText: {
-    fontSize: 14,
-    color: "#9ca3af",
-    marginBottom: 28,
+  metaItem: {
+    marginBottom: '4px'
+  },
+  metaLabel: {
+    fontSize: '13px',
+    color: '#9ca3af',
+    marginRight: '8px'
+  },
+  metaValue: {
+    fontSize: '14px',
+    fontWeight: '500',
+    color: '#111'
+  },
+  viewButton: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+    padding: '8px 16px',
+    background: '#f3f4f6',
+    border: '1px solid #e5e7eb',
+    borderRadius: '8px',
+    color: '#374151',
+    fontSize: '14px',
+    fontWeight: '500',
+    cursor: 'pointer',
+    transition: 'all 0.2s'
+  },
+  emptyState: {
+    textAlign: 'center',
+    padding: '60px 20px',
+    background: 'white',
+    borderRadius: '12px'
   },
   shopBtn: {
-    padding: "10px 28px",
-    background: "#2a5bd7",
-    color: "#fff",
-    border: "none",
-    borderRadius: 8,
-    fontSize: 14,
-    fontWeight: 500,
-    cursor: "pointer",
-    fontFamily: FONT_BODY,
+    padding: '12px 24px',
+    background: '#3b82f6',
+    color: 'white',
+    border: 'none',
+    borderRadius: '8px',
+    fontSize: '14px',
+    fontWeight: '500',
+    cursor: 'pointer',
+    marginTop: '20px'
   },
+  loadingContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100vh'
+  },
+  loadingSpinner: {
+    width: '40px',
+    height: '40px',
+    border: '3px solid #f3f4f6',
+    borderTopColor: '#3b82f6',
+    borderRadius: '50%',
+    animation: 'spin 1s linear infinite',
+    marginBottom: '20px'
+  }
 };
 
 export default MyOrders;

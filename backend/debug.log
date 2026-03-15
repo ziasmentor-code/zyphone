@@ -266,3 +266,1406 @@ INFO 2026-03-14 14:45:50,966 autoreload 21868 7804 C:\Users\pc\Desktop\zyphone\b
 INFO 2026-03-14 14:45:50,966 autoreload 10328 7764 C:\Users\pc\Desktop\zyphone\backend\cart\views.py changed, reloading.
 INFO 2026-03-14 14:45:51,424 autoreload 9376 11168 Watching for file changes with StatReloader
 INFO 2026-03-14 14:45:51,431 autoreload 19060 10836 Watching for file changes with StatReloader
+INFO 2026-03-14 14:46:04,096 log 19060 7500 "GET /media/products/PHONE6.avif HTTP/1.1" 200 23490
+INFO 2026-03-14 14:46:18,913 log 19060 21796 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 14:46:18,941 log 19060 21796 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 14:46:21,203 log 19060 22460 "GET /api/products/?featured=true&limit=4 HTTP/1.1" 200 2357
+INFO 2026-03-14 14:46:21,203 log 19060 21796 "GET /api/products/16/ HTTP/1.1" 200 463
+INFO 2026-03-14 14:46:21,233 log 19060 22460 "GET /api/products/?featured=true&limit=4 HTTP/1.1" 200 2357
+INFO 2026-03-14 14:46:21,236 log 19060 21796 "GET /api/products/16/ HTTP/1.1" 200 463
+INFO 2026-03-14 14:46:28,321 log 19060 22460 "GET /api/products/?featured=true&limit=4 HTTP/1.1" 200 2357
+INFO 2026-03-14 14:46:28,321 log 19060 21796 "GET /api/products/16/ HTTP/1.1" 200 463
+INFO 2026-03-14 14:46:28,349 log 19060 21796 "GET /api/products/?featured=true&limit=4 HTTP/1.1" 200 2357
+INFO 2026-03-14 14:46:28,351 log 19060 22460 "GET /api/products/16/ HTTP/1.1" 200 463
+INFO 2026-03-14 14:47:35,992 autoreload 21552 21520 Watching for file changes with StatReloader
+INFO 2026-03-14 14:53:26,804 log 9376 1600 "OPTIONS /api/profile/ HTTP/1.1" 200 0
+WARNING 2026-03-14 14:53:26,812 log 9376 1600 Not Found: /api/profile/
+WARNING 2026-03-14 14:53:26,812 log 9376 1600 "PATCH /api/profile/ HTTP/1.1" 404 3637
+WARNING 2026-03-14 14:53:51,194 log 9376 1600 Not Found: /api/profile/
+WARNING 2026-03-14 14:53:51,194 log 9376 1600 "PATCH /api/profile/ HTTP/1.1" 404 3637
+INFO 2026-03-14 14:53:55,225 log 9376 1600 "GET /api/orders/ HTTP/1.1" 200 8336
+INFO 2026-03-14 14:53:55,279 log 9376 1600 "GET /api/orders/ HTTP/1.1" 200 8336
+WARNING 2026-03-14 14:56:51,883 log 9376 1600 Not Found: /api/profile/
+WARNING 2026-03-14 14:56:51,884 log 9376 1600 "PATCH /api/profile/ HTTP/1.1" 404 3637
+INFO 2026-03-14 15:00:16,135 log 9376 1600 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
+WARNING 2026-03-14 15:00:16,140 log 9376 1600 Not Found: /api/users/profile/
+WARNING 2026-03-14 15:00:16,141 log 9376 1600 "GET /api/users/profile/ HTTP/1.1" 404 3653
+INFO 2026-03-14 15:00:24,503 log 9376 1600 "OPTIONS /api/users/profile/image/ HTTP/1.1" 200 0
+WARNING 2026-03-14 15:00:24,507 log 9376 1600 Not Found: /api/users/profile/image/
+WARNING 2026-03-14 15:00:24,508 log 9376 1600 "POST /api/users/profile/image/ HTTP/1.1" 404 3672
+INFO 2026-03-14 15:00:35,129 log 9376 1600 "OPTIONS /api/users/profile/update/ HTTP/1.1" 200 0
+WARNING 2026-03-14 15:00:35,133 log 9376 1600 Not Found: /api/users/profile/update/
+WARNING 2026-03-14 15:00:35,134 log 9376 1600 "PUT /api/users/profile/update/ HTTP/1.1" 404 3674
+WARNING 2026-03-14 15:00:36,436 log 9376 1600 Not Found: /api/users/profile/update/
+WARNING 2026-03-14 15:00:36,436 log 9376 1600 "PUT /api/users/profile/update/ HTTP/1.1" 404 3674
+INFO 2026-03-14 15:08:27,059 autoreload 21552 21520 C:\Users\pc\Desktop\zyphone\backend\users\views.py changed, reloading.
+INFO 2026-03-14 15:08:27,411 autoreload 9376 11168 C:\Users\pc\Desktop\zyphone\backend\users\views.py changed, reloading.
+INFO 2026-03-14 15:08:27,482 autoreload 15484 22168 Watching for file changes with StatReloader
+INFO 2026-03-14 15:08:27,874 autoreload 20776 20712 Watching for file changes with StatReloader
+INFO 2026-03-14 15:08:56,639 autoreload 20776 20712 C:\Users\pc\Desktop\zyphone\backend\users\models.py changed, reloading.
+INFO 2026-03-14 15:08:57,029 autoreload 19512 20476 Watching for file changes with StatReloader
+INFO 2026-03-14 15:08:57,324 autoreload 15484 22168 C:\Users\pc\Desktop\zyphone\backend\users\models.py changed, reloading.
+INFO 2026-03-14 15:08:57,733 autoreload 3172 13208 Watching for file changes with StatReloader
+INFO 2026-03-14 15:10:43,441 autoreload 19512 20476 C:\Users\pc\Desktop\zyphone\backend\users\serializers.py changed, reloading.
+INFO 2026-03-14 15:10:43,841 autoreload 19408 21700 Watching for file changes with StatReloader
+INFO 2026-03-14 15:13:24,575 autoreload 19408 21700 C:\Users\pc\Desktop\zyphone\backend\users\views.py changed, reloading.
+INFO 2026-03-14 15:13:24,983 autoreload 21696 20476 Watching for file changes with StatReloader
+INFO 2026-03-14 15:14:31,555 autoreload 21696 20476 C:\Users\pc\Desktop\zyphone\backend\users\views.py changed, reloading.
+INFO 2026-03-14 15:14:31,964 autoreload 2092 21976 Watching for file changes with StatReloader
+INFO 2026-03-14 15:14:53,709 autoreload 2092 21976 C:\Users\pc\Desktop\zyphone\backend\backend\urls.py changed, reloading.
+INFO 2026-03-14 15:14:54,151 autoreload 16520 20444 Watching for file changes with StatReloader
+INFO 2026-03-14 15:16:23,373 autoreload 16520 20444 C:\Users\pc\Desktop\zyphone\backend\users\views.py changed, reloading.
+INFO 2026-03-14 15:16:23,769 autoreload 19076 16284 Watching for file changes with StatReloader
+INFO 2026-03-14 15:23:58,712 autoreload 19488 12052 Watching for file changes with StatReloader
+INFO 2026-03-14 15:24:27,730 log 19076 3444 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 15:24:27,756 log 19076 3444 "GET /api/products/ HTTP/1.1" 200 2357
+INFO 2026-03-14 15:24:49,728 log 19076 3444 "OPTIONS /api/register/ HTTP/1.1" 200 0
+ERROR 2026-03-14 15:24:49,823 log 19076 3444 Internal Server Error: /api/register/
+Traceback (most recent call last):
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column users_user.username does not exist
+LINE 1: SELECT 1 AS "a" FROM "users_user" WHERE "users_user"."userna...
+                                                ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\views\generic\base.py", line 106, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\pc\Desktop\zyphone\backend\api\views.py", line 16, in register
+    if User.objects.filter(username=username).exists():
+       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\models\query.py", line 1337, in exists
+    return self.query.has_results(using=self.db)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\models\sql\query.py", line 686, in has_results
+    return compiler.has_results()
+           ~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1592, in has_results
+    return bool(self.execute_sql(SINGLE))
+                ~~~~~~~~~~~~~~~~^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1624, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: column users_user.username does not exist
+LINE 1: SELECT 1 AS "a" FROM "users_user" WHERE "users_user"."userna...
+                                                ^
+
+ERROR 2026-03-14 15:24:49,827 log 19076 3444 "POST /api/register/ HTTP/1.1" 500 22785
+INFO 2026-03-14 15:24:58,296 log 19076 3444 "OPTIONS /api/token/ HTTP/1.1" 200 0
+ERROR 2026-03-14 15:24:58,373 log 19076 3444 Internal Server Error: /api/token/
+Traceback (most recent call last):
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column users_user.username does not exist
+LINE 1: ..._user"."last_login", "users_user"."is_superuser", "users_use...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\views\generic\base.py", line 106, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework_simplejwt\views.py", line 46, in post
+    serializer.is_valid(raise_exception=True)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\serializers.py", line 225, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+                           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\serializers.py", line 447, in run_validation
+    value = self.validate(value)
+  File "C:\Users\pc\Desktop\zyphone\backend\users\views.py", line 29, in validate
+    data = super().validate(attrs)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework_simplejwt\serializers.py", line 73, in validate
+    data = super().validate(attrs)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework_simplejwt\serializers.py", line 54, in validate
+    self.user = authenticate(**authenticate_kwargs)
+                ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\views\decorators\debug.py", line 75, in sensitive_variables_wrapper
+    return func(*func_args, **func_kwargs)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\contrib\auth\__init__.py", line 114, in authenticate
+    user = backend.authenticate(request, **credentials)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\contrib\auth\backends.py", line 65, in authenticate
+    user = UserModel._default_manager.get_by_natural_key(username)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\contrib\auth\base_user.py", line 37, in get_by_natural_key
+    return self.get(**{self.model.USERNAME_FIELD: username})
+           ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\models\query.py", line 635, in get
+    num = len(clone)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\models\query.py", line 372, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\models\query.py", line 2000, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\models\query.py", line 95, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1624, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: column users_user.username does not exist
+LINE 1: ..._user"."last_login", "users_user"."is_superuser", "users_use...
+                                                             ^
+
+ERROR 2026-03-14 15:24:58,377 log 19076 3444 "POST /api/token/ HTTP/1.1" 500 24957
+INFO 2026-03-14 15:29:04,701 autoreload 19076 16284 C:\Users\pc\Desktop\zyphone\backend\users\models.py changed, reloading.
+INFO 2026-03-14 15:29:05,123 autoreload 17816 23140 Watching for file changes with StatReloader
+INFO 2026-03-14 15:32:05,842 autoreload 20172 23296 Watching for file changes with StatReloader
+INFO 2026-03-14 15:32:23,388 log 17816 21516 "OPTIONS /api/token/ HTTP/1.1" 200 0
+ERROR 2026-03-14 15:32:23,433 log 17816 21516 Internal Server Error: /api/token/
+Traceback (most recent call last):
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column users_user.first_name does not exist
+LINE 1: ..._user"."last_login", "users_user"."is_superuser", "users_use...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\views\generic\base.py", line 106, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework_simplejwt\views.py", line 46, in post
+    serializer.is_valid(raise_exception=True)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\serializers.py", line 225, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+                           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\serializers.py", line 447, in run_validation
+    value = self.validate(value)
+  File "C:\Users\pc\Desktop\zyphone\backend\users\views.py", line 29, in validate
+    data = super().validate(attrs)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework_simplejwt\serializers.py", line 73, in validate
+    data = super().validate(attrs)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework_simplejwt\serializers.py", line 54, in validate
+    self.user = authenticate(**authenticate_kwargs)
+                ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\views\decorators\debug.py", line 75, in sensitive_variables_wrapper
+    return func(*func_args, **func_kwargs)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\contrib\auth\__init__.py", line 114, in authenticate
+    user = backend.authenticate(request, **credentials)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\contrib\auth\backends.py", line 65, in authenticate
+    user = UserModel._default_manager.get_by_natural_key(username)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\contrib\auth\base_user.py", line 37, in get_by_natural_key
+    return self.get(**{self.model.USERNAME_FIELD: username})
+           ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\models\query.py", line 635, in get
+    num = len(clone)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\models\query.py", line 372, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\models\query.py", line 2000, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\models\query.py", line 95, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1624, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: column users_user.first_name does not exist
+LINE 1: ..._user"."last_login", "users_user"."is_superuser", "users_use...
+                                                             ^
+
+ERROR 2026-03-14 15:32:23,438 log 17816 21516 "POST /api/token/ HTTP/1.1" 500 25020
+INFO 2026-03-14 15:32:25,223 log 17816 21516 "OPTIONS /api/token/ HTTP/1.1" 200 0
+ERROR 2026-03-14 15:32:25,259 log 17816 21516 Internal Server Error: /api/token/
+Traceback (most recent call last):
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column users_user.first_name does not exist
+LINE 1: ..._user"."last_login", "users_user"."is_superuser", "users_use...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\views\generic\base.py", line 106, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework_simplejwt\views.py", line 46, in post
+    serializer.is_valid(raise_exception=True)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\serializers.py", line 225, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+                           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\serializers.py", line 447, in run_validation
+    value = self.validate(value)
+  File "C:\Users\pc\Desktop\zyphone\backend\users\views.py", line 29, in validate
+    data = super().validate(attrs)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework_simplejwt\serializers.py", line 73, in validate
+    data = super().validate(attrs)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework_simplejwt\serializers.py", line 54, in validate
+    self.user = authenticate(**authenticate_kwargs)
+                ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\views\decorators\debug.py", line 75, in sensitive_variables_wrapper
+    return func(*func_args, **func_kwargs)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\contrib\auth\__init__.py", line 114, in authenticate
+    user = backend.authenticate(request, **credentials)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\contrib\auth\backends.py", line 65, in authenticate
+    user = UserModel._default_manager.get_by_natural_key(username)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\contrib\auth\base_user.py", line 37, in get_by_natural_key
+    return self.get(**{self.model.USERNAME_FIELD: username})
+           ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\models\query.py", line 635, in get
+    num = len(clone)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\models\query.py", line 372, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\models\query.py", line 2000, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\models\query.py", line 95, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1624, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: column users_user.first_name does not exist
+LINE 1: ..._user"."last_login", "users_user"."is_superuser", "users_use...
+                                                             ^
+
+ERROR 2026-03-14 15:32:25,262 log 17816 21516 "POST /api/token/ HTTP/1.1" 500 25020
+INFO 2026-03-14 15:32:48,839 log 17816 21516 "OPTIONS /api/register/ HTTP/1.1" 200 0
+ERROR 2026-03-14 15:32:48,877 log 17816 21516 Internal Server Error: /api/register/
+Traceback (most recent call last):
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column users_user.username does not exist
+LINE 1: SELECT 1 AS "a" FROM "users_user" WHERE "users_user"."userna...
+                                                ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\views\generic\base.py", line 106, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\pc\Desktop\zyphone\backend\api\views.py", line 16, in register
+    if User.objects.filter(username=username).exists():
+       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\models\query.py", line 1337, in exists
+    return self.query.has_results(using=self.db)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\models\sql\query.py", line 686, in has_results
+    return compiler.has_results()
+           ~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1592, in has_results
+    return bool(self.execute_sql(SINGLE))
+                ~~~~~~~~~~~~~~~~^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1624, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: column users_user.username does not exist
+LINE 1: SELECT 1 AS "a" FROM "users_user" WHERE "users_user"."userna...
+                                                ^
+
+ERROR 2026-03-14 15:32:48,880 log 17816 21516 "POST /api/register/ HTTP/1.1" 500 22842
+INFO 2026-03-14 15:33:09,546 autoreload 20172 23296 C:\Users\pc\Desktop\zyphone\backend\users\models.py changed, reloading.
+INFO 2026-03-14 15:33:09,954 autoreload 25436 25440 Watching for file changes with StatReloader
+INFO 2026-03-14 15:33:10,019 autoreload 17816 23140 C:\Users\pc\Desktop\zyphone\backend\users\models.py changed, reloading.
+INFO 2026-03-14 15:33:10,489 autoreload 25448 25304 Watching for file changes with StatReloader
+INFO 2026-03-14 15:33:56,614 autoreload 24624 23172 Watching for file changes with StatReloader
+INFO 2026-03-14 15:34:01,491 log 25448 24848 "OPTIONS /api/register/ HTTP/1.1" 200 0
+ERROR 2026-03-14 15:34:01,533 log 25448 24848 Internal Server Error: /api/register/
+Traceback (most recent call last):
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column users_user.username does not exist
+LINE 1: SELECT 1 AS "a" FROM "users_user" WHERE "users_user"."userna...
+                                                ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\views\generic\base.py", line 106, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\pc\Desktop\zyphone\backend\api\views.py", line 16, in register
+    if User.objects.filter(username=username).exists():
+       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\models\query.py", line 1337, in exists
+    return self.query.has_results(using=self.db)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\models\sql\query.py", line 686, in has_results
+    return compiler.has_results()
+           ~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1592, in has_results
+    return bool(self.execute_sql(SINGLE))
+                ~~~~~~~~~~~~~~~~^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1624, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: column users_user.username does not exist
+LINE 1: SELECT 1 AS "a" FROM "users_user" WHERE "users_user"."userna...
+                                                ^
+
+ERROR 2026-03-14 15:34:01,537 log 25448 24848 "POST /api/register/ HTTP/1.1" 500 22842
+INFO 2026-03-14 15:51:25,866 autoreload 25448 25304 C:\Users\pc\Desktop\zyphone\backend\users\migrations\0001_initial.py changed, reloading.
+INFO 2026-03-14 15:51:26,316 autoreload 19068 18404 Watching for file changes with StatReloader
+INFO 2026-03-14 15:52:27,667 autoreload 23268 9340 Watching for file changes with StatReloader
+INFO 2026-03-14 15:54:06,801 autoreload 23112 8440 Watching for file changes with StatReloader
+INFO 2026-03-14 15:54:11,235 log 19068 24640 "OPTIONS /api/register/ HTTP/1.1" 200 0
+ERROR 2026-03-14 15:54:11,289 log 19068 24640 Internal Server Error: /api/register/
+Traceback (most recent call last):
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\views\generic\base.py", line 106, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\pc\Desktop\zyphone\backend\api\views.py", line 19, in register
+    User.objects.create_user(
+    ~~~~~~~~~~~~~~~~~~~~~~~~^
+        username=username,
+        ^^^^^^^^^^^^^^^^^^
+        email=email,
+        ^^^^^^^^^^^^
+        password=password
+        ^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\contrib\auth\models.py", line 175, in create_user
+    return self._create_user(username, email, password, **extra_fields)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\contrib\auth\models.py", line 162, in _create_user
+    user = self._create_user_object(username, email, password, **extra_fields)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\contrib\auth\models.py", line 145, in _create_user_object
+    raise ValueError("The given username must be set")
+ValueError: The given username must be set
+ERROR 2026-03-14 15:54:11,292 log 19068 24640 "POST /api/register/ HTTP/1.1" 500 20856
+WARNING 2026-03-14 15:54:17,173 log 19068 24640 Unauthorized: /api/token/
+WARNING 2026-03-14 15:54:17,173 log 19068 24640 "POST /api/token/ HTTP/1.1" 401 63
+INFO 2026-03-14 15:57:08,986 autoreload 2544 23800 Watching for file changes with StatReloader
+INFO 2026-03-14 15:57:35,941 log 19068 24640 "POST /api/token/ HTTP/1.1" 200 783
+INFO 2026-03-14 15:57:40,973 log 19068 24640 "GET /api/products/ HTTP/1.1" 200 2
+INFO 2026-03-14 15:57:40,999 log 19068 24640 "GET /api/products/ HTTP/1.1" 200 2
+INFO 2026-03-14 15:57:50,022 autoreload 23752 24188 Watching for file changes with StatReloader
+INFO 2026-03-14 15:59:16,513 log 19068 24464 "GET /api/products/ HTTP/1.1" 200 5158
+INFO 2026-03-14 15:59:16,630 log 19068 22988 "GET /static/rest_framework/css/default.css HTTP/1.1" 200 1152
+INFO 2026-03-14 15:59:16,630 log 19068 21048 "GET /static/rest_framework/css/prettify.css HTTP/1.1" 200 817
+INFO 2026-03-14 15:59:16,630 log 19068 25224 "GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 200 3426
+INFO 2026-03-14 15:59:16,631 log 19068 24464 "GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 200 121457
+INFO 2026-03-14 15:59:16,648 log 19068 24520 "GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 200 3796
+INFO 2026-03-14 15:59:16,652 log 19068 24464 "GET /static/rest_framework/js/default.js HTTP/1.1" 200 1268
+INFO 2026-03-14 15:59:16,654 log 19068 22988 "GET /static/rest_framework/js/csrf.js HTTP/1.1" 200 1793
+INFO 2026-03-14 15:59:16,657 log 19068 24464 "GET /static/rest_framework/img/grid.png HTTP/1.1" 200 1458
+WARNING 2026-03-14 15:59:16,660 log 19068 22988 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-03-14 15:59:16,661 log 19068 22988 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3896
+INFO 2026-03-14 15:59:16,662 log 19068 24520 "GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 200 59
+INFO 2026-03-14 15:59:16,665 log 19068 25224 "GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 200 13632
+INFO 2026-03-14 15:59:16,671 log 19068 21048 "GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 200 39680
+INFO 2026-03-14 15:59:16,674 log 19068 24464 "GET /static/rest_framework/css/bootstrap.min.css.map HTTP/1.1" 200 540434
+INFO 2026-03-14 15:59:16,682 log 19068 24592 "GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 200 87533
+WARNING 2026-03-14 15:59:16,714 log 19068 24592 Not Found: /favicon.ico
+WARNING 2026-03-14 15:59:16,714 log 19068 24592 "GET /favicon.ico HTTP/1.1" 404 3785
+INFO 2026-03-14 15:59:57,849 autoreload 21532 24900 Watching for file changes with StatReloader
+INFO 2026-03-14 16:00:57,303 autoreload 24052 23108 Watching for file changes with StatReloader
+INFO 2026-03-14 16:01:09,339 log 19068 24592 "GET /api/products/ HTTP/1.1" 200 5158
+INFO 2026-03-14 16:01:09,350 log 19068 21048 "GET /static/rest_framework/css/prettify.css HTTP/1.1" 200 817
+INFO 2026-03-14 16:01:09,350 log 19068 22988 "GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 200 3796
+INFO 2026-03-14 16:01:09,350 log 19068 25224 "GET /static/rest_framework/css/default.css HTTP/1.1" 200 1152
+INFO 2026-03-14 16:01:09,350 log 19068 24464 "GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 200 3426
+INFO 2026-03-14 16:01:09,353 log 19068 24520 "GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 200 87533
+INFO 2026-03-14 16:01:09,355 log 19068 24592 "GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 200 121457
+INFO 2026-03-14 16:01:09,355 log 19068 24464 "GET /static/rest_framework/js/default.js HTTP/1.1" 200 1268
+INFO 2026-03-14 16:01:09,355 log 19068 21048 "GET /static/rest_framework/js/csrf.js HTTP/1.1" 200 1793
+INFO 2026-03-14 16:01:09,356 log 19068 22988 "GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 200 13632
+INFO 2026-03-14 16:01:09,356 log 19068 25224 "GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 200 39680
+INFO 2026-03-14 16:01:09,356 log 19068 24520 "GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 200 59
+WARNING 2026-03-14 16:01:09,363 log 19068 24520 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-03-14 16:01:09,363 log 19068 24520 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3896
+INFO 2026-03-14 16:01:09,367 log 19068 24520 "GET /static/rest_framework/img/grid.png HTTP/1.1" 200 1458
+INFO 2026-03-14 16:01:09,374 log 19068 24520 "GET /static/rest_framework/css/bootstrap.min.css.map HTTP/1.1" 200 540434
+INFO 2026-03-14 16:03:13,072 autoreload 19068 18404 C:\Users\pc\Desktop\zyphone\backend\products\views.py changed, reloading.
+INFO 2026-03-14 16:03:13,478 autoreload 2948 2892 Watching for file changes with StatReloader
+INFO 2026-03-14 16:03:36,436 autoreload 23640 25532 Watching for file changes with StatReloader
+INFO 2026-03-14 16:03:57,030 autoreload 23640 25532 C:\Users\pc\Desktop\zyphone\backend\products\urls.py changed, reloading.
+INFO 2026-03-14 16:03:57,451 autoreload 2196 11176 Watching for file changes with StatReloader
+INFO 2026-03-14 16:03:57,571 autoreload 2948 2892 C:\Users\pc\Desktop\zyphone\backend\products\urls.py changed, reloading.
+INFO 2026-03-14 16:03:58,024 autoreload 22992 16708 Watching for file changes with StatReloader
+INFO 2026-03-14 16:04:13,976 autoreload 2196 11176 C:\Users\pc\Desktop\zyphone\backend\products\views.py changed, reloading.
+INFO 2026-03-14 16:04:14,393 autoreload 25180 24640 Watching for file changes with StatReloader
+INFO 2026-03-14 16:04:14,508 autoreload 22992 16708 C:\Users\pc\Desktop\zyphone\backend\products\views.py changed, reloading.
+INFO 2026-03-14 16:04:14,947 autoreload 820 24080 Watching for file changes with StatReloader
+INFO 2026-03-14 16:04:23,924 autoreload 10400 11960 Watching for file changes with StatReloader
+INFO 2026-03-14 16:04:37,994 log 820 24256 "GET /api/products/ HTTP/1.1" 200 5158
+INFO 2026-03-14 16:04:38,089 log 820 24256 "GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 200 121457
+INFO 2026-03-14 16:04:38,091 log 820 24256 "GET /static/rest_framework/js/csrf.js HTTP/1.1" 200 1793
+INFO 2026-03-14 16:04:38,092 log 820 21236 "GET /static/rest_framework/css/prettify.css HTTP/1.1" 200 817
+INFO 2026-03-14 16:04:38,093 log 820 24256 "GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 200 39680
+INFO 2026-03-14 16:04:38,094 log 820 21236 "GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 200 13632
+INFO 2026-03-14 16:04:38,094 log 820 21396 "GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 200 3426
+INFO 2026-03-14 16:04:38,097 log 820 24256 "GET /static/rest_framework/js/default.js HTTP/1.1" 200 1268
+INFO 2026-03-14 16:04:38,097 log 820 22968 "GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 200 3796
+WARNING 2026-03-14 16:04:38,100 log 820 21396 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2026-03-14 16:04:38,101 log 820 21236 "GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 200 59
+INFO 2026-03-14 16:04:38,102 log 820 1188 "GET /static/rest_framework/css/default.css HTTP/1.1" 200 1152
+WARNING 2026-03-14 16:04:38,102 log 820 21396 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3896
+INFO 2026-03-14 16:04:38,102 log 820 22968 "GET /static/rest_framework/img/grid.png HTTP/1.1" 200 1458
+INFO 2026-03-14 16:04:38,103 log 820 4644 "GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 200 87533
+INFO 2026-03-14 16:04:38,110 log 820 4644 "GET /static/rest_framework/css/bootstrap.min.css.map HTTP/1.1" 200 540434
+WARNING 2026-03-14 16:04:46,671 log 820 4644 Not Found: /api/products/1/
+WARNING 2026-03-14 16:04:46,671 log 820 4644 "GET /api/products/1/ HTTP/1.1" 404 5334
+INFO 2026-03-14 16:04:46,682 log 820 22968 "GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 200 3426
+INFO 2026-03-14 16:04:46,682 log 820 21396 "GET /static/rest_framework/css/default.css HTTP/1.1" 200 1152
+INFO 2026-03-14 16:04:46,683 log 820 24256 "GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 200 3796
+INFO 2026-03-14 16:04:46,683 log 820 1188 "GET /static/rest_framework/css/prettify.css HTTP/1.1" 200 817
+INFO 2026-03-14 16:04:46,684 log 820 21236 "GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 200 87533
+INFO 2026-03-14 16:04:46,688 log 820 4644 "GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 200 121457
+INFO 2026-03-14 16:04:46,688 log 820 22968 "GET /static/rest_framework/js/csrf.js HTTP/1.1" 200 1793
+INFO 2026-03-14 16:04:46,689 log 820 21396 "GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 200 39680
+INFO 2026-03-14 16:04:46,690 log 820 24256 "GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 200 13632
+INFO 2026-03-14 16:04:46,690 log 820 1188 "GET /static/rest_framework/js/default.js HTTP/1.1" 200 1268
+INFO 2026-03-14 16:04:46,690 log 820 21236 "GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 200 59
+WARNING 2026-03-14 16:04:46,699 log 820 21236 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-03-14 16:04:46,700 log 820 21236 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3896
+INFO 2026-03-14 16:04:46,702 log 820 21236 "GET /static/rest_framework/img/grid.png HTTP/1.1" 200 1458
+INFO 2026-03-14 16:04:46,729 log 820 21236 "GET /static/rest_framework/css/bootstrap.min.css.map HTTP/1.1" 200 540434
+INFO 2026-03-14 16:05:28,044 log 820 21236 "GET /api/products/ HTTP/1.1" 200 5158
+INFO 2026-03-14 16:05:28,054 log 820 21396 "GET /static/rest_framework/css/default.css HTTP/1.1" 200 1152
+INFO 2026-03-14 16:05:28,055 log 820 4644 "GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 200 3796
+INFO 2026-03-14 16:05:28,055 log 820 24256 "GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 200 3426
+INFO 2026-03-14 16:05:28,055 log 820 1188 "GET /static/rest_framework/css/prettify.css HTTP/1.1" 200 817
+INFO 2026-03-14 16:05:28,058 log 820 22968 "GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 200 87533
+INFO 2026-03-14 16:05:28,059 log 820 21236 "GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 200 121457
+INFO 2026-03-14 16:05:28,061 log 820 21396 "GET /static/rest_framework/js/csrf.js HTTP/1.1" 200 1793
+INFO 2026-03-14 16:05:28,062 log 820 1188 "GET /static/rest_framework/js/default.js HTTP/1.1" 200 1268
+INFO 2026-03-14 16:05:28,063 log 820 4644 "GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 200 39680
+WARNING 2026-03-14 16:05:28,066 log 820 22968 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2026-03-14 16:05:28,066 log 820 21236 "GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 200 59
+INFO 2026-03-14 16:05:28,066 log 820 24256 "GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 200 13632
+WARNING 2026-03-14 16:05:28,067 log 820 22968 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3896
+INFO 2026-03-14 16:05:28,071 log 820 22968 "GET /static/rest_framework/img/grid.png HTTP/1.1" 200 1458
+INFO 2026-03-14 16:05:28,081 log 820 22968 "GET /static/rest_framework/css/bootstrap.min.css.map HTTP/1.1" 200 540434
+INFO 2026-03-14 16:06:22,367 log 820 5164 "GET /admin/ HTTP/1.1" 302 0
+INFO 2026-03-14 16:06:22,409 log 820 5164 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 3139
+INFO 2026-03-14 16:06:22,429 log 820 23804 "GET /static/vendor/adminlte/img/AdminLTELogo.png HTTP/1.1" 200 2637
+INFO 2026-03-14 16:06:22,438 log 820 23000 "GET /static/jazzmin/css/main.css HTTP/1.1" 200 14372
+INFO 2026-03-14 16:06:22,439 log 820 5164 "GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1" 200 103010
+INFO 2026-03-14 16:06:22,440 log 820 22620 "GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1" 200 298755
+INFO 2026-03-14 16:06:22,471 log 820 5164 "GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1" 200 18270
+INFO 2026-03-14 16:06:22,477 log 820 18208 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+INFO 2026-03-14 16:06:22,483 log 820 22620 "GET /static/vendor/bootstrap/js/bootstrap.bundle.min.js HTTP/1.1" 200 80721
+INFO 2026-03-14 16:06:22,696 log 820 22620 "GET /static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 200 156400
+INFO 2026-03-14 16:08:08,869 log 820 22620 "POST /admin/login/?next=/admin/ HTTP/1.1" 200 3459
+INFO 2026-03-14 16:08:43,109 autoreload 18400 17660 Watching for file changes with StatReloader
+INFO 2026-03-14 16:09:01,410 log 820 25040 "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+INFO 2026-03-14 16:09:01,614 log 820 25040 "GET /admin/ HTTP/1.1" 200 20349
+INFO 2026-03-14 16:09:01,649 log 820 25040 "GET /static/jazzmin/js/main.js HTTP/1.1" 200 4542
+INFO 2026-03-14 16:09:01,672 log 820 25040 "GET /static/vendor/fontawesome-free/webfonts/fa-regular-400.woff2 HTTP/1.1" 200 25392
+INFO 2026-03-14 16:09:40,088 log 820 25040 "GET /admin/cart/product/ HTTP/1.1" 200 14557
+INFO 2026-03-14 16:09:40,111 log 820 25040 "GET /static/vendor/select2/css/select2.min.css HTTP/1.1" 200 16264
+INFO 2026-03-14 16:09:40,118 log 820 15536 "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+INFO 2026-03-14 16:09:40,127 log 820 20676 "GET /static/admin/js/core.js HTTP/1.1" 200 6208
+INFO 2026-03-14 16:09:40,127 log 820 11680 "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9777
+INFO 2026-03-14 16:09:40,128 log 820 11692 "GET /static/admin/js/actions.js HTTP/1.1" 200 8076
+INFO 2026-03-14 16:09:40,129 log 820 25040 "GET /static/admin/js/urlify.js HTTP/1.1" 200 7887
+INFO 2026-03-14 16:09:40,136 log 820 15536 "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+INFO 2026-03-14 16:09:40,147 log 820 25040 "GET /static/jazzmin/js/change_list.js HTTP/1.1" 200 2205
+INFO 2026-03-14 16:09:40,157 log 820 25596 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-14 16:09:40,163 log 820 11680 "GET /static/vendor/select2/js/select2.min.js HTTP/1.1" 200 73170
+INFO 2026-03-14 16:09:40,201 log 820 20676 "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 200 325171
+INFO 2026-03-14 16:09:42,920 log 820 20676 "GET /admin/cart/product/add/ HTTP/1.1" 200 17727
+INFO 2026-03-14 16:09:42,949 log 820 25596 "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 200 586
+INFO 2026-03-14 16:09:42,949 log 820 11680 "GET /static/admin/js/change_form.js HTTP/1.1" 200 606
+INFO 2026-03-14 16:09:42,965 log 820 20676 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-14 16:09:42,969 log 820 11680 "GET /static/jazzmin/js/change_form.js HTTP/1.1" 200 6045
+INFO 2026-03-14 16:13:54,542 log 820 11680 "POST /admin/cart/product/add/ HTTP/1.1" 302 0
+INFO 2026-03-14 16:13:54,603 log 820 11680 "GET /admin/cart/product/ HTTP/1.1" 200 18391
+INFO 2026-03-14 16:13:54,644 log 820 11680 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-14 16:14:08,879 log 820 4072 "GET /api/products/ HTTP/1.1" 200 2
+INFO 2026-03-14 16:14:08,905 log 820 4072 "GET /api/products/ HTTP/1.1" 200 2
+INFO 2026-03-14 16:14:12,061 log 820 4072 "GET /api/products/ HTTP/1.1" 200 2
+INFO 2026-03-14 16:14:12,086 log 820 4072 "GET /api/products/ HTTP/1.1" 200 2
+INFO 2026-03-14 16:14:12,220 log 820 4072 "GET /api/products/ HTTP/1.1" 200 2
+INFO 2026-03-14 16:14:12,246 log 820 4072 "GET /api/products/ HTTP/1.1" 200 2
+INFO 2026-03-14 16:14:12,370 log 820 4072 "GET /api/products/ HTTP/1.1" 200 2
+INFO 2026-03-14 16:14:12,396 log 820 4072 "GET /api/products/ HTTP/1.1" 200 2
+INFO 2026-03-14 16:14:12,582 log 820 4072 "GET /api/products/ HTTP/1.1" 200 2
+INFO 2026-03-14 16:14:12,607 log 820 4072 "GET /api/products/ HTTP/1.1" 200 2
+INFO 2026-03-14 16:15:41,175 autoreload 21432 19896 Watching for file changes with StatReloader
+INFO 2026-03-14 16:16:03,316 log 820 11680 "GET /admin/cart/product/add/ HTTP/1.1" 200 17727
+INFO 2026-03-14 16:16:10,667 log 820 11680 "POST /admin/cart/product/add/ HTTP/1.1" 302 0
+INFO 2026-03-14 16:16:10,704 log 820 11680 "GET /admin/cart/product/ HTTP/1.1" 200 18901
+INFO 2026-03-14 16:16:10,747 log 820 11680 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-14 16:18:23,194 autoreload 25480 1660 Watching for file changes with StatReloader
+INFO 2026-03-14 16:18:35,106 log 820 24088 "GET /api/products/ HTTP/1.1" 200 5158
+INFO 2026-03-14 16:19:21,437 autoreload 23332 22432 Watching for file changes with StatReloader
+INFO 2026-03-14 16:19:26,787 log 820 24088 "GET /api/products/ HTTP/1.1" 200 5158
+INFO 2026-03-14 16:21:25,714 autoreload 820 24080 C:\Users\pc\Desktop\zyphone\backend\users\migrations\0001_initial.py changed, reloading.
+INFO 2026-03-14 16:21:26,251 autoreload 12052 9828 Watching for file changes with StatReloader
+INFO 2026-03-14 16:22:21,794 autoreload 3864 24408 Watching for file changes with StatReloader
+INFO 2026-03-14 19:09:27,113 autoreload 16320 24284 Watching for file changes with StatReloader
+INFO 2026-03-14 19:09:39,524 log 16320 4172 "GET /api/products/ HTTP/1.1" 200 2
+INFO 2026-03-14 19:09:39,550 log 16320 4172 "GET /api/products/ HTTP/1.1" 200 2
+INFO 2026-03-14 19:14:54,374 autoreload 10844 18964 Watching for file changes with StatReloader
+WARNING 2026-03-14 19:14:58,510 log 10844 13148 Not Found: /
+WARNING 2026-03-14 19:14:58,510 log 10844 13148 "GET / HTTP/1.1" 404 3734
+WARNING 2026-03-14 19:14:58,579 log 10844 13148 Not Found: /favicon.ico
+WARNING 2026-03-14 19:14:58,579 log 10844 13148 "GET /favicon.ico HTTP/1.1" 404 3785
+INFO 2026-03-14 19:15:04,702 log 10844 13148 "GET /admin/ HTTP/1.1" 302 0
+INFO 2026-03-14 19:15:04,712 log 10844 13148 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 3139
+INFO 2026-03-14 19:15:04,719 log 10844 14248 "GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1" 304 0
+INFO 2026-03-14 19:15:04,720 log 10844 13148 "GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1" 304 0
+INFO 2026-03-14 19:15:04,724 log 10844 14248 "GET /static/vendor/bootstrap/js/bootstrap.bundle.min.js HTTP/1.1" 304 0
+INFO 2026-03-14 19:15:04,725 log 10844 22656 "GET /static/jazzmin/css/main.css HTTP/1.1" 304 0
+INFO 2026-03-14 19:15:04,725 log 10844 20436 "GET /static/vendor/adminlte/img/AdminLTELogo.png HTTP/1.1" 304 0
+INFO 2026-03-14 19:15:04,726 log 10844 18340 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 304 0
+INFO 2026-03-14 19:15:04,726 log 10844 13148 "GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1" 304 0
+INFO 2026-03-14 19:15:04,750 log 10844 13148 "GET /static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 304 0
+INFO 2026-03-14 19:15:07,249 log 10844 13148 "POST /admin/login/?next=/admin/ HTTP/1.1" 200 3459
+INFO 2026-03-14 19:15:14,758 log 10844 13148 "POST /admin/login/?next=/admin/ HTTP/1.1" 200 3459
+INFO 2026-03-14 19:15:16,378 log 10844 13148 "POST /admin/login/?next=/admin/ HTTP/1.1" 200 3459
+INFO 2026-03-14 19:15:54,247 autoreload 23592 13856 Watching for file changes with StatReloader
+WARNING 2026-03-14 19:15:58,161 log 23592 19348 Not Found: /
+WARNING 2026-03-14 19:15:58,161 log 23592 19348 "GET / HTTP/1.1" 404 3734
+INFO 2026-03-14 19:16:02,856 log 23592 19348 "GET /admin/ HTTP/1.1" 302 0
+INFO 2026-03-14 19:16:02,867 log 23592 19348 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 3139
+INFO 2026-03-14 19:16:11,712 log 23592 19348 "POST /admin/login/?next=/admin/ HTTP/1.1" 200 3459
+INFO 2026-03-14 19:16:24,468 log 23592 19348 "POST /admin/login/?next=/admin/ HTTP/1.1" 200 3459
+INFO 2026-03-14 19:16:25,985 log 23592 19348 "POST /admin/login/?next=/admin/ HTTP/1.1" 200 3459
+INFO 2026-03-14 19:16:31,052 log 23592 19348 "POST /admin/login/?next=/admin/ HTTP/1.1" 200 3459
+INFO 2026-03-14 19:16:32,509 log 23592 19348 "POST /admin/login/?next=/admin/ HTTP/1.1" 200 3459
+INFO 2026-03-14 19:16:33,513 basehttp 23592 19348 - Broken pipe from ('127.0.0.1', 52931)
+INFO 2026-03-14 19:16:33,773 basehttp 23592 21712 - Broken pipe from ('127.0.0.1', 56757)
+INFO 2026-03-14 19:16:34,001 basehttp 23592 5972 - Broken pipe from ('127.0.0.1', 52517)
+INFO 2026-03-14 19:16:34,069 log 23592 8152 "POST /admin/login/?next=/admin/ HTTP/1.1" 200 3459
+WARNING 2026-03-14 19:16:35,012 log 23592 8152 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-03-14 19:16:35,012 log 23592 8152 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3896
+WARNING 2026-03-14 19:16:35,048 log 23592 19208 "GET /static/vendor/bootstrap/js/bootstrap.bundle.min.js.map HTTP/1.1" 404 1955
+INFO 2026-03-14 19:16:35,065 log 23592 8152 "GET /static/vendor/adminlte/css/adminlte.min.css.map HTTP/1.1" 200 763885
+INFO 2026-03-14 19:16:35,075 log 23592 23920 "GET /static/vendor/adminlte/js/adminlte.min.js.map HTTP/1.1" 200 19962
+INFO 2026-03-14 19:16:43,876 log 23592 23920 "POST /admin/login/?next=/admin/ HTTP/1.1" 200 3459
+INFO 2026-03-14 19:16:43,887 log 23592 18924 "GET /static/jazzmin/css/main.css HTTP/1.1" 200 14372
+INFO 2026-03-14 19:16:43,887 log 23592 25280 "GET /static/vendor/adminlte/img/AdminLTELogo.png HTTP/1.1" 200 2637
+INFO 2026-03-14 19:16:43,889 log 23592 23920 "GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1" 200 103010
+INFO 2026-03-14 19:16:43,892 log 23592 23920 "GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1" 200 18270
+INFO 2026-03-14 19:16:43,892 log 23592 14016 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+INFO 2026-03-14 19:16:43,892 log 23592 18924 "GET /static/vendor/bootstrap/js/bootstrap.bundle.min.js HTTP/1.1" 200 80721
+INFO 2026-03-14 19:16:43,893 log 23592 8152 "GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1" 200 298755
+WARNING 2026-03-14 19:16:43,899 log 23592 8152 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-03-14 19:16:43,900 log 23592 8152 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3896
+INFO 2026-03-14 19:16:43,910 log 23592 8152 "GET /static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 200 156400
+INFO 2026-03-14 19:16:43,927 log 23592 8152 "GET /static/vendor/adminlte/css/adminlte.min.css.map HTTP/1.1" 200 763885
+WARNING 2026-03-14 19:16:44,000 log 23592 8152 "GET /static/vendor/bootstrap/js/bootstrap.bundle.min.js.map HTTP/1.1" 404 1955
+INFO 2026-03-14 19:16:44,008 log 23592 14016 "GET /static/vendor/adminlte/js/adminlte.min.js.map HTTP/1.1" 200 19962
+INFO 2026-03-14 19:16:45,432 log 23592 14016 "POST /admin/login/?next=/admin/ HTTP/1.1" 200 3459
+INFO 2026-03-14 19:16:45,443 log 23592 18924 "GET /static/jazzmin/css/main.css HTTP/1.1" 200 14372
+INFO 2026-03-14 19:16:45,444 log 23592 25280 "GET /static/vendor/adminlte/img/AdminLTELogo.png HTTP/1.1" 200 2637
+INFO 2026-03-14 19:16:45,444 log 23592 14016 "GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1" 200 103010
+INFO 2026-03-14 19:16:45,445 log 23592 23920 "GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1" 200 298755
+INFO 2026-03-14 19:16:45,446 log 23592 10732 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+WARNING 2026-03-14 19:16:45,451 log 23592 18924 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-03-14 19:16:45,452 log 23592 18924 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3896
+INFO 2026-03-14 19:16:45,452 log 23592 25280 "GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1" 200 18270
+INFO 2026-03-14 19:16:45,453 log 23592 14016 "GET /static/vendor/bootstrap/js/bootstrap.bundle.min.js HTTP/1.1" 200 80721
+INFO 2026-03-14 19:16:45,465 log 23592 25280 "GET /static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 200 156400
+INFO 2026-03-14 19:16:45,481 log 23592 25280 "GET /static/vendor/adminlte/css/adminlte.min.css.map HTTP/1.1" 200 763885
+WARNING 2026-03-14 19:16:45,545 log 23592 25280 "GET /static/vendor/bootstrap/js/bootstrap.bundle.min.js.map HTTP/1.1" 404 1955
+INFO 2026-03-14 19:16:45,545 log 23592 14016 "GET /static/vendor/adminlte/js/adminlte.min.js.map HTTP/1.1" 200 19962
+INFO 2026-03-14 19:16:46,226 log 23592 14016 "POST /admin/login/?next=/admin/ HTTP/1.1" 200 3459
+INFO 2026-03-14 19:16:46,236 log 23592 23920 "GET /static/vendor/adminlte/img/AdminLTELogo.png HTTP/1.1" 200 2637
+INFO 2026-03-14 19:16:46,237 log 23592 10732 "GET /static/jazzmin/css/main.css HTTP/1.1" 200 14372
+INFO 2026-03-14 19:16:46,237 log 23592 14016 "GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1" 200 103010
+INFO 2026-03-14 19:16:46,238 log 23592 18924 "GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1" 200 298755
+INFO 2026-03-14 19:16:46,239 log 23592 248 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+INFO 2026-03-14 19:16:46,241 log 23592 14016 "GET /static/vendor/bootstrap/js/bootstrap.bundle.min.js HTTP/1.1" 200 80721
+INFO 2026-03-14 19:16:46,241 log 23592 10732 "GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1" 200 18270
+WARNING 2026-03-14 19:16:46,247 log 23592 248 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-03-14 19:16:46,249 log 23592 248 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3896
+INFO 2026-03-14 19:16:46,250 log 23592 10732 "GET /static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 200 156400
+INFO 2026-03-14 19:16:46,271 log 23592 10732 "GET /static/vendor/adminlte/css/adminlte.min.css.map HTTP/1.1" 200 763885
+WARNING 2026-03-14 19:16:46,337 log 23592 10732 "GET /static/vendor/bootstrap/js/bootstrap.bundle.min.js.map HTTP/1.1" 404 1955
+INFO 2026-03-14 19:16:46,340 log 23592 248 "GET /static/vendor/adminlte/js/adminlte.min.js.map HTTP/1.1" 200 19962
+INFO 2026-03-14 19:16:56,255 autoreload 23792 4052 Watching for file changes with StatReloader
+INFO 2026-03-14 19:17:32,303 autoreload 14732 19544 Watching for file changes with StatReloader
+WARNING 2026-03-14 19:17:35,829 log 14732 19740 Not Found: /
+WARNING 2026-03-14 19:17:35,829 log 14732 19740 "GET / HTTP/1.1" 404 3734
+INFO 2026-03-14 19:17:41,145 log 14732 19740 "GET /admin/ HTTP/1.1" 302 0
+INFO 2026-03-14 19:17:41,155 log 14732 19740 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 3139
+INFO 2026-03-14 19:17:51,805 log 14732 19740 "POST /admin/login/?next=/admin/ HTTP/1.1" 200 3459
+WARNING 2026-03-14 19:18:34,438 log 14732 19740 Not Found: /
+WARNING 2026-03-14 19:18:34,439 log 14732 19740 "GET / HTTP/1.1" 404 3734
+INFO 2026-03-14 19:18:37,722 log 14732 19740 "GET /admin/ HTTP/1.1" 302 0
+INFO 2026-03-14 19:18:37,730 log 14732 19740 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 3139
+INFO 2026-03-14 19:18:40,070 log 14732 19740 "POST /admin/login/?next=/admin/ HTTP/1.1" 200 3459
+INFO 2026-03-14 19:18:53,828 autoreload 20940 17588 Watching for file changes with StatReloader
+INFO 2026-03-14 19:19:56,827 autoreload 20576 24404 Watching for file changes with StatReloader
+WARNING 2026-03-14 19:20:06,393 log 20576 20736 Not Found: /
+WARNING 2026-03-14 19:20:06,393 log 20576 20736 "GET / HTTP/1.1" 404 3734
+INFO 2026-03-14 19:20:11,536 log 20576 20736 "GET /admin/ HTTP/1.1" 302 0
+INFO 2026-03-14 19:20:11,549 log 20576 20736 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 3139
+INFO 2026-03-14 19:20:23,527 log 20576 20736 "POST /admin/login/?next=/admin/ HTTP/1.1" 200 3459
+INFO 2026-03-14 19:20:57,539 autoreload 20608 2448 Watching for file changes with StatReloader
+INFO 2026-03-14 19:21:55,436 autoreload 9296 23272 Watching for file changes with StatReloader
+WARNING 2026-03-14 19:22:03,224 log 9296 24068 Not Found: /
+WARNING 2026-03-14 19:22:03,225 log 9296 24068 "GET / HTTP/1.1" 404 3734
+INFO 2026-03-14 19:22:06,594 log 9296 24068 "GET /admin/ HTTP/1.1" 302 0
+INFO 2026-03-14 19:22:06,607 log 9296 24068 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 3139
+INFO 2026-03-14 19:22:11,206 log 9296 24068 "POST /admin/login/?next=/admin/ HTTP/1.1" 200 3459
+INFO 2026-03-14 19:22:21,581 log 9296 24068 "POST /admin/login/?next=/admin/ HTTP/1.1" 200 3459
+INFO 2026-03-14 19:23:02,320 autoreload 7288 7812 Watching for file changes with StatReloader
+INFO 2026-03-14 19:23:26,435 log 7288 23516 "GET /admin/login/ HTTP/1.1" 200 3126
+INFO 2026-03-14 19:23:28,700 log 7288 23516 "POST /admin/login/ HTTP/1.1" 200 3446
+INFO 2026-03-14 19:24:02,723 autoreload 25056 23412 Watching for file changes with StatReloader
+INFO 2026-03-14 19:24:46,223 autoreload 16276 4540 Watching for file changes with StatReloader
+INFO 2026-03-14 19:25:09,005 log 16276 23752 "POST /admin/login/ HTTP/1.1" 302 0
+WARNING 2026-03-14 19:25:09,012 log 16276 23752 Not Found: /accounts/profile/
+WARNING 2026-03-14 19:25:09,012 log 16276 23752 "GET /accounts/profile/ HTTP/1.1" 404 3803
+INFO 2026-03-14 19:26:52,461 autoreload 16276 4540 C:\Users\pc\Desktop\zyphone\backend\backend\settings.py changed, reloading.
+INFO 2026-03-14 19:26:52,895 autoreload 4364 4100 Watching for file changes with StatReloader
+WARNING 2026-03-14 19:27:01,042 log 4364 392 Not Found: /accounts/profile/
+WARNING 2026-03-14 19:27:01,042 log 4364 392 "GET /accounts/profile/ HTTP/1.1" 404 3803
+WARNING 2026-03-14 19:27:01,581 log 4364 392 Not Found: /accounts/profile/
+WARNING 2026-03-14 19:27:01,581 log 4364 392 "GET /accounts/profile/ HTTP/1.1" 404 3803
+WARNING 2026-03-14 19:27:01,781 log 4364 392 Not Found: /accounts/profile/
+WARNING 2026-03-14 19:27:01,781 log 4364 392 "GET /accounts/profile/ HTTP/1.1" 404 3803
+WARNING 2026-03-14 19:27:01,964 log 4364 392 Not Found: /accounts/profile/
+WARNING 2026-03-14 19:27:01,964 log 4364 392 "GET /accounts/profile/ HTTP/1.1" 404 3803
+WARNING 2026-03-14 19:27:02,156 log 4364 392 Not Found: /accounts/profile/
+WARNING 2026-03-14 19:27:02,156 log 4364 392 "GET /accounts/profile/ HTTP/1.1" 404 3803
+INFO 2026-03-14 19:27:06,948 log 4364 392 "GET /admin/ HTTP/1.1" 200 20351
+INFO 2026-03-14 19:27:06,954 log 4364 392 "GET /static/jazzmin/js/main.js HTTP/1.1" 304 0
+INFO 2026-03-14 19:27:06,982 log 4364 392 "GET /static/vendor/fontawesome-free/webfonts/fa-regular-400.woff2 HTTP/1.1" 304 0
+INFO 2026-03-14 19:27:15,797 log 4364 392 "GET /admin/cart/product/add/ HTTP/1.1" 200 17729
+INFO 2026-03-14 19:27:15,805 log 4364 392 "GET /static/vendor/select2/css/select2.min.css HTTP/1.1" 304 0
+INFO 2026-03-14 19:27:15,808 log 4364 25304 "GET /static/admin/js/jquery.init.js HTTP/1.1" 304 0
+INFO 2026-03-14 19:27:15,810 log 4364 20316 "GET /static/admin/js/core.js HTTP/1.1" 304 0
+INFO 2026-03-14 19:27:15,811 log 4364 392 "GET /static/admin/js/urlify.js HTTP/1.1" 304 0
+INFO 2026-03-14 19:27:15,811 log 4364 25304 "GET /static/admin/js/prepopulate.js HTTP/1.1" 304 0
+INFO 2026-03-14 19:27:15,812 log 4364 23452 "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 304 0
+INFO 2026-03-14 19:27:15,812 log 4364 12384 "GET /static/admin/js/actions.js HTTP/1.1" 304 0
+INFO 2026-03-14 19:27:15,813 log 4364 20316 "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 304 0
+INFO 2026-03-14 19:27:15,840 log 4364 22120 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-14 19:27:15,850 log 4364 392 "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 200 586
+INFO 2026-03-14 19:27:15,851 log 4364 25304 "GET /static/admin/js/change_form.js HTTP/1.1" 200 606
+INFO 2026-03-14 19:27:15,855 log 4364 392 "GET /static/vendor/select2/js/select2.min.js HTTP/1.1" 304 0
+INFO 2026-03-14 19:27:15,855 log 4364 25304 "GET /static/jazzmin/js/change_form.js HTTP/1.1" 200 6045
+INFO 2026-03-14 19:28:06,420 log 4364 25304 "POST /admin/cart/product/add/ HTTP/1.1" 302 0
+INFO 2026-03-14 19:28:06,464 log 4364 25304 "GET /admin/cart/product/ HTTP/1.1" 200 18376
+INFO 2026-03-14 19:28:06,471 log 4364 392 "GET /static/jazzmin/js/change_list.js HTTP/1.1" 304 0
+INFO 2026-03-14 19:28:06,499 log 4364 25304 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-14 19:29:36,017 log 4364 25304 "GET /admin/cart/product/1/change/ HTTP/1.1" 200 18722
+INFO 2026-03-14 19:29:36,052 log 4364 25304 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-14 19:29:39,621 log 4364 25304 "GET /media/products/phone17pro_WD5jMhA.jpg HTTP/1.1" 200 32038
+INFO 2026-03-14 19:29:42,141 log 4364 25304 "GET /admin/cart/product/1/change/ HTTP/1.1" 200 18722
+INFO 2026-03-14 19:30:10,332 log 4364 25304 "POST /admin/cart/product/1/change/ HTTP/1.1" 302 0
+INFO 2026-03-14 19:30:10,371 log 4364 25304 "GET /admin/cart/product/ HTTP/1.1" 200 18378
+INFO 2026-03-14 19:30:10,406 log 4364 25304 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-14 19:30:34,050 log 4364 25304 "GET /api/products/ HTTP/1.1" 200 5158
+INFO 2026-03-14 19:30:59,464 autoreload 11036 4996 Watching for file changes with StatReloader
+INFO 2026-03-14 19:31:04,456 log 11036 22604 "GET /api/products/ HTTP/1.1" 200 5158
+INFO 2026-03-14 19:31:04,601 log 11036 22604 "GET /api/products/ HTTP/1.1" 200 5158
+INFO 2026-03-14 19:31:04,912 log 11036 22604 "GET /api/products/ HTTP/1.1" 200 5158
+INFO 2026-03-14 19:31:05,081 log 11036 22604 "GET /api/products/ HTTP/1.1" 200 5158
+INFO 2026-03-14 19:31:13,485 log 11036 22604 "GET /media/products/phone17pro_WD5jMhA.jpg HTTP/1.1" 304 0
+INFO 2026-03-14 19:31:25,232 log 11036 22604 "GET /api/products/ HTTP/1.1" 200 5158
+INFO 2026-03-14 19:33:23,660 autoreload 18292 20784 Watching for file changes with StatReloader
+INFO 2026-03-14 19:33:26,243 log 18292 21232 "GET /api/products/ HTTP/1.1" 200 5158
+INFO 2026-03-14 19:34:12,701 autoreload 14612 19088 Watching for file changes with StatReloader
+INFO 2026-03-14 19:34:36,768 log 14612 24816 "GET /api/products/ HTTP/1.1" 200 5158
+INFO 2026-03-14 19:46:14,083 autoreload 14084 7360 Watching for file changes with StatReloader
+INFO 2026-03-14 19:46:16,665 log 14084 3840 "GET /api/products/ HTTP/1.1" 200 5158
+INFO 2026-03-14 19:46:20,110 log 14084 3840 "GET /api/products/ HTTP/1.1" 200 5158
+INFO 2026-03-14 19:48:06,990 autoreload 14084 7360 C:\Users\pc\Desktop\zyphone\backend\products\views.py changed, reloading.
+INFO 2026-03-14 19:48:07,414 autoreload 24992 24732 Watching for file changes with StatReloader
+INFO 2026-03-14 19:48:13,683 autoreload 24992 24732 C:\Users\pc\Desktop\zyphone\backend\products\serializers.py changed, reloading.
+INFO 2026-03-14 19:48:14,063 autoreload 24692 9872 Watching for file changes with StatReloader
+INFO 2026-03-14 19:48:20,101 autoreload 13436 25392 Watching for file changes with StatReloader
+INFO 2026-03-14 19:48:43,744 autoreload 13436 25392 C:\Users\pc\Desktop\zyphone\backend\products\urls.py changed, reloading.
+INFO 2026-03-14 19:48:44,160 autoreload 996 18792 Watching for file changes with StatReloader
+INFO 2026-03-14 19:48:56,680 autoreload 996 18792 C:\Users\pc\Desktop\zyphone\backend\products\views.py changed, reloading.
+INFO 2026-03-14 19:48:57,094 autoreload 23320 15796 Watching for file changes with StatReloader
+INFO 2026-03-14 19:49:06,514 autoreload 23320 15796 C:\Users\pc\Desktop\zyphone\backend\products\urls.py changed, reloading.
+INFO 2026-03-14 19:49:06,934 autoreload 7832 19808 Watching for file changes with StatReloader
+INFO 2026-03-14 19:49:13,980 autoreload 18184 12612 Watching for file changes with StatReloader
+INFO 2026-03-14 19:49:26,909 log 18184 6100 "GET /api/products/ HTTP/1.1" 200 5158
+WARNING 2026-03-14 19:49:40,159 log 18184 6100 Not Found: /api/products/1/
+WARNING 2026-03-14 19:49:40,160 log 18184 6100 "GET /api/products/1/ HTTP/1.1" 404 5334
+INFO 2026-03-14 19:50:39,915 autoreload 6520 19368 Watching for file changes with StatReloader
+INFO 2026-03-14 19:51:01,686 autoreload 17916 8532 Watching for file changes with StatReloader
+INFO 2026-03-14 19:51:15,115 log 17916 14460 "GET /api/products/ HTTP/1.1" 200 5158
+INFO 2026-03-14 19:51:49,062 autoreload 17916 8532 C:\Users\pc\Desktop\zyphone\backend\products\views.py changed, reloading.
+INFO 2026-03-14 19:51:49,486 autoreload 1808 21928 Watching for file changes with StatReloader
+INFO 2026-03-14 19:52:02,659 log 1808 14848 "GET /api/products/ HTTP/1.1" 200 5158
+INFO 2026-03-14 19:52:03,011 log 1808 14848 "GET /api/products/ HTTP/1.1" 200 5158
+INFO 2026-03-14 19:52:03,178 log 1808 14848 "GET /api/products/ HTTP/1.1" 200 5158
+INFO 2026-03-14 19:52:03,332 log 1808 14848 "GET /api/products/ HTTP/1.1" 200 5158
+INFO 2026-03-14 19:52:03,490 log 1808 14848 "GET /api/products/ HTTP/1.1" 200 5158
+WARNING 2026-03-14 19:52:10,917 log 1808 14848 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-03-14 19:52:10,917 log 1808 14848 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3896
+INFO 2026-03-14 19:52:10,956 log 1808 14848 "GET /static/rest_framework/css/bootstrap.min.css.map HTTP/1.1" 200 540434
+INFO 2026-03-15 10:23:05,637 autoreload 18280 11508 Watching for file changes with StatReloader
+INFO 2026-03-15 10:23:10,132 log 18280 3396 "GET /api/products/ HTTP/1.1" 200 10455
+INFO 2026-03-15 10:23:10,236 log 18280 3396 "GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 200 121457
+INFO 2026-03-15 10:23:10,238 log 18280 12464 "GET /static/rest_framework/css/prettify.css HTTP/1.1" 200 817
+INFO 2026-03-15 10:23:10,240 log 18280 12308 "GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 200 3426
+INFO 2026-03-15 10:23:10,240 log 18280 16520 "GET /static/rest_framework/css/default.css HTTP/1.1" 200 1152
+INFO 2026-03-15 10:23:10,259 log 18280 18052 "GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 200 3796
+INFO 2026-03-15 10:23:10,262 log 18280 16520 "GET /static/rest_framework/js/default.js HTTP/1.1" 200 1268
+INFO 2026-03-15 10:23:10,263 log 18280 3396 "GET /static/rest_framework/js/csrf.js HTTP/1.1" 200 1793
+INFO 2026-03-15 10:23:10,266 log 18280 16520 "GET /static/rest_framework/img/grid.png HTTP/1.1" 200 1458
+INFO 2026-03-15 10:23:10,272 log 18280 12308 "GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 200 13632
+INFO 2026-03-15 10:23:10,273 log 18280 18052 "GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 200 59
+INFO 2026-03-15 10:23:10,277 log 18280 12464 "GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 200 39680
+INFO 2026-03-15 10:23:10,290 log 18280 10928 "GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 200 87533
+WARNING 2026-03-15 10:23:10,331 log 18280 10928 Not Found: /favicon.ico
+WARNING 2026-03-15 10:23:10,331 log 18280 10928 "GET /favicon.ico HTTP/1.1" 404 3785
+INFO 2026-03-15 10:23:29,895 log 18280 9612 "GET /api/products/ HTTP/1.1" 200 246
+INFO 2026-03-15 10:23:29,927 log 18280 9612 "GET /api/products/ HTTP/1.1" 200 246
+INFO 2026-03-15 10:23:35,962 log 18280 2536 "GET /media/products/earpode11.png HTTP/1.1" 200 14075
+INFO 2026-03-15 10:23:35,968 log 18280 10316 "GET /media/products/PHONE6.avif HTTP/1.1" 200 23490
+INFO 2026-03-15 10:23:41,112 log 18280 9612 "GET /api/products/ HTTP/1.1" 200 246
+INFO 2026-03-15 10:23:41,143 log 18280 9612 "GET /api/products/ HTTP/1.1" 200 246
+INFO 2026-03-15 10:23:42,556 log 18280 9612 "GET /api/products/1/ HTTP/1.1" 200 112
+INFO 2026-03-15 10:23:42,558 log 18280 13788 "GET /api/products/?featured=true&limit=4 HTTP/1.1" 200 246
+INFO 2026-03-15 10:23:42,592 log 18280 9612 "GET /api/products/1/ HTTP/1.1" 200 112
+INFO 2026-03-15 10:23:42,593 log 18280 13788 "GET /api/products/?featured=true&limit=4 HTTP/1.1" 200 246
+INFO 2026-03-15 10:23:49,567 log 18280 13788 "OPTIONS /api/orders/create/ HTTP/1.1" 200 0
+WARNING 2026-03-15 10:23:49,612 log 18280 13788 Unauthorized: /api/orders/create/
+WARNING 2026-03-15 10:23:49,612 log 18280 13788 "POST /api/orders/create/ HTTP/1.1" 401 51
+INFO 2026-03-15 10:23:49,614 log 18280 13788 "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+ERROR 2026-03-15 10:23:49,757 log 18280 13788 Internal Server Error: /api/token/refresh/
+Traceback (most recent call last):
+  File "C:\Users\pc\AppData\Local\Programs\Python\Python314\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\pc\AppData\Local\Programs\Python\Python314\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\pc\AppData\Local\Programs\Python\Python314\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\pc\AppData\Local\Programs\Python\Python314\Lib\site-packages\django\views\generic\base.py", line 106, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\AppData\Local\Programs\Python\Python314\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\pc\AppData\Local\Programs\Python\Python314\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\pc\AppData\Local\Programs\Python\Python314\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\pc\AppData\Local\Programs\Python\Python314\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\pc\AppData\Local\Programs\Python\Python314\Lib\site-packages\rest_framework_simplejwt\views.py", line 46, in post
+    serializer.is_valid(raise_exception=True)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\AppData\Local\Programs\Python\Python314\Lib\site-packages\rest_framework\serializers.py", line 225, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+                           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\AppData\Local\Programs\Python\Python314\Lib\site-packages\rest_framework\serializers.py", line 447, in run_validation
+    value = self.validate(value)
+  File "C:\Users\pc\AppData\Local\Programs\Python\Python314\Lib\site-packages\rest_framework_simplejwt\serializers.py", line 116, in validate
+    user := get_user_model().objects.get(
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        **{api_settings.USER_ID_FIELD: user_id}
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\pc\AppData\Local\Programs\Python\Python314\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\AppData\Local\Programs\Python\Python314\Lib\site-packages\django\db\models\query.py", line 639, in get
+    raise self.model.DoesNotExist(
+        "%s matching query does not exist." % self.model._meta.object_name
+    )
+users.models.User.DoesNotExist: User matching query does not exist.
+ERROR 2026-03-15 10:23:49,761 log 18280 13788 "POST /api/token/refresh/ HTTP/1.1" 500 20755
+INFO 2026-03-15 10:23:51,148 log 18280 13788 "OPTIONS /api/token/ HTTP/1.1" 200 0
+WARNING 2026-03-15 10:23:51,587 log 18280 13788 Unauthorized: /api/token/
+WARNING 2026-03-15 10:23:51,588 log 18280 13788 "POST /api/token/ HTTP/1.1" 401 63
+WARNING 2026-03-15 10:23:53,198 log 18280 13788 Unauthorized: /api/token/
+WARNING 2026-03-15 10:23:53,199 log 18280 13788 "POST /api/token/ HTTP/1.1" 401 63
+WARNING 2026-03-15 10:23:53,733 log 18280 13788 Unauthorized: /api/token/
+WARNING 2026-03-15 10:23:53,734 log 18280 13788 "POST /api/token/ HTTP/1.1" 401 63
+WARNING 2026-03-15 10:23:54,340 log 18280 13788 Unauthorized: /api/token/
+WARNING 2026-03-15 10:23:54,340 log 18280 13788 "POST /api/token/ HTTP/1.1" 401 63
+INFO 2026-03-15 10:23:58,077 log 18280 13788 "GET /api/products/ HTTP/1.1" 200 246
+INFO 2026-03-15 10:23:58,115 log 18280 13788 "GET /api/products/ HTTP/1.1" 200 246
+INFO 2026-03-15 10:24:14,918 log 18280 19388 "GET /admin/products/product/ HTTP/1.1" 302 0
+INFO 2026-03-15 10:24:14,954 log 18280 19388 "GET /admin/login/?next=/admin/products/product/ HTTP/1.1" 200 3156
+INFO 2026-03-15 10:24:14,973 log 18280 19284 "GET /static/vendor/adminlte/img/AdminLTELogo.png HTTP/1.1" 200 2637
+INFO 2026-03-15 10:24:14,983 log 18280 17808 "GET /static/jazzmin/css/main.css HTTP/1.1" 200 14372
+INFO 2026-03-15 10:24:14,983 log 18280 19388 "GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1" 200 103010
+INFO 2026-03-15 10:24:14,984 log 18280 19376 "GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1" 200 298755
+INFO 2026-03-15 10:24:15,018 log 18280 17808 "GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1" 200 18270
+INFO 2026-03-15 10:24:15,023 log 18280 8804 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+INFO 2026-03-15 10:24:15,032 log 18280 19388 "GET /static/vendor/bootstrap/js/bootstrap.bundle.min.js HTTP/1.1" 200 80721
+INFO 2026-03-15 10:24:15,323 log 18280 19376 "GET /static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 200 156400
+INFO 2026-03-15 10:24:16,828 log 18280 19376 "POST /admin/login/?next=/admin/products/product/ HTTP/1.1" 200 3476
+INFO 2026-03-15 10:24:19,162 log 18280 19376 "POST /admin/login/?next=/admin/products/product/ HTTP/1.1" 200 3476
+INFO 2026-03-15 10:24:38,964 log 18280 19376 "POST /admin/login/?next=/admin/products/product/ HTTP/1.1" 200 3476
+WARNING 2026-03-15 10:24:45,246 log 18280 19376 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-03-15 10:24:45,248 log 18280 19376 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3896
+WARNING 2026-03-15 10:24:45,412 log 18280 19376 "GET /static/vendor/bootstrap/js/bootstrap.bundle.min.js.map HTTP/1.1" 404 1955
+INFO 2026-03-15 10:24:45,421 log 18280 19388 "GET /static/vendor/adminlte/js/adminlte.min.js.map HTTP/1.1" 200 19962
+INFO 2026-03-15 10:24:45,435 log 18280 19388 "GET /static/vendor/adminlte/css/adminlte.min.css.map HTTP/1.1" 200 763885
+INFO 2026-03-15 10:25:13,963 autoreload 6248 17972 Watching for file changes with StatReloader
+WARNING 2026-03-15 10:25:21,300 log 6248 5912 Not Found: /
+WARNING 2026-03-15 10:25:21,301 log 6248 5912 "GET / HTTP/1.1" 404 3734
+INFO 2026-03-15 10:25:28,576 log 6248 5912 "GET /admin HTTP/1.1" 301 0
+INFO 2026-03-15 10:25:28,711 log 6248 5912 "GET /admin/ HTTP/1.1" 200 23163
+INFO 2026-03-15 10:25:28,807 log 6248 5912 "GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1" 200 103010
+INFO 2026-03-15 10:25:28,809 log 6248 18112 "GET /static/jazzmin/css/main.css HTTP/1.1" 200 14372
+INFO 2026-03-15 10:25:28,810 log 6248 17756 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+INFO 2026-03-15 10:25:28,811 log 6248 5912 "GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1" 200 18270
+INFO 2026-03-15 10:25:28,811 log 6248 11668 "GET /static/vendor/adminlte/img/AdminLTELogo.png HTTP/1.1" 200 2637
+INFO 2026-03-15 10:25:28,811 log 6248 10612 "GET /static/vendor/bootstrap/js/bootstrap.bundle.min.js HTTP/1.1" 200 80721
+INFO 2026-03-15 10:25:28,812 log 6248 9808 "GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1" 200 298755
+INFO 2026-03-15 10:25:28,835 log 6248 18112 "GET /static/jazzmin/js/main.js HTTP/1.1" 200 4542
+INFO 2026-03-15 10:25:28,892 log 6248 18112 "GET /static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 200 156400
+INFO 2026-03-15 10:25:28,902 log 6248 9808 "GET /static/vendor/fontawesome-free/webfonts/fa-regular-400.woff2 HTTP/1.1" 200 25392
+INFO 2026-03-15 10:25:33,179 log 6248 9808 "GET /admin/cart/product/ HTTP/1.1" 200 17849
+INFO 2026-03-15 10:25:33,201 log 6248 9808 "GET /static/vendor/select2/css/select2.min.css HTTP/1.1" 200 16264
+INFO 2026-03-15 10:25:33,208 log 6248 11668 "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+INFO 2026-03-15 10:25:33,215 log 6248 5912 "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9777
+INFO 2026-03-15 10:25:33,216 log 6248 10612 "GET /static/admin/js/core.js HTTP/1.1" 200 6208
+INFO 2026-03-15 10:25:33,216 log 6248 17756 "GET /static/admin/js/actions.js HTTP/1.1" 200 8076
+INFO 2026-03-15 10:25:33,225 log 6248 9808 "GET /static/admin/js/urlify.js HTTP/1.1" 200 7887
+INFO 2026-03-15 10:25:33,230 log 6248 11668 "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+INFO 2026-03-15 10:25:33,238 log 6248 5912 "GET /static/jazzmin/js/change_list.js HTTP/1.1" 200 2205
+INFO 2026-03-15 10:25:33,254 log 6248 18112 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:25:33,254 log 6248 10612 "GET /static/vendor/select2/js/select2.min.js HTTP/1.1" 200 73170
+INFO 2026-03-15 10:25:33,296 log 6248 17756 "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 200 325171
+INFO 2026-03-15 10:25:43,627 log 6248 17756 "GET /admin/cart/product/add/ HTTP/1.1" 200 17729
+INFO 2026-03-15 10:25:43,651 log 6248 10612 "GET /static/admin/js/change_form.js HTTP/1.1" 200 606
+INFO 2026-03-15 10:25:43,651 log 6248 18112 "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 200 586
+INFO 2026-03-15 10:25:43,669 log 6248 17756 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:25:43,673 log 6248 18112 "GET /static/jazzmin/js/change_form.js HTTP/1.1" 200 6045
+INFO 2026-03-15 10:26:42,709 log 6248 18112 "POST /admin/cart/product/add/ HTTP/1.1" 302 0
+INFO 2026-03-15 10:26:42,754 log 6248 18112 "GET /admin/cart/product/ HTTP/1.1" 200 18886
+INFO 2026-03-15 10:26:42,794 log 6248 18112 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:26:52,295 autoreload 18544 18956 Watching for file changes with StatReloader
+INFO 2026-03-15 10:26:57,238 log 18544 17652 "GET /api/products/ HTTP/1.1" 200 246
+INFO 2026-03-15 10:26:57,271 log 18544 17652 "GET /api/products/ HTTP/1.1" 200 246
+INFO 2026-03-15 10:28:01,859 log 18544 18908 "GET /admin/products/product/ HTTP/1.1" 302 0
+INFO 2026-03-15 10:28:01,870 log 18544 18908 "GET /admin/login/?next=/admin/products/product/ HTTP/1.1" 200 3156
+INFO 2026-03-15 10:28:03,590 log 18544 18908 "POST /admin/login/?next=/admin/products/product/ HTTP/1.1" 200 3476
+INFO 2026-03-15 10:28:07,327 basehttp 18544 18908 - Broken pipe from ('127.0.0.1', 64239)
+INFO 2026-03-15 10:28:07,708 basehttp 18544 4400 - Broken pipe from ('127.0.0.1', 55895)
+INFO 2026-03-15 10:28:08,025 log 18544 18788 "POST /admin/login/?next=/admin/products/product/ HTTP/1.1" 200 3476
+INFO 2026-03-15 10:28:42,099 autoreload 824 15876 Watching for file changes with StatReloader
+INFO 2026-03-15 10:30:54,180 autoreload 16588 9020 Watching for file changes with StatReloader
+INFO 2026-03-15 10:31:18,689 log 16588 8420 "POST /admin/login/?next=/admin/products/product/ HTTP/1.1" 302 0
+INFO 2026-03-15 10:31:18,758 log 16588 8420 "GET /admin/products/product/ HTTP/1.1" 200 18800
+INFO 2026-03-15 10:31:18,818 log 16588 18788 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:31:18,844 log 16588 8420 "GET /static/vendor/select2/css/select2.min.css HTTP/1.1" 200 16264
+INFO 2026-03-15 10:31:18,845 log 16588 8420 "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+INFO 2026-03-15 10:31:18,848 log 16588 8420 "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 200 325171
+INFO 2026-03-15 10:31:18,851 log 16588 8420 "GET /static/jazzmin/js/main.js HTTP/1.1" 200 4542
+INFO 2026-03-15 10:31:18,853 log 16588 8420 "GET /static/vendor/select2/js/select2.min.js HTTP/1.1" 200 73170
+INFO 2026-03-15 10:31:18,854 log 16588 17988 "GET /static/admin/js/actions.js HTTP/1.1" 200 8076
+INFO 2026-03-15 10:31:18,855 log 16588 8420 "GET /static/jazzmin/js/change_list.js HTTP/1.1" 200 2205
+INFO 2026-03-15 10:31:18,855 log 16588 8156 "GET /static/admin/js/core.js HTTP/1.1" 200 6208
+INFO 2026-03-15 10:31:18,856 log 16588 12016 "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9777
+INFO 2026-03-15 10:31:18,857 log 16588 17248 "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+INFO 2026-03-15 10:31:18,862 log 16588 18788 "GET /static/admin/js/urlify.js HTTP/1.1" 200 7887
+INFO 2026-03-15 10:31:18,894 log 16588 18788 "GET /static/vendor/fontawesome-free/webfonts/fa-regular-400.woff2 HTTP/1.1" 200 25392
+INFO 2026-03-15 10:31:37,553 log 16588 18788 "POST /admin/products/product/ HTTP/1.1" 302 0
+INFO 2026-03-15 10:31:37,598 log 16588 18788 "GET /admin/products/product/ HTTP/1.1" 200 19262
+INFO 2026-03-15 10:31:37,641 log 16588 18788 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:31:40,959 log 16588 18788 "GET /admin/products/product/ HTTP/1.1" 200 18800
+INFO 2026-03-15 10:31:41,005 log 16588 18788 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:31:41,647 log 16588 18788 "GET /admin/products/product/ HTTP/1.1" 200 18800
+INFO 2026-03-15 10:31:41,692 log 16588 18788 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:31:41,966 log 16588 18788 "GET /admin/products/product/ HTTP/1.1" 200 18800
+INFO 2026-03-15 10:31:42,011 log 16588 18788 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:31:48,105 log 16588 18788 "GET /admin/products/ HTTP/1.1" 200 13224
+INFO 2026-03-15 10:31:50,176 log 16588 18788 "GET /admin/products/product/ HTTP/1.1" 200 18800
+INFO 2026-03-15 10:31:50,221 log 16588 18788 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:31:53,485 log 16588 18788 "GET /admin/products/product/add/ HTTP/1.1" 200 18650
+INFO 2026-03-15 10:31:53,498 log 16588 17248 "GET /static/admin/js/change_form.js HTTP/1.1" 200 606
+INFO 2026-03-15 10:31:53,498 log 16588 12016 "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 200 586
+INFO 2026-03-15 10:31:53,511 log 16588 17248 "GET /static/jazzmin/js/change_form.js HTTP/1.1" 200 6045
+INFO 2026-03-15 10:31:53,532 log 16588 18788 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:31:56,139 log 16588 18788 "GET /admin/products/product/ HTTP/1.1" 200 18800
+INFO 2026-03-15 10:32:02,134 log 16588 18788 "GET /admin/cart/cart/ HTTP/1.1" 200 15390
+INFO 2026-03-15 10:32:02,181 log 16588 18788 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:32:03,286 log 16588 18788 "GET /admin/cart/cartitem/ HTTP/1.1" 200 14199
+INFO 2026-03-15 10:32:03,329 log 16588 18788 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:32:04,376 log 16588 18788 "GET /admin/cart/product/ HTTP/1.1" 200 18357
+INFO 2026-03-15 10:32:04,423 log 16588 18788 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:32:05,744 log 16588 18788 "GET /admin/products/product/ HTTP/1.1" 200 18800
+INFO 2026-03-15 10:32:05,790 log 16588 18788 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:32:07,950 log 16588 18788 "GET /admin/cart/product/ HTTP/1.1" 200 18357
+INFO 2026-03-15 10:32:07,994 log 16588 18788 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:32:08,247 log 16588 18788 "GET /admin/cart/product/ HTTP/1.1" 200 18357
+INFO 2026-03-15 10:32:08,291 log 16588 18788 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:32:11,103 log 16588 18788 "GET /admin/products/product/ HTTP/1.1" 200 18800
+INFO 2026-03-15 10:32:11,148 log 16588 18788 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:32:13,327 log 16588 18788 "GET /admin/cart/product/ HTTP/1.1" 200 18357
+INFO 2026-03-15 10:32:13,372 log 16588 18788 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:32:14,279 log 16588 18788 "GET /admin/products/product/ HTTP/1.1" 200 18800
+INFO 2026-03-15 10:32:14,323 log 16588 18788 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:33:03,699 log 16588 18788 "GET /admin/users/user/ HTTP/1.1" 200 21031
+INFO 2026-03-15 10:33:03,724 log 16588 17248 "GET /static/admin/img/icon-yes.svg HTTP/1.1" 200 558
+INFO 2026-03-15 10:33:03,745 log 16588 18788 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:33:07,487 log 16588 18788 "GET /admin/products/product/ HTTP/1.1" 200 18800
+INFO 2026-03-15 10:33:07,534 log 16588 18788 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:33:09,271 log 16588 18788 "GET /admin/cart/product/ HTTP/1.1" 200 18357
+INFO 2026-03-15 10:33:09,319 log 16588 18788 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:33:10,159 log 16588 18788 "GET /admin/cart/cartitem/ HTTP/1.1" 200 14199
+INFO 2026-03-15 10:33:10,205 log 16588 18788 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:33:11,235 log 16588 18788 "GET /admin/auth/group/ HTTP/1.1" 200 14571
+INFO 2026-03-15 10:33:11,278 log 16588 18788 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:33:13,054 log 16588 18788 "GET /admin/ HTTP/1.1" 200 20349
+INFO 2026-03-15 10:33:16,214 log 16588 18788 "GET /admin/cart/product/ HTTP/1.1" 200 18357
+INFO 2026-03-15 10:33:16,260 log 16588 18788 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:33:19,537 log 16588 18788 "GET /admin/cart/product/1/change/ HTTP/1.1" 200 18720
+INFO 2026-03-15 10:33:19,584 log 16588 18788 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:33:35,885 log 16588 18788 "POST /admin/cart/product/1/change/ HTTP/1.1" 302 0
+INFO 2026-03-15 10:33:35,928 log 16588 18788 "GET /admin/cart/product/ HTTP/1.1" 200 18886
+INFO 2026-03-15 10:33:35,974 log 16588 18788 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:33:43,759 log 16588 18788 "GET /admin/products/product/ HTTP/1.1" 200 18800
+INFO 2026-03-15 10:33:43,806 log 16588 18788 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:33:43,949 log 16588 18788 "GET /admin/products/product/ HTTP/1.1" 200 18800
+INFO 2026-03-15 10:33:43,993 log 16588 18788 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:33:49,519 log 16588 18788 "GET /admin/cart/product/ HTTP/1.1" 200 18357
+INFO 2026-03-15 10:33:49,565 log 16588 18788 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:33:52,630 log 16588 18788 "GET /admin/products/product/ HTTP/1.1" 200 18800
+INFO 2026-03-15 10:33:52,675 log 16588 18788 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:33:57,743 log 16588 18788 "GET /admin/products/product/2/change/ HTTP/1.1" 200 19396
+INFO 2026-03-15 10:33:57,789 log 16588 18788 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:34:45,280 log 16588 18788 "POST /admin/products/product/2/change/ HTTP/1.1" 302 0
+INFO 2026-03-15 10:34:45,325 log 16588 18788 "GET /admin/products/product/ HTTP/1.1" 200 19396
+INFO 2026-03-15 10:34:45,348 log 16588 17248 "GET /media/products/G24.jpg HTTP/1.1" 200 8635
+INFO 2026-03-15 10:34:45,373 log 16588 18788 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:34:56,420 autoreload 18340 18140 Watching for file changes with StatReloader
+INFO 2026-03-15 10:35:01,888 log 18340 15712 "GET /api/products/ HTTP/1.1" 200 267
+INFO 2026-03-15 10:35:01,922 log 18340 15712 "GET /api/products/ HTTP/1.1" 200 267
+INFO 2026-03-15 10:35:01,925 log 18340 6248 "GET /media/products/G24.jpg HTTP/1.1" 200 8635
+INFO 2026-03-15 10:35:57,950 log 18340 14576 "GET /admin/products/product/1/change/ HTTP/1.1" 200 19366
+INFO 2026-03-15 10:35:57,993 log 18340 14576 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:36:04,827 log 18340 14576 "POST /admin/products/product/1/change/ HTTP/1.1" 302 0
+INFO 2026-03-15 10:36:04,876 log 18340 14576 "GET /admin/products/product/ HTTP/1.1" 200 19440
+INFO 2026-03-15 10:36:04,892 log 18340 18916 "GET /media/products/G24.jpg HTTP/1.1" 304 0
+INFO 2026-03-15 10:36:04,908 log 18340 18916 "GET /media/products/15PRO.webp HTTP/1.1" 200 22890
+INFO 2026-03-15 10:36:04,924 log 18340 14576 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:36:07,990 log 18340 14576 "GET /admin/products/product/add/ HTTP/1.1" 200 18650
+INFO 2026-03-15 10:36:08,035 log 18340 14576 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:38:38,088 log 18340 14576 "POST /admin/products/product/add/ HTTP/1.1" 302 0
+INFO 2026-03-15 10:38:38,131 log 18340 14576 "GET /admin/products/product/ HTTP/1.1" 200 20010
+INFO 2026-03-15 10:38:38,152 log 18340 14576 "GET /media/products/17.jpg HTTP/1.1" 200 32038
+INFO 2026-03-15 10:38:38,157 log 18340 14576 "GET /media/products/G24.jpg HTTP/1.1" 304 0
+INFO 2026-03-15 10:38:38,159 log 18340 14576 "GET /media/products/15PRO.webp HTTP/1.1" 304 0
+INFO 2026-03-15 10:38:38,177 log 18340 18916 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:38:41,390 log 18340 18916 "GET /admin/products/product/add/ HTTP/1.1" 200 18650
+INFO 2026-03-15 10:38:41,434 log 18340 18916 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:40:31,542 log 18340 18916 "POST /admin/products/product/add/ HTTP/1.1" 302 0
+INFO 2026-03-15 10:40:31,586 log 18340 18916 "GET /admin/products/product/ HTTP/1.1" 200 20745
+INFO 2026-03-15 10:40:31,609 log 18340 14576 "GET /media/products/H1.png HTTP/1.1" 200 24665
+INFO 2026-03-15 10:40:31,612 log 18340 14576 "GET /media/products/17.jpg HTTP/1.1" 304 0
+INFO 2026-03-15 10:40:31,614 log 18340 14576 "GET /media/products/G24.jpg HTTP/1.1" 304 0
+INFO 2026-03-15 10:40:31,615 log 18340 14576 "GET /media/products/15PRO.webp HTTP/1.1" 304 0
+INFO 2026-03-15 10:40:31,633 log 18340 18916 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:40:37,608 log 18340 18916 "GET /admin/products/product/add/ HTTP/1.1" 200 18650
+INFO 2026-03-15 10:40:37,652 log 18340 18916 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:41:56,409 log 18340 18916 "POST /admin/products/product/add/ HTTP/1.1" 302 0
+INFO 2026-03-15 10:41:56,452 log 18340 18916 "GET /admin/products/product/ HTTP/1.1" 200 21314
+INFO 2026-03-15 10:41:56,473 log 18340 14576 "GET /media/products/EARP1.png HTTP/1.1" 200 96045
+INFO 2026-03-15 10:41:56,476 log 18340 14576 "GET /media/products/H1.png HTTP/1.1" 304 0
+INFO 2026-03-15 10:41:56,479 log 18340 14576 "GET /media/products/17.jpg HTTP/1.1" 304 0
+INFO 2026-03-15 10:41:56,481 log 18340 14576 "GET /media/products/G24.jpg HTTP/1.1" 304 0
+INFO 2026-03-15 10:41:56,483 log 18340 14576 "GET /media/products/15PRO.webp HTTP/1.1" 304 0
+INFO 2026-03-15 10:41:56,500 log 18340 18916 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:42:02,559 log 18340 18916 "GET /admin/products/product/add/ HTTP/1.1" 200 18650
+INFO 2026-03-15 10:42:02,604 log 18340 18916 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:45:41,908 log 18340 9464 "POST /admin/products/product/add/ HTTP/1.1" 302 0
+INFO 2026-03-15 10:45:41,954 log 18340 9464 "GET /admin/products/product/ HTTP/1.1" 200 21922
+INFO 2026-03-15 10:45:41,975 log 18340 18616 "GET /media/products/I16.png HTTP/1.1" 200 36172
+INFO 2026-03-15 10:45:41,982 log 18340 18616 "GET /media/products/EARP1.png HTTP/1.1" 304 0
+INFO 2026-03-15 10:45:41,984 log 18340 18616 "GET /media/products/H1.png HTTP/1.1" 304 0
+INFO 2026-03-15 10:45:41,986 log 18340 18616 "GET /media/products/17.jpg HTTP/1.1" 304 0
+INFO 2026-03-15 10:45:41,988 log 18340 18616 "GET /media/products/G24.jpg HTTP/1.1" 304 0
+INFO 2026-03-15 10:45:41,989 log 18340 18616 "GET /media/products/15PRO.webp HTTP/1.1" 304 0
+INFO 2026-03-15 10:45:42,000 log 18340 9464 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:46:27,752 log 18340 9464 "GET /admin/products/product/add/ HTTP/1.1" 200 18650
+INFO 2026-03-15 10:46:27,796 log 18340 9464 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:48:08,412 log 18340 9464 "POST /admin/products/product/add/ HTTP/1.1" 302 0
+INFO 2026-03-15 10:48:08,457 log 18340 9464 "GET /admin/products/product/ HTTP/1.1" 200 22487
+INFO 2026-03-15 10:48:08,481 log 18340 18616 "GET /media/products/I16PLUS.png HTTP/1.1" 200 224170
+INFO 2026-03-15 10:48:08,483 log 18340 18616 "GET /media/products/I16.png HTTP/1.1" 304 0
+INFO 2026-03-15 10:48:08,485 log 18340 18616 "GET /media/products/EARP1.png HTTP/1.1" 304 0
+INFO 2026-03-15 10:48:08,486 log 18340 18616 "GET /media/products/H1.png HTTP/1.1" 304 0
+INFO 2026-03-15 10:48:08,488 log 18340 18616 "GET /media/products/17.jpg HTTP/1.1" 304 0
+INFO 2026-03-15 10:48:08,489 log 18340 18616 "GET /media/products/G24.jpg HTTP/1.1" 304 0
+INFO 2026-03-15 10:48:08,490 log 18340 18616 "GET /media/products/15PRO.webp HTTP/1.1" 304 0
+INFO 2026-03-15 10:48:08,504 log 18340 9464 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:48:17,371 log 18340 9976 "GET /api/products/ HTTP/1.1" 200 1768
+INFO 2026-03-15 10:48:17,386 log 18340 19104 "GET /media/products/G24.jpg HTTP/1.1" 304 0
+INFO 2026-03-15 10:48:17,387 log 18340 13472 "GET /media/products/15PRO.webp HTTP/1.1" 200 22890
+INFO 2026-03-15 10:48:17,387 log 18340 7980 "GET /media/products/H1.png HTTP/1.1" 200 24665
+INFO 2026-03-15 10:48:17,389 log 18340 13056 "GET /media/products/17.jpg HTTP/1.1" 200 32038
+INFO 2026-03-15 10:48:17,390 log 18340 19104 "GET /media/products/I16.png HTTP/1.1" 200 36172
+INFO 2026-03-15 10:48:17,391 log 18340 2264 "GET /media/products/EARP1.png HTTP/1.1" 200 96045
+INFO 2026-03-15 10:48:17,391 log 18340 13472 "GET /media/products/I16PLUS.png HTTP/1.1" 200 224170
+INFO 2026-03-15 10:48:17,405 log 18340 9976 "GET /api/products/ HTTP/1.1" 200 1768
+INFO 2026-03-15 10:48:17,612 log 18340 9976 "GET /api/products/ HTTP/1.1" 200 1768
+INFO 2026-03-15 10:48:17,648 log 18340 9976 "GET /api/products/ HTTP/1.1" 200 1768
+INFO 2026-03-15 10:48:27,293 log 18340 9976 "GET /api/products/2/ HTTP/1.1" 200 152
+INFO 2026-03-15 10:48:27,296 log 18340 10972 "GET /api/products/?featured=true&limit=4 HTTP/1.1" 200 1768
+INFO 2026-03-15 10:48:27,327 log 18340 9976 "GET /api/products/2/ HTTP/1.1" 200 152
+INFO 2026-03-15 10:48:27,329 log 18340 10972 "GET /api/products/?featured=true&limit=4 HTTP/1.1" 200 1768
+INFO 2026-03-15 10:48:35,454 log 18340 10972 "GET /api/products/6/ HTTP/1.1" 200 164
+INFO 2026-03-15 10:48:35,455 log 18340 9976 "GET /api/products/?featured=true&limit=4 HTTP/1.1" 200 1768
+INFO 2026-03-15 10:48:40,403 log 18340 10972 "GET /api/products/?featured=true&limit=4 HTTP/1.1" 200 1768
+INFO 2026-03-15 10:48:40,403 log 18340 9976 "GET /api/products/7/ HTTP/1.1" 200 484
+INFO 2026-03-15 10:48:44,121 log 18340 9976 "GET /api/products/8/ HTTP/1.1" 200 337
+INFO 2026-03-15 10:48:44,122 log 18340 10972 "GET /api/products/?featured=true&limit=4 HTTP/1.1" 200 1768
+INFO 2026-03-15 10:48:51,707 log 18340 10972 "GET /api/products/7/ HTTP/1.1" 200 484
+INFO 2026-03-15 10:48:51,709 log 18340 9976 "GET /api/products/?featured=true&limit=4 HTTP/1.1" 200 1768
+INFO 2026-03-15 10:48:54,045 log 18340 9976 "GET /api/products/6/ HTTP/1.1" 200 164
+INFO 2026-03-15 10:48:54,049 log 18340 10972 "GET /api/products/?featured=true&limit=4 HTTP/1.1" 200 1768
+WARNING 2026-03-15 10:49:05,629 log 18340 10972 Unauthorized: /api/token/
+WARNING 2026-03-15 10:49:05,629 log 18340 10972 "POST /api/token/ HTTP/1.1" 401 63
+INFO 2026-03-15 10:49:08,927 log 18340 10972 "GET /api/products/ HTTP/1.1" 200 1768
+INFO 2026-03-15 10:49:08,942 log 18340 13472 "GET /media/products/I16.png HTTP/1.1" 304 0
+INFO 2026-03-15 10:49:08,942 log 18340 2264 "GET /media/products/I16PLUS.png HTTP/1.1" 304 0
+INFO 2026-03-15 10:49:08,961 log 18340 10972 "GET /api/products/ HTTP/1.1" 200 1768
+INFO 2026-03-15 10:50:20,265 log 18340 9464 "GET /admin/products/product/6/change/ HTTP/1.1" 200 19647
+INFO 2026-03-15 10:50:20,306 log 18340 9464 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:50:27,494 log 18340 9464 "POST /admin/products/product/6/change/ HTTP/1.1" 302 0
+INFO 2026-03-15 10:50:27,539 log 18340 9464 "GET /admin/products/product/ HTTP/1.1" 200 22494
+INFO 2026-03-15 10:50:27,554 log 18340 18616 "GET /media/products/I16PLUS.png HTTP/1.1" 304 0
+INFO 2026-03-15 10:50:27,564 log 18340 18616 "GET /media/products/I16.png HTTP/1.1" 304 0
+INFO 2026-03-15 10:50:27,565 log 18340 18616 "GET /media/products/EARP1.png HTTP/1.1" 304 0
+INFO 2026-03-15 10:50:27,567 log 18340 18616 "GET /media/products/H1.png HTTP/1.1" 304 0
+INFO 2026-03-15 10:50:27,577 log 18340 18616 "GET /media/products/iphone17p.png HTTP/1.1" 200 230748
+INFO 2026-03-15 10:50:27,579 log 18340 18616 "GET /media/products/G24.jpg HTTP/1.1" 304 0
+INFO 2026-03-15 10:50:27,580 log 18340 18616 "GET /media/products/15PRO.webp HTTP/1.1" 304 0
+INFO 2026-03-15 10:50:27,587 log 18340 9464 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:50:33,142 log 18340 10972 "GET /api/products/ HTTP/1.1" 200 1775
+INFO 2026-03-15 10:50:33,155 log 18340 19104 "GET /media/products/H1.png HTTP/1.1" 304 0
+INFO 2026-03-15 10:50:33,155 log 18340 13472 "GET /media/products/15PRO.webp HTTP/1.1" 304 0
+INFO 2026-03-15 10:50:33,155 log 18340 13056 "GET /media/products/EARP1.png HTTP/1.1" 304 0
+INFO 2026-03-15 10:50:33,155 log 18340 2264 "GET /media/products/G24.jpg HTTP/1.1" 304 0
+INFO 2026-03-15 10:50:33,156 log 18340 7980 "GET /media/products/I16.png HTTP/1.1" 304 0
+INFO 2026-03-15 10:50:33,158 log 18340 7980 "GET /media/products/I16PLUS.png HTTP/1.1" 304 0
+INFO 2026-03-15 10:50:33,159 log 18340 2264 "GET /media/products/iphone17p.png HTTP/1.1" 200 230748
+INFO 2026-03-15 10:50:33,177 log 18340 10972 "GET /api/products/ HTTP/1.1" 200 1775
+INFO 2026-03-15 10:50:43,406 log 18340 10972 "GET /api/products/ HTTP/1.1" 200 1775
+INFO 2026-03-15 10:50:43,437 log 18340 10972 "GET /api/products/ HTTP/1.1" 200 1775
+INFO 2026-03-15 10:52:17,225 log 18340 9464 "GET /admin/products/product/add/ HTTP/1.1" 200 18650
+INFO 2026-03-15 10:52:17,268 log 18340 9464 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:52:51,059 log 18340 9464 "POST /admin/products/product/add/ HTTP/1.1" 302 0
+INFO 2026-03-15 10:52:51,106 log 18340 9464 "GET /admin/products/product/ HTTP/1.1" 200 23157
+INFO 2026-03-15 10:52:51,130 log 18340 18616 "GET /media/products/dime_evo.webp HTTP/1.1" 200 20592
+INFO 2026-03-15 10:52:51,134 log 18340 18616 "GET /media/products/I16PLUS.png HTTP/1.1" 304 0
+INFO 2026-03-15 10:52:51,135 log 18340 18616 "GET /media/products/I16.png HTTP/1.1" 304 0
+INFO 2026-03-15 10:52:51,137 log 18340 18616 "GET /media/products/EARP1.png HTTP/1.1" 304 0
+INFO 2026-03-15 10:52:51,138 log 18340 18616 "GET /media/products/H1.png HTTP/1.1" 304 0
+INFO 2026-03-15 10:52:51,139 log 18340 18616 "GET /media/products/iphone17p.png HTTP/1.1" 304 0
+INFO 2026-03-15 10:52:51,140 log 18340 18616 "GET /media/products/G24.jpg HTTP/1.1" 304 0
+INFO 2026-03-15 10:52:51,141 log 18340 18616 "GET /media/products/15PRO.webp HTTP/1.1" 304 0
+INFO 2026-03-15 10:52:51,156 log 18340 9464 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:57:33,558 log 18340 9464 "GET /admin/products/product/add/ HTTP/1.1" 200 18650
+INFO 2026-03-15 10:57:33,602 log 18340 9464 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:58:27,093 log 18340 9464 "POST /admin/products/product/add/ HTTP/1.1" 302 0
+INFO 2026-03-15 10:58:27,145 log 18340 9464 "GET /admin/products/product/ HTTP/1.1" 200 23721
+INFO 2026-03-15 10:58:27,168 log 18340 28420 "GET /media/products/17promax.png HTTP/1.1" 200 215552
+INFO 2026-03-15 10:58:27,176 log 18340 28420 "GET /media/products/dime_evo.webp HTTP/1.1" 304 0
+INFO 2026-03-15 10:58:27,179 log 18340 28420 "GET /media/products/I16PLUS.png HTTP/1.1" 304 0
+INFO 2026-03-15 10:58:27,180 log 18340 28420 "GET /media/products/I16.png HTTP/1.1" 304 0
+INFO 2026-03-15 10:58:27,181 log 18340 28420 "GET /media/products/EARP1.png HTTP/1.1" 304 0
+INFO 2026-03-15 10:58:27,182 log 18340 28420 "GET /media/products/H1.png HTTP/1.1" 304 0
+INFO 2026-03-15 10:58:27,184 log 18340 28420 "GET /media/products/iphone17p.png HTTP/1.1" 304 0
+INFO 2026-03-15 10:58:27,185 log 18340 28420 "GET /media/products/G24.jpg HTTP/1.1" 304 0
+INFO 2026-03-15 10:58:27,187 log 18340 28420 "GET /media/products/15PRO.webp HTTP/1.1" 304 0
+INFO 2026-03-15 10:58:27,193 log 18340 9464 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-15 10:58:39,202 log 18340 2304 "GET /api/products/ HTTP/1.1" 200 2328
+INFO 2026-03-15 10:58:39,215 log 18340 29528 "GET /media/products/G24.jpg HTTP/1.1" 304 0
+INFO 2026-03-15 10:58:39,217 log 18340 18656 "GET /media/products/15PRO.webp HTTP/1.1" 304 0
+INFO 2026-03-15 10:58:39,218 log 18340 11040 "GET /media/products/H1.png HTTP/1.1" 304 0
+INFO 2026-03-15 10:58:39,218 log 18340 29528 "GET /media/products/I16PLUS.png HTTP/1.1" 304 0
+INFO 2026-03-15 10:58:39,220 log 18340 18708 "GET /media/products/EARP1.png HTTP/1.1" 304 0
+INFO 2026-03-15 10:58:39,221 log 18340 14688 "GET /media/products/I16.png HTTP/1.1" 304 0
+INFO 2026-03-15 10:58:39,222 log 18340 29528 "GET /media/products/iphone17p.png HTTP/1.1" 304 0
+INFO 2026-03-15 10:58:39,222 log 18340 11040 "GET /media/products/dime_evo.webp HTTP/1.1" 200 20592
+INFO 2026-03-15 10:58:39,223 log 18340 18656 "GET /media/products/17promax.png HTTP/1.1" 200 215552
+INFO 2026-03-15 10:58:39,240 log 18340 2304 "GET /api/products/ HTTP/1.1" 200 2328
+WARNING 2026-03-15 10:59:12,244 log 18340 2304 Unauthorized: /api/token/
+WARNING 2026-03-15 10:59:12,244 log 18340 2304 "POST /api/token/ HTTP/1.1" 401 63
+INFO 2026-03-15 11:00:24,988 autoreload 25380 18808 Watching for file changes with StatReloader
+INFO 2026-03-15 11:04:32,766 autoreload 28712 7336 Watching for file changes with StatReloader
+INFO 2026-03-15 11:04:47,085 log 28712 23824 "OPTIONS /api/token/ HTTP/1.1" 200 0
+INFO 2026-03-15 11:04:47,527 log 28712 23824 "POST /api/token/ HTTP/1.1" 200 776
+WARNING 2026-03-15 11:04:58,187 log 28712 23824 Not Found: /api/orders/create/
+WARNING 2026-03-15 11:04:58,188 log 28712 23824 "POST /api/orders/create/ HTTP/1.1" 404 40
+INFO 2026-03-15 11:05:13,314 log 28712 23824 "GET /api/products/ HTTP/1.1" 200 2328
+INFO 2026-03-15 11:05:13,332 log 28712 26772 "GET /media/products/G24.jpg HTTP/1.1" 304 0
+INFO 2026-03-15 11:05:13,333 log 28712 26940 "GET /media/products/15PRO.webp HTTP/1.1" 304 0
+INFO 2026-03-15 11:05:13,334 log 28712 27204 "GET /media/products/H1.png HTTP/1.1" 304 0
+INFO 2026-03-15 11:05:13,335 log 28712 26312 "GET /media/products/EARP1.png HTTP/1.1" 304 0
+INFO 2026-03-15 11:05:13,336 log 28712 26772 "GET /media/products/iphone17p.png HTTP/1.1" 304 0
+INFO 2026-03-15 11:05:13,337 log 28712 26940 "GET /media/products/I16PLUS.png HTTP/1.1" 304 0
+INFO 2026-03-15 11:05:13,337 log 28712 27084 "GET /media/products/I16.png HTTP/1.1" 304 0
+INFO 2026-03-15 11:05:13,337 log 28712 26312 "GET /media/products/17promax.png HTTP/1.1" 304 0
+INFO 2026-03-15 11:05:13,337 log 28712 27204 "GET /media/products/dime_evo.webp HTTP/1.1" 304 0
+INFO 2026-03-15 11:05:13,353 log 28712 23824 "GET /api/products/ HTTP/1.1" 200 2328
+INFO 2026-03-15 11:05:22,204 log 28712 23824 "POST /api/orders/create/ HTTP/1.1" 201 70
+INFO 2026-03-15 11:05:27,242 log 28712 23824 "OPTIONS /api/orders/ HTTP/1.1" 200 0
+INFO 2026-03-15 11:05:27,244 log 28712 27828 "OPTIONS /api/orders/ HTTP/1.1" 200 0
+INFO 2026-03-15 11:05:27,279 log 28712 23824 "GET /api/orders/ HTTP/1.1" 200 345
+INFO 2026-03-15 11:05:27,316 log 28712 23824 "GET /api/orders/ HTTP/1.1" 200 345
+INFO 2026-03-15 11:05:44,645 log 28712 23824 "GET /api/products/ HTTP/1.1" 200 2328
+INFO 2026-03-15 11:05:44,680 log 28712 23824 "GET /api/products/ HTTP/1.1" 200 2328
+INFO 2026-03-15 11:07:31,860 log 28712 26312 "GET /media/products/H1.png HTTP/1.1" 200 24665
+INFO 2026-03-15 11:09:00,300 autoreload 29328 29188 Watching for file changes with StatReloader

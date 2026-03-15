@@ -18,6 +18,7 @@ import Signup from "./pages/signup";
 // Context Providers
 import { CartProvider } from "./context/cartcontext";
 import { WishlistProvider } from "./context/wishlistcontext";
+import AddProduct from "./pages/addproduct";
 
 function App() {
   return (
@@ -58,6 +59,7 @@ function App() {
             <Route path="/my-orders" element={<MyOrders />} />
             <Route path="/order-success" element={<OrderSuccess />} />
             <Route path="/order/:orderId" element={<OrderDetails />} />
+            <Route path="/add-product" element={<AddProduct />} />
 
             {/* Default Route */}
             <Route path="*" element={<Navigate to="/" />} />

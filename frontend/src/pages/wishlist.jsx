@@ -1,71 +1,175 @@
+// pages/wishlist.jsx
 import React, { useContext, useState } from "react";
-import { CartContext } from "../context/cartcontext";
 import { WishlistContext } from "../context/wishlistcontext";
+import { CartContext } from "../context/cartcontext";
+import { AuthContext } from "../context/authcontext";
 import { useNavigate } from "react-router-dom";
+import { Heart, ShoppingCart, Trash2, ArrowLeft } from "lucide-react";
 import toast from "react-hot-toast";
 
 export default function Wishlist() {
   const { wishlistItems, removeFromWishlist } = useContext(WishlistContext);
   const { addToCart } = useContext(CartContext);
+  const { user } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [removingId, setRemovingId] = useState(null);
+  
+  const [imageErrors, setImageErrors] = useState({});
 
-  const handleRemove = (id, silent = false) => {
-    setRemovingId(id);
-    setTimeout(() => {
-      removeFromWishlist(id);
-      setRemovingId(null);
-      if (!silent) toast.success("Removed from Wishlist");
-    }, 400); 
+  // ✅ FIXED: Safe image URL function
+  const getImageUrl = (item) => {
+    const image = item?.image || item?.product?.image;
+    
+    console.log('Wishlist image path:', image);
+    
+    // If no image
+    if (!image) {
+      return "https://via.placeholder.com/200/1a1a1a/666?text=No+Image";
+    }
+    
+    // If it's already a full URL
+    if (typeof image === 'string' && image.startsWith('http')) {
+      return image;
+    }
+    
+    // If it's base64
+    if (typeof image === 'string' && image.startsWith('data:image')) {
+      return image;
+    }
+    
+    // Handle Django media files
+    const baseURL = 'http://127.0.0.1:8000';
+    if (typeof image === 'string' && image.startsWith('/media/')) {
+      return `${baseURL}${image}`;
+    }
+    
+    // Default case
+    return `${baseURL}/media/${image}`;
   };
 
-  const handleMoveToCart = (item) => {
-    addToCart(item);
-    handleRemove(item.id, true); // വിഷ്‌ലിസ്റ്റിൽ നിന്ന് മെസ്സേജ് ഇല്ലാതെ നീക്കം ചെയ്യുന്നു
+  const handleImageError = (itemId) => {
+    console.log('Image failed to load for item:', itemId);
+    setImageErrors(prev => ({
+      ...prev,
+      [itemId]: true
+    }));
+  };
+
+  const handleAddToCart = (item) => {
+    if (!user) {
+      toast.error("Please login to add to cart");
+      navigate("/login");
+      return;
+    }
+    
+    addToCart({
+      id: item.id,
+      name: item.name,
+      price: item.price,
+      image: item.image,
+      description: item.description
+    });
+    
+    toast.success("Added to cart!");
+  };
+
+  const handleRemove = (id, name) => {
+    removeFromWishlist(id);
+    toast.success(`${name} removed from wishlist`);
   };
 
   return (
     <div style={styles.page}>
-      <style>{`
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes slideOutLeft { to { opacity: 0; transform: translateX(-50px); max-height: 0; margin: 0; padding: 0; } }
-        .wishlist-item { animation: fadeInUp 0.5s ease both; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.07); border-radius: 20px; padding: 15px 25px; display: flex; align-items: center; gap: 20px; transition: all 0.3s ease; }
-        .removing { animation: slideOutLeft 0.4s ease forwards !important; }
-        .add-cart-btn { background: #fff; color: #000; border: none; padding: 10px 20px; border-radius: 50px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
-        .add-cart-btn:hover { background: #5ccb5f; color: #fff; transform: translateY(-2px); }
-      `}</style>
+      <div style={styles.container}>
+        {/* Header */}
+        <div style={styles.header}>
+          <button 
+            onClick={() => navigate(-1)} 
+            style={styles.backButton}
+          >
+            <ArrowLeft size={20} />
+          </button>
+          <h1 style={styles.title}>My Wishlist</h1>
+          <div style={styles.heartIcon}>
+            <Heart size={24} fill={wishlistItems.length > 0 ? "#ef4444" : "none"} color="#ef4444" />
+          </div>
+        </div>
 
-      <div style={styles.inner}>
-        <header style={styles.header}>
-          <h1 style={{ fontSize: '40px', fontFamily: 'serif' }}>Your Wishlist</h1>
-          <p style={{ color: 'rgba(255,255,255,0.4)' }}>{wishlistItems.length} items saved</p>
-        </header>
-
-        {wishlistItems.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '100px 0' }}>
-            <div style={{ fontSize: "50px" }}>✨</div>
-            <h2>Wishlist is empty</h2>
-            <button style={styles.shopBtn} onClick={() => navigate("/all-products")}>Go to Store</button>
+        {/* Wishlist Items */}
+        {!wishlistItems || wishlistItems.length === 0 ? (
+          <div style={styles.emptyWishlist}>
+            <Heart size={80} color="#333" strokeWidth={1.5} />
+            <h2 style={styles.emptyTitle}>Your wishlist is empty</h2>
+            <p style={styles.emptyText}>
+              Save your favorite items here and they'll appear when you're ready to shop.
+            </p>
+            <button 
+              onClick={() => navigate("/products")}
+              style={styles.shopBtn}
+            >
+              Continue Shopping
+            </button>
           </div>
         ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-            {wishlistItems.map((item) => (
-              <div key={item.id} className={`wishlist-item ${removingId === item.id ? "removing" : ""}`}>
-                <img
-                  src={item.image.startsWith('http') ? item.image : `http://127.0.0.1:8000${item.image}`}
-                  alt={item.name}
-                  style={{ width: "70px", height: "70px", objectFit: "contain", borderRadius: "10px", background: "#1a1a1c" }}
-                />
-                <div style={{ flex: 1 }}>
-                  <h2 style={{ fontSize: '18px', margin: 0 }}>{item.name}</h2>
-                  <p style={{ color: 'rgba(255,255,255,0.5)' }}>₹{Number(item.price).toLocaleString("en-IN")}</p>
+          <div style={styles.grid}>
+            {wishlistItems.map((item) => {
+              const imgUrl = imageErrors[item.id] 
+                ? "https://via.placeholder.com/200/1a1a1a/666?text=No+Image"
+                : getImageUrl(item);
+
+              return (
+                <div key={item.id} style={styles.card}>
+                  {/* Image */}
+                  <div style={styles.imageContainer}>
+                    <img 
+                      src={imgUrl}
+                      alt={item.name || 'Product'}
+                      style={styles.image}
+                      onError={() => handleImageError(item.id)}
+                    />
+                    
+                    {/* Remove button */}
+                    <button 
+                      onClick={() => handleRemove(item.id, item.name)}
+                      style={styles.removeBtn}
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
+
+                  {/* Details */}
+                  <div style={styles.details}>
+                    <h3 style={styles.itemName}>{item.name || 'Unnamed Product'}</h3>
+                    
+                    {item.description && (
+                      <p style={styles.description}>
+                        {item.description.substring(0, 60)}...
+                      </p>
+                    )}
+                    
+                    <p style={styles.price}>
+                      ₹{Number(item.price || 0).toLocaleString('en-IN')}
+                    </p>
+
+                    {/* Actions */}
+                    <div style={styles.actions}>
+                      <button 
+                        onClick={() => handleAddToCart(item)}
+                        style={styles.addToCartBtn}
+                      >
+                        <ShoppingCart size={14} />
+                        Add to Cart
+                      </button>
+                      <button 
+                        onClick={() => navigate(`/product/${item.id}`)}
+                        style={styles.viewBtn}
+                      >
+                        View
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
-                  <button className="add-cart-btn" onClick={() => handleMoveToCart(item)}>Add to Cart</button>
-                  <button onClick={() => handleRemove(item.id)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.3)', cursor: 'pointer', textDecoration: 'underline' }}>Remove</button>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>
@@ -74,8 +178,166 @@ export default function Wishlist() {
 }
 
 const styles = {
-  page: { minHeight: "100vh", background: "#0e0e10", color: "#fff", padding: "60px 20px", fontFamily: "sans-serif" },
-  inner: { maxWidth: "800px", margin: "0 auto" },
-  header: { marginBottom: "40px", textAlign: "center" },
-  shopBtn: { background: "#ff5078", color: "#fff", border: "none", padding: "12px 30px", borderRadius: "50px", marginTop: "20px", cursor: "pointer" }
+  page: {
+    minHeight: "100vh",
+    background: "#0a0a0a",
+    color: "#fff",
+    padding: "40px 20px"
+  },
+  container: {
+    maxWidth: "1200px",
+    margin: "0 auto"
+  },
+  header: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: "40px"
+  },
+  backButton: {
+    background: "#1a1a1a",
+    border: "1px solid #333",
+    borderRadius: "50%",
+    width: "40px",
+    height: "40px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    cursor: "pointer",
+    color: "#fff",
+    transition: "all 0.2s"
+  },
+  title: {
+    fontSize: "2rem",
+    fontWeight: "600",
+    margin: 0,
+    borderLeft: "4px solid #3b82f6",
+    paddingLeft: "20px"
+  },
+  heartIcon: {
+    width: "40px",
+    height: "40px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  emptyWishlist: {
+    textAlign: "center",
+    padding: "80px 20px",
+    background: "#1a1a1a",
+    borderRadius: "16px",
+    border: "1px solid #2a2a2a"
+  },
+  emptyTitle: {
+    fontSize: "1.8rem",
+    marginTop: "20px",
+    marginBottom: "10px",
+    fontWeight: "500"
+  },
+  emptyText: {
+    color: "#888",
+    marginBottom: "30px",
+    fontSize: "1rem"
+  },
+  shopBtn: {
+    padding: "15px 40px",
+    background: "#3b82f6",
+    color: "#fff",
+    border: "none",
+    borderRadius: "8px",
+    fontSize: "1rem",
+    cursor: "pointer",
+    transition: "background 0.2s"
+  },
+  grid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+    gap: "20px"
+  },
+  card: {
+    background: "#1a1a1a",
+    borderRadius: "12px",
+    overflow: "hidden",
+    border: "1px solid #2a2a2a",
+    transition: "transform 0.2s"
+  },
+  imageContainer: {
+    position: "relative",
+    height: "200px",
+    background: "#111",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  image: {
+    maxWidth: "100%",
+    maxHeight: "180px",
+    objectFit: "contain"
+  },
+  removeBtn: {
+    position: "absolute",
+    top: "10px",
+    right: "10px",
+    background: "rgba(0,0,0,0.5)",
+    border: "none",
+    borderRadius: "50%",
+    width: "32px",
+    height: "32px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    cursor: "pointer",
+    color: "#fff",
+    transition: "all 0.2s"
+  },
+  details: {
+    padding: "15px"
+  },
+  itemName: {
+    fontSize: "1.1rem",
+    fontWeight: "500",
+    marginBottom: "8px"
+  },
+  description: {
+    fontSize: "0.9rem",
+    color: "#888",
+    marginBottom: "10px",
+    lineHeight: "1.4"
+  },
+  price: {
+    fontSize: "1.2rem",
+    fontWeight: "600",
+    color: "#3b82f6",
+    marginBottom: "15px"
+  },
+  actions: {
+    display: "flex",
+    gap: "10px"
+  },
+  addToCartBtn: {
+    flex: 1,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "5px",
+    padding: "8px",
+    background: "#3b82f6",
+    color: "#fff",
+    border: "none",
+    borderRadius: "6px",
+    fontSize: "0.9rem",
+    cursor: "pointer",
+    transition: "background 0.2s"
+  },
+  viewBtn: {
+    flex: 0.5,
+    padding: "8px",
+    background: "transparent",
+    color: "#fff",
+    border: "1px solid #333",
+    borderRadius: "6px",
+    fontSize: "0.9rem",
+    cursor: "pointer",
+    transition: "all 0.2s"
+  }
 };
