@@ -4,14 +4,16 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import get_user_model
+from django.contrib.auth.hashers import make_password
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .serializers import UserProfileSerializer
 import traceback
+import os
 
 User = get_user_model()
 
-# ✅ Custom JWT Token Serializer
+# ✅ JWT Token Serializer
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
@@ -38,7 +40,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         }
         return data
 
-# ✅ Custom JWT Token View
+# ✅ JWT Token View
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
@@ -97,7 +99,16 @@ def get_profile(request):
             'last_name': user.last_name,
             'phone': getattr(user, 'phone', ''),
             'address': getattr(user, 'address', ''),
-            'profile_image': user.profile_image.url if hasattr(user, 'profile_image') and user.profile_image else None,
+            'city': getattr(user, 'city', ''),
+            'state': getattr(user, 'state', ''),
+            'pincode': getattr(user, 'pincode', ''),
+            'bio': getattr(user, 'bio', ''),
+            'occupation': getattr(user, 'occupation', ''),
+            'company': getattr(user, 'company', ''),
+            'website': getattr(user, 'website', ''),
+            'twitter': getattr(user, 'twitter', ''),
+            'instagram': getattr(user, 'instagram', ''),
+            'profile_image': user.profile_image.url if user.profile_image else None,
             'date_joined': user.date_joined,
             'last_login': user.last_login,
         }
@@ -130,6 +141,24 @@ def update_profile(request):
             user.phone = data['phone']
         if 'address' in data:
             user.address = data['address']
+        if 'city' in data:
+            user.city = data['city']
+        if 'state' in data:
+            user.state = data['state']
+        if 'pincode' in data:
+            user.pincode = data['pincode']
+        if 'bio' in data:
+            user.bio = data['bio']
+        if 'occupation' in data:
+            user.occupation = data['occupation']
+        if 'company' in data:
+            user.company = data['company']
+        if 'website' in data:
+            user.website = data['website']
+        if 'twitter' in data:
+            user.twitter = data['twitter']
+        if 'instagram' in data:
+            user.instagram = data['instagram']
         
         user.save()
         
@@ -143,6 +172,15 @@ def update_profile(request):
                 'last_name': user.last_name,
                 'phone': getattr(user, 'phone', ''),
                 'address': getattr(user, 'address', ''),
+                'city': getattr(user, 'city', ''),
+                'state': getattr(user, 'state', ''),
+                'pincode': getattr(user, 'pincode', ''),
+                'bio': getattr(user, 'bio', ''),
+                'occupation': getattr(user, 'occupation', ''),
+                'company': getattr(user, 'company', ''),
+                'website': getattr(user, 'website', ''),
+                'twitter': getattr(user, 'twitter', ''),
+                'instagram': getattr(user, 'instagram', ''),
             }
         }, status=status.HTTP_200_OK)
         
@@ -165,36 +203,34 @@ def upload_profile_image(request):
         
         image = request.FILES['image']
         
-        # Check file size (max 5MB)
-        if image.size > 5 * 1024 * 1024:
-            return Response({'error': 'Image size should be less than 5MB'}, 
+        # Validate file size (max 2MB)
+        if image.size > 2 * 1024 * 1024:
+            return Response({'error': 'Image size should be less than 2MB'}, 
                           status=status.HTTP_400_BAD_REQUEST)
         
-        # Check file type
+        # Validate file type
         allowed_types = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/webp']
         if image.content_type not in allowed_types:
             return Response({'error': 'Only JPEG, PNG, JPG, GIF and WEBP images are allowed'}, 
                           status=status.HTTP_400_BAD_REQUEST)
         
-        # Save image to user model
-        if hasattr(user, 'profile_image'):
-            # Delete old image if exists
-            if user.profile_image:
-                user.profile_image.delete()
-            
-            user.profile_image = image
-            user.save()
-            
-            image_url = request.build_absolute_uri(user.profile_image.url)
-            
-            return Response({
-                'success': True,
-                'message': 'Image uploaded successfully',
-                'image_url': image_url
-            }, status=status.HTTP_200_OK)
-        else:
-            return Response({'error': 'User model does not have profile_image field'}, 
-                          status=status.HTTP_400_BAD_REQUEST)
+        # Delete old image if exists
+        if user.profile_image:
+            if os.path.isfile(user.profile_image.path):
+                os.remove(user.profile_image.path)
+        
+        # Save new image
+        user.profile_image = image
+        user.save()
+        
+        # Return image URL
+        image_url = request.build_absolute_uri(user.profile_image.url)
+        
+        return Response({
+            'success': True,
+            'message': 'Profile image uploaded successfully',
+            'image_url': image_url
+        }, status=status.HTTP_200_OK)
         
     except Exception as e:
         print(f"Error uploading image: {str(e)}")
@@ -209,8 +245,9 @@ def delete_profile_image(request):
     try:
         user = request.user
         
-        if hasattr(user, 'profile_image') and user.profile_image:
-            user.profile_image.delete()
+        if user.profile_image:
+            if os.path.isfile(user.profile_image.path):
+                os.remove(user.profile_image.path)
             user.profile_image = None
             user.save()
             
