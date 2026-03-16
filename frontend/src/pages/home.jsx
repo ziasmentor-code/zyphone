@@ -283,12 +283,12 @@ const handleFleetNavigation = (productName) => {
         </section>
 
         {/* ─────────────── FOOTER ─────────────── */}
-        <footer className="bg-black py-20 px-[7vw] border-t border-white/5">
+        {/* <footer className="bg-black py-20 px-[7vw] border-t border-white/5">
           <div className="flex flex-col md:flex-row justify-between items-center opacity-40">
              <h2 className="font-display text-4xl text-white cursor-pointer" onClick={() => navigate("/")}>ZYPHONE</h2>
              <p className="text-[10px] tracking-[.3em] uppercase text-white">© 2026 ZYPHONE INDUSTRIES — KERALA</p>
           </div>
-        </footer>
+        </footer> */}
 
       </div>
     </>

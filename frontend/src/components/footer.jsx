@@ -1,129 +1,413 @@
+// components/Footer.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
-import { Facebook, Instagram, Twitter, Youtube, Mail, MapPin, Phone, ArrowRight } from 'lucide-react';
+import { 
+  Mail, MapPin, Phone, ArrowRight, 
+  Heart, Shield, Truck, CreditCard,
+  Instagram, Facebook, Twitter, Youtube
+} from 'lucide-react';
 
 const Footer = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubscribe = async (e) => {
     e.preventDefault();
-    if (!email) return toast.error("Please enter an email");
+    if (!email) {
+      toast.error("Please enter an email");
+      return;
+    }
+    
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      toast.error("Please enter a valid email");
+      return;
+    }
 
+    setLoading(true);
     try {
-      // Backend URL (Ninte Django api endpoint)
       await axios.post("http://127.0.0.1:8000/api/subscribe/", { email });
-      toast.success("Subscribed successfully!");
-      setEmail(""); // Input clear cheyyaan
+      toast.success("Subscribed successfully! 🎉");
+      setEmail("");
     } catch (err) {
-      toast.error("Something went wrong or already subscribed");
+      toast.error("Something went wrong. Please try again");
+    } finally {
+      setLoading(false);
     }
   };
 
+  const handleNavigation = (path) => {
+    navigate(path);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
-    <footer className="bg-[#0a0a0b] text-white pt-24 pb-12 border-t border-white/5 font-['DM_Sans']">
-      <div className="container mx-auto px-[7vw]">
+    <footer style={{
+      backgroundColor: '#f5f5f7',
+      padding: '60px 20px 30px',
+      borderTop: '1px solid #e8e6df',
+      fontFamily: "'DM Sans', sans-serif",
+      width: '100%'
+    }}>
+      <div style={{
+        maxWidth: '1200px',
+        margin: '0 auto'
+      }}>
         
-        {/* ─── TOP SECTION: BRAND & NEWSLETTER ─── */}
-       <div className="flex flex-col justify-center">
-      <h4 className="text-sm font-bold tracking-[0.3em] uppercase mb-6 text-rose-500">Stay in the Loop</h4>
-      <form onSubmit={handleSubscribe} className="relative flex items-center">
-        <input 
-          type="email" 
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter your email" 
-          className="w-full bg-white/5 border-b border-white/20 py-4 px-2 outline-none focus:border-rose-500 transition-colors text-xl font-light text-white"
-          required
-        />
-        <button type="submit" className="absolute right-0 p-2 hover:text-rose-500 transition-colors text-white">
-          <ArrowRight size={28} />
-        </button>
-      </form>
-    </div>
+        {/* Top Section: Brand & Newsletter */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(2, 1fr)',
+          gap: '40px',
+          marginBottom: '50px'
+        }}>
+          {/* Brand */}
+          <div>
+            <h2 style={{
+              fontSize: '28px',
+              fontWeight: '700',
+              color: '#000',
+              marginBottom: '15px',
+              fontFamily: "'Fraunces', serif"
+            }}>
+              Zyphone
+            </h2>
+            <p style={{
+              color: '#666',
+              lineHeight: '1.6',
+              maxWidth: '400px'
+            }}>
+              Experience the future of technology with our premium devices. 
+              Innovation meets elegance.
+            </p>
+            <div style={{
+              display: 'flex',
+              gap: '15px',
+              marginTop: '25px'
+            }}>
+              {[Instagram, Facebook, Twitter, Youtube].map((Icon, index) => (
+                <a
+                  key={index}
+                  href="#"
+                  style={{
+                    width: '40px',
+                    height: '40px',
+                    backgroundColor: '#fff',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid #e8e6df',
+                    transition: 'all 0.3s',
+                    cursor: 'pointer'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#dc2626'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#fff'}
+                >
+                  <Icon size={18} color="#000" />
+                </a>
+              ))}
+            </div>
+          </div>
 
-        <hr className="border-white/5 mb-20" />
+          {/* Newsletter */}
+          <div style={{
+            backgroundColor: '#fff',
+            padding: '30px',
+            borderRadius: '16px',
+            border: '1px solid #e8e6df'
+          }}>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              marginBottom: '15px'
+            }}>
+              <Mail size={20} color="#dc2626" />
+              <h4 style={{
+                fontSize: '14px',
+                fontWeight: '600',
+                letterSpacing: '1px',
+                textTransform: 'uppercase',
+                color: '#666'
+              }}>
+                Stay Updated
+              </h4>
+            </div>
+            <p style={{
+              color: '#666',
+              marginBottom: '20px',
+              fontSize: '14px'
+            }}>
+              Subscribe to get updates on new launches and exclusive offers.
+            </p>
+            <form onSubmit={handleSubscribe} style={{ position: 'relative' }}>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email"
+                disabled={loading}
+                style={{
+                  width: '100%',
+                  padding: '15px 50px 15px 20px',
+                  borderRadius: '30px',
+                  border: '1px solid #e8e6df',
+                  outline: 'none',
+                  fontSize: '14px',
+                  backgroundColor: '#faf9f6'
+                }}
+              />
+              <button
+                type="submit"
+                disabled={loading}
+                style={{
+                  position: 'absolute',
+                  right: '5px',
+                  top: '5px',
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '50%',
+                  backgroundColor: '#000',
+                  color: '#fff',
+                  border: 'none',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  transition: 'background 0.3s'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#dc2626'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#000'}
+              >
+                <ArrowRight size={18} />
+              </button>
+            </form>
+          </div>
+        </div>
 
-        {/* ─── MIDDLE SECTION: LINKS ─── */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-12 mb-20">
-  
-  {/* Shop Column */}
-  <div className="flex flex-col gap-6">
-    <h5 className="text-[11px] font-black tracking-[0.2em] uppercase text-gray-500">Shop</h5>
-    <ul className="flex flex-col gap-4 text-gray-300">
-      <li 
-        className="hover:text-rose-500 cursor-pointer transition-colors" 
-        onClick={() => navigate('/all-products?category=phone')}
-      >
-        Smartphones
-      </li>
-      <li 
-        className="hover:text-rose-500 cursor-pointer transition-colors" 
-        onClick={() => navigate('/all-products?category=headset')}
-      >
-        Audio & Buds
-      </li>
-      <li 
-        className="hover:text-rose-500 cursor-pointer transition-colors" 
-        onClick={() => navigate('/all-products?category=watch')}
-      >
-        Wearables
-      </li>
-      <li 
-        className="hover:text-rose-500 cursor-pointer transition-colors" 
-        onClick={() => navigate('/all-products')}
-      >
-        All Devices
-      </li>
-    </ul>
-  </div>
-
-  {/* Support Column */}
-  <div className="flex flex-col gap-6">
-    <h5 className="text-[11px] font-black tracking-[0.2em] uppercase text-gray-500">Support</h5>
-    <ul className="flex flex-col gap-4 text-gray-300">
-      <li className="hover:text-white cursor-pointer" onClick={() => navigate('/my-orders')}>Order Tracking</li>
-      <li className="hover:text-white cursor-pointer" onClick={() => navigate('/profile')}>My Account</li>
-      <li className="hover:text-white cursor-pointer">Warranty Info</li>
-      <li className="hover:text-white cursor-pointer">FAQs</li>
-    </ul>
-  </div>
-          {/* Contact Column */}
-          <div className="flex flex-col gap-6 md:col-span-2">
-            <h5 className="text-[11px] font-black tracking-[0.2em] uppercase text-gray-500">Connect</h5>
-            <div className="flex flex-col gap-4">
-              <div className="flex items-center gap-4 text-gray-300">
-                <MapPin size={18} className="text-rose-500" />
-                <span>Zyphone HQ, Silicon Valley, Kochi, Kerala</span>
+        {/* Features Grid */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(4, 1fr)',
+          gap: '15px',
+          marginBottom: '50px'
+        }}>
+          {[
+            { icon: Truck, title: 'Free Delivery', desc: 'On orders above ₹1000' },
+            { icon: Shield, title: '1 Year Warranty', desc: 'Official warranty' },
+            { icon: CreditCard, title: 'Secure Payment', desc: '100% secure' },
+            { icon: Heart, title: 'Premium Support', desc: '24/7 assistance' }
+          ].map((item, index) => (
+            <div
+              key={index}
+              style={{
+                backgroundColor: '#fff',
+                padding: '20px',
+                borderRadius: '12px',
+                border: '1px solid #e8e6df',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '15px'
+              }}
+            >
+              <item.icon size={28} color="#dc2626" />
+              <div>
+                <p style={{ fontWeight: '600', color: '#000', marginBottom: '4px' }}>{item.title}</p>
+                <p style={{ fontSize: '12px', color: '#666' }}>{item.desc}</p>
               </div>
-              <div className="flex items-center gap-4 text-gray-300">
-                <Phone size={18} className="text-rose-500" />
-                <span>+91 98765 43210</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Links Grid */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(4, 1fr)',
+          gap: '30px',
+          marginBottom: '50px'
+        }}>
+          {/* Shop */}
+          <div>
+            <h5 style={{
+              fontSize: '12px',
+              fontWeight: '600',
+              letterSpacing: '1px',
+              textTransform: 'uppercase',
+              color: '#999',
+              marginBottom: '20px'
+            }}>
+              Shop
+            </h5>
+            <ul style={{ listStyle: 'none', padding: 0 }}>
+              {[
+                { label: 'Smartphones', path: '/products?category=phone' },
+                { label: 'Audio & Buds', path: '/products?category=headset' },
+                { label: 'Wearables', path: '/products?category=watch' },
+                { label: 'All Devices', path: '/products' }
+              ].map((item, index) => (
+                <li key={index} style={{ marginBottom: '12px' }}>
+                  <button
+                    onClick={() => handleNavigation(item.path)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: '#666',
+                      cursor: 'pointer',
+                      fontSize: '14px',
+                      padding: 0,
+                      transition: 'color 0.3s'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = '#dc2626'}
+                    onMouseLeave={(e) => e.currentTarget.style.color = '#666'}
+                  >
+                    {item.label}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Support */}
+          <div>
+            <h5 style={{
+              fontSize: '12px',
+              fontWeight: '600',
+              letterSpacing: '1px',
+              textTransform: 'uppercase',
+              color: '#999',
+              marginBottom: '20px'
+            }}>
+              Support
+            </h5>
+            <ul style={{ listStyle: 'none', padding: 0 }}>
+              {[
+                { label: 'Order Tracking', path: '/my-orders' },
+                { label: 'My Account', path: '/profile' },
+                { label: 'Warranty Info' },
+                { label: 'FAQs' }
+              ].map((item, index) => (
+                <li key={index} style={{ marginBottom: '12px' }}>
+                  <button
+                    onClick={() => item.path && handleNavigation(item.path)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: '#666',
+                      cursor: 'pointer',
+                      fontSize: '14px',
+                      padding: 0,
+                      transition: 'color 0.3s'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = '#dc2626'}
+                    onMouseLeave={(e) => e.currentTarget.style.color = '#666'}
+                  >
+                    {item.label}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Company */}
+          <div>
+            <h5 style={{
+              fontSize: '12px',
+              fontWeight: '600',
+              letterSpacing: '1px',
+              textTransform: 'uppercase',
+              color: '#999',
+              marginBottom: '20px'
+            }}>
+              Company
+            </h5>
+            <ul style={{ listStyle: 'none', padding: 0 }}>
+              {['About Us', 'Careers', 'Press', 'Blog'].map((item, index) => (
+                <li key={index} style={{ marginBottom: '12px' }}>
+                  <span style={{
+                    color: '#666',
+                    cursor: 'pointer',
+                    fontSize: '14px',
+                    transition: 'color 0.3s'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.color = '#dc2626'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = '#666'}>
+                    {item}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <h5 style={{
+              fontSize: '12px',
+              fontWeight: '600',
+              letterSpacing: '1px',
+              textTransform: 'uppercase',
+              color: '#999',
+              marginBottom: '20px'
+            }}>
+              Contact
+            </h5>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <MapPin size={16} color="#dc2626" />
+                <span style={{ color: '#666', fontSize: '14px' }}>
+                  Kochi, Kerala 682030
+                </span>
               </div>
-              <div className="flex gap-6 mt-4">
-                <Instagram className="hover:text-rose-500 cursor-pointer transition-colors" size={24} />
-                <Facebook className="hover:text-rose-500 cursor-pointer transition-colors" size={24} />
-                <Twitter className="hover:text-rose-500 cursor-pointer transition-colors" size={24} />
-                <Youtube className="hover:text-rose-500 cursor-pointer transition-colors" size={24} />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <Phone size={16} color="#dc2626" />
+                <span style={{ color: '#666', fontSize: '14px' }}>
+                  +91 98765 43210
+                </span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <Mail size={16} color="#dc2626" />
+                <span style={{ color: '#666', fontSize: '14px' }}>
+                  support@zyphone.com
+                </span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* ─── BOTTOM SECTION: LEGAL ─── */}
-        <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-gray-500 text-xs tracking-widest uppercase">
-            © 2026 ZYPHONE INDUSTRIES. ALL RIGHTS RESERVED.
+        {/* Bottom Bar */}
+        <div style={{
+          paddingTop: '30px',
+          borderTop: '1px solid #e8e6df',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: '20px'
+        }}>
+          <p style={{ color: '#999', fontSize: '12px' }}>
+            © {new Date().getFullYear()} Zyphone Industries. All rights reserved.
           </p>
-          <div className="flex gap-8 text-[10px] tracking-widest uppercase text-gray-500">
-            <span className="hover:text-white cursor-pointer">Privacy Policy</span>
-            <span className="hover:text-white cursor-pointer">Terms of Service</span>
-            <span className="hover:text-white cursor-pointer">Cookie Settings</span>
+          <div style={{ display: 'flex', gap: '20px' }}>
+            {['Privacy Policy', 'Terms of Service', 'Cookie Settings'].map((item, index) => (
+              <span
+                key={index}
+                style={{
+                  color: '#999',
+                  fontSize: '12px',
+                  cursor: 'pointer',
+                  transition: 'color 0.3s'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#dc2626'}
+                onMouseLeave={(e) => e.currentTarget.style.color = '#999'}
+              >
+                {item}
+              </span>
+            ))}
           </div>
         </div>
-
       </div>
     </footer>
   );

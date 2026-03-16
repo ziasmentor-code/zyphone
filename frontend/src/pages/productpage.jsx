@@ -23,13 +23,13 @@ export default function ProductPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
   const [searchParams] = useSearchParams();
-const categoryFilter = searchParams.get("category");
+  const categoryFilter = searchParams.get("category");
 
   const navigate = useNavigate();
   const { addToCart } = useContext(CartContext);
   const { addToWishlist, wishlistItems } = useContext(WishlistContext);
 
-  // ✅ Fixed login check function
+  // Login check function
   const checkLoginBeforeAction = (action, product) => {
     const token = localStorage.getItem("access");
     
@@ -52,49 +52,157 @@ const categoryFilter = searchParams.get("category");
       })
       .catch(err => console.log("API Error:", err));
   }, []);
-  
 
   // Search and filter logic
-// Search and filter logic update cheythathu
-// Search and filter logic - FIXED VERSION
-useEffect(() => {
-  let result = products;
-  
-  // URL-il ninnu "Headset" allenkil "Watch" kittunnu
-  const urlCategory = searchParams.get("category")?.toLowerCase();
+  useEffect(() => {
+    let result = products;
+    
+    // URL category filter
+    const urlCategory = searchParams.get("category")?.toLowerCase();
 
-  // 1. Search Bar filtering
-  if (searchQuery) {
-    result = result.filter(p => p.name?.toLowerCase().includes(searchQuery.toLowerCase()));
-  }
+    // Search bar filtering
+    if (searchQuery) {
+      result = result.filter(p => p.name?.toLowerCase().includes(searchQuery.toLowerCase()));
+    }
 
-  // 2. Category Click filtering (Fleet section-il ninnu varumpol)
-  if (urlCategory) {
-    result = result.filter(p => {
-      const prodName = p.name?.toLowerCase() || "";
-      
-      if (urlCategory === "headset") {
-        // Name-il earbuds, headphones, allenkil buds ennu kandaal select cheyyum
-        return prodName.includes("earbuds") || 
-               prodName.includes("headphones") || 
-               prodName.includes("buds") ||
-               prodName.includes("airdoze");
-      }
-      
-      if (urlCategory === "watch") {
-        return prodName.includes("watch");
-      }
+    // Category filtering
+    if (activeCategory !== "All") {
+      result = result.filter(p => {
+        const prodName = p.name?.toLowerCase() || "";
+        const prodCategory = p.category?.toLowerCase() || "";
+        
+        if (activeCategory === "Smartphone") {
+          return prodName.includes("iphone") || prodName.includes("samsung") || prodName.includes("galaxy") || prodCategory.includes("phone");
+        }
+        
+        if (activeCategory === "Audio") {
+          return prodName.includes("earbuds") || prodName.includes("headphones") || prodName.includes("buds") || prodName.includes("airdoze") || prodCategory.includes("audio");
+        }
+        
+        return true;
+      });
+    }
 
-      if (urlCategory === "phone") {
-        return prodName.includes("iphone") || prodName.includes("samsung") || prodName.includes("galaxy");
-      }
+    // URL category filter (overrides activeCategory if present)
+    if (urlCategory) {
+      result = result.filter(p => {
+        const prodName = p.name?.toLowerCase() || "";
+        
+        if (urlCategory === "headset") {
+          return prodName.includes("earbuds") || prodName.includes("headphones") || prodName.includes("buds") || prodName.includes("airdoze");
+        }
+        
+        if (urlCategory === "watch") {
+          return prodName.includes("watch");
+        }
 
-      return true;
-    });
-  }
+        if (urlCategory === "phone") {
+          return prodName.includes("iphone") || prodName.includes("samsung") || prodName.includes("galaxy");
+        }
 
-  setFilteredProducts(result);
-}, [searchQuery, products, searchParams]); // activeCategory ippo avashyamilla, URL filter mathi
+        return true;
+      });
+    }
+
+    setFilteredProducts(result);
+  }, [searchQuery, products, searchParams, activeCategory]);
+
+  // Handle category click
+  const handleCategoryClick = (category) => {
+    setActiveCategory(category);
+    navigate('/products');
+  };
+
+  // Handle reset filters
+  const handleResetFilters = () => {
+    setActiveCategory("All");
+    setSearchQuery("");
+    navigate('/products');
+  };
+
+  // Navigate to product details
+  const goToProductDetails = (productId) => {
+    navigate(`/product/${productId}`);
+  };
+
+  // Handle "Learn more" button click - Navigate to product details
+  const handleLearnMore = (productName) => {
+    // Find the product by name
+    const product = products.find(p => 
+      p.name?.toLowerCase().includes(productName.toLowerCase().replace('zyphone ', ''))
+    );
+    
+    if (product) {
+      navigate(`/product/${product.id}`);
+    } else {
+      // If product not found, navigate to category
+      const searchTerm = productName.toLowerCase().replace('zyphone ', '');
+      navigate(`/products?category=${searchTerm}`);
+    }
+  };
+
+  // Handle "Buy" button click - Add to cart and go to cart
+  const handleBuy = (productName) => {
+    const token = localStorage.getItem("access");
+    
+    if (!token) {
+      toast.error("Please login to continue");
+      navigate("/login?redirect=products");
+      return;
+    }
+    
+    // Find the product in your products list
+    const product = products.find(p => 
+      p.name?.toLowerCase().includes(productName.toLowerCase())
+    );
+    
+    if (product) {
+      addToCart({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        image: product.image,
+        description: product.description,
+        category: product.category
+      });
+      toast.success(`${product.name} added to cart!`);
+      navigate('/cart');
+    }
+  };
+
+  // Handle feature section click - Navigate to product category
+  const handleFeatureClick = (featureTitle) => {
+    // Navigate to relevant category based on feature
+    if (featureTitle.includes("Innovation") || featureTitle.includes("Performance")) {
+      navigate('/products?category=phone');
+    } else if (featureTitle.includes("Cameras")) {
+      navigate('/products?category=phone');
+    } else if (featureTitle.includes("Intelligence")) {
+      navigate('/products');
+    } else {
+      // For other features like "Zyphone Trade In", "Ways to Buy", etc.
+      toast.info(`Learn more about ${featureTitle} on our product pages`);
+      navigate('/products');
+    }
+  };
+
+  // Handle "Back to Experience" click
+  const handleBackToExperience = () => {
+    navigate('/');
+  };
+
+  // Handle product card click (except buttons)
+  const handleProductCardClick = (productId, e) => {
+    // Don't navigate if clicking on buttons or heart icon
+    if (e.target.tagName === 'BUTTON' || 
+        e.target.closest('button') || 
+        e.target.closest('.heart-icon') ||
+        e.target.classList.contains('lucide-heart')) {
+      return;
+    }
+    navigate(`/product/${productId}`);
+  };
+
   return (
     <div className="min-h-screen bg-[#f5f5f7] pt-24 font-['DM_Sans']">
       
@@ -130,7 +238,7 @@ useEffect(() => {
             <div className="space-y-3">
               {/* All */}
               <div
-                onClick={() => setActiveCategory("All")}
+                onClick={() => handleCategoryClick("All")}
                 className={`flex items-center justify-between group cursor-pointer p-3 rounded-2xl transition-all ${activeCategory === "All" ? 'bg-rose-50 text-rose-600 border border-rose-100/50' : 'hover:bg-gray-50 text-gray-500 hover:text-black'}`}
               >
                 <div className="flex items-center gap-3">
@@ -142,7 +250,7 @@ useEffect(() => {
 
               {/* Smartphones */}
               <div
-                onClick={() => setActiveCategory("Smartphone")}
+                onClick={() => handleCategoryClick("Smartphone")}
                 className={`flex items-center justify-between group cursor-pointer p-3 rounded-2xl transition-all ${activeCategory === "Smartphone" ? 'bg-rose-50 text-rose-600 border border-rose-100/50' : 'hover:bg-gray-50 text-gray-500 hover:text-black'}`}
               >
                 <div className="flex items-center gap-3 pl-1">
@@ -153,7 +261,7 @@ useEffect(() => {
 
               {/* Audio */}
               <div
-                onClick={() => setActiveCategory("Audio")}
+                onClick={() => handleCategoryClick("Audio")}
                 className={`flex items-center justify-between group cursor-pointer p-3 rounded-2xl transition-all ${activeCategory === "Audio" ? 'bg-rose-50 text-rose-600 border border-rose-100/50' : 'hover:bg-gray-50 text-gray-500 hover:text-black'}`}
               >
                 <div className="flex items-center gap-3">
@@ -167,7 +275,7 @@ useEffect(() => {
 
           <div className="p-4 bg-gray-50/50">
             <button
-              onClick={() => { setActiveCategory("All"); setSearchQuery(""); }}
+              onClick={handleResetFilters}
               className="w-full py-3 text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-rose-600 transition-colors border-2 border-dashed border-gray-200 rounded-2xl hover:border-rose-200"
             >
               Reset Filters
@@ -178,9 +286,13 @@ useEffect(() => {
         {/* PRODUCT LIST */}
         <div className="flex-1 bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
           {filteredProducts.length > 0 ? filteredProducts.map(p => (
-            <div key={p.id} className="flex flex-col md:flex-row p-8 border-b border-gray-100 hover:bg-gray-50 gap-8 cursor-pointer group m-2 rounded-2xl">
+            <div 
+              key={p.id} 
+              onClick={(e) => handleProductCardClick(p.id, e)}
+              className="flex flex-col md:flex-row p-8 border-b border-gray-100 hover:bg-gray-50 gap-8 cursor-pointer group m-2 rounded-2xl transition-all hover:shadow-md"
+            >
               <div className="w-full md:w-[200px] h-[200px] flex justify-center items-center relative rounded-3xl p-4 bg-gray-50">
-                {/* ✅ Fixed Heart click handler */}
+                {/* Heart button */}
                 <Heart
                   onClick={(e) => {
                     e.stopPropagation();
@@ -189,7 +301,7 @@ useEffect(() => {
                       toast.success("Added to wishlist ❤️");
                     }, p);
                   }}
-                  className={`absolute top-2 right-2 cursor-pointer transition-colors ${
+                  className={`absolute top-2 right-2 cursor-pointer transition-colors heart-icon ${
                     wishlistItems.some(item => item.id === p.id)
                       ? "text-rose-600 fill-rose-600"
                       : "text-gray-400 hover:text-rose-600"
@@ -207,14 +319,13 @@ useEffect(() => {
               </div>
 
               <div className="flex-1">
-                <h2 className="text-xl font-bold mb-3 text-black">{p.name}</h2>
+                <h2 className="text-xl font-bold mb-3 text-black group-hover:text-rose-600 transition-colors">{p.name}</h2>
                 <div className="flex items-center gap-2 mb-4">
                   <span className="bg-green-700 text-white text-xs px-2 py-1 rounded-full flex items-center gap-1">
                     4.7 <Star size={10} fill="white" />
                   </span>
                   <span className="text-gray-500 text-xs">910 Ratings</span>
                 </div>
-                {/* ✅ Description is now properly displayed */}
                 <p className="text-sm text-gray-600 line-clamp-3 mb-4">{p.description}</p>
               </div>
 
@@ -223,18 +334,17 @@ useEffect(() => {
                   ₹{Number(p.price).toLocaleString("en-IN")}
                 </span>
                 <div className="flex gap-3">
-                  {/* ✅ Fixed Add to Cart button */}
+                  {/* Add to Cart button */}
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       checkLoginBeforeAction(() => {
-                        // ✅ Make sure all product data is passed to cart
                         addToCart({
                           id: p.id,
                           name: p.name,
                           price: p.price,
                           image: p.image,
-                          description: p.description,  // ✅ Important: Include description
+                          description: p.description,
                           category: p.category
                         });
                         toast.success("Item added to cart 🛒");
@@ -245,7 +355,10 @@ useEffect(() => {
                     Add to Cart
                   </button>
                   <button
-                    onClick={() => navigate(`/product/${p.id}`)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(`/product/${p.id}`);
+                    }}
                     className="bg-rose-600 text-white px-5 py-2 rounded-full text-xs font-bold hover:bg-rose-700 transition-colors"
                   >
                     View Details
@@ -271,27 +384,52 @@ useEffect(() => {
             { name: "Zyphone Air", desc: "Surprisingly thin.", price: "From ₹1,19,900", img: "/images/air.png", color: "bg-[#eef4f9]" },
             { name: "Zyphone 17", desc: "A total standout.", price: "From ₹82,900", img: "/images/17.png", color: "bg-[#f9f2ff]" },
             { name: "Zyphone 17e", desc: "All kinds of awesome.", price: "From ₹64,900", img: "/images/17e.png", color: "bg-[#fff2f6]" }
-          ].map((item, i) => (
-            <div key={i} className="group bg-white rounded-[2.5rem] overflow-hidden flex flex-col h-full shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100">
-              <div className={`relative w-full h-80 overflow-hidden ${item.color}`}>
-                <img 
-                  src={item.img} 
-                  alt={item.name} 
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
-                  onError={(e) => {e.target.src="https://via.placeholder.com/400x500"}}
-                />
+          ].map((item, i) => {
+            // Find the actual product ID
+            const product = products.find(p => 
+              p.name?.toLowerCase().includes(item.name.toLowerCase().replace('zyphone ', ''))
+            );
+            
+            return (
+              <div 
+                key={i} 
+                onClick={() => product ? navigate(`/product/${product.id}`) : handleLearnMore(item.name)}
+                className="group bg-white rounded-[2.5rem] overflow-hidden flex flex-col h-full shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100 cursor-pointer"
+              >
+                <div className={`relative w-full h-80 overflow-hidden ${item.color}`}>
+                  <img 
+                    src={item.img} 
+                    alt={item.name} 
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                    onError={(e) => {e.target.src="https://via.placeholder.com/400x500"}}
+                  />
+                </div>
+                <div className="p-10 flex flex-col items-center text-center">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-rose-600 transition-colors">{item.name}</h3>
+                  <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4">{item.desc}</p>
+                  <p className="text-lg font-bold text-gray-900 mb-8">{item.price}</p>
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      product ? navigate(`/product/${product.id}`) : handleLearnMore(item.name);
+                    }}
+                    className="bg-[#0071e3] text-white px-6 py-2 rounded-full text-xs font-bold hover:bg-[#0077ed] transition-all"
+                  >
+                    Learn more
+                  </button>
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleBuy(item.name);
+                    }}
+                    className="mt-4 text-[#0071e3] text-sm font-bold flex items-center group/btn"
+                  >
+                    Buy <ArrowRight size={14} className="ml-1 group-hover/btn:translate-x-1 transition-transform" />
+                  </button>
+                </div>
               </div>
-              <div className="p-10 flex flex-col items-center text-center">
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">{item.name}</h3>
-                <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4">{item.desc}</p>
-                <p className="text-lg font-bold text-gray-900 mb-8">{item.price}</p>
-                <button className="bg-[#0071e3] text-white px-6 py-2 rounded-full text-xs font-bold hover:bg-[#0077ed] transition-all">Learn more</button>
-                <button className="mt-4 text-[#0071e3] text-sm font-bold flex items-center group/btn">
-                  Buy <ArrowRight size={14} className="ml-1 group-hover/btn:translate-x-1 transition-transform" />
-                </button>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 
@@ -308,12 +446,14 @@ useEffect(() => {
             ].map((card, i) => (
               <div 
                 key={i} 
-                className={`min-w-[400px] h-[550px] rounded-[3rem] p-12 flex flex-col justify-between shadow-lg relative overflow-hidden ${card.color} bg-gray-100`}
+                onClick={() => navigate('/products?category=phone')}
+                className={`min-w-[400px] h-[550px] rounded-[3rem] p-12 flex flex-col justify-between shadow-lg relative overflow-hidden cursor-pointer ${card.color} bg-gray-100 hover:scale-[1.02] transition-transform duration-500`}
               >
                 <img 
                   src={card.img} 
                   alt="" 
                   className="absolute inset-0 w-full h-full object-cover z-0" 
+                  onError={(e) => {e.target.src="https://via.placeholder.com/400x600"}}
                 />
                 <div className="absolute inset-0 bg-black/10 z-[1]" />
                 <div className="relative z-10">
@@ -321,7 +461,7 @@ useEffect(() => {
                   <h3 className="text-4xl font-bold leading-[1.1] tracking-tight">{card.sub}</h3>
                 </div>
                 <div className="relative z-10">
-                  {/* Optional button can go here */}
+                  <ArrowRight size={24} className="opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
               </div>
             ))}
@@ -338,7 +478,10 @@ useEffect(() => {
               <div className="space-y-4">
                 {featureData.map((item, index) => (
                   <div key={item.id} className="border-b border-gray-200 last:border-0">
-                    <button onClick={() => setActiveIndex(index)} className="w-full flex justify-between items-center text-left py-8 focus:outline-none group">
+                    <button 
+                      onClick={() => setActiveIndex(index)} 
+                      className="w-full flex justify-between items-center text-left py-8 focus:outline-none group"
+                    >
                       <h3 className={`text-2xl md:text-4xl font-bold transition-all duration-500 ${activeIndex === index ? 'text-black' : 'text-gray-300 group-hover:text-gray-400'}`}>{item.title}</h3>
                       {activeIndex === index ? <ChevronUp size={28} /> : <ChevronDown size={28} className="text-gray-300" />}
                     </button>
@@ -349,8 +492,20 @@ useEffect(() => {
                 ))}
               </div>
             </div>
-            <div className="w-full md:w-1/2 relative bg-gray-200">
-              <img key={activeIndex} src={featureData[activeIndex].img} alt="Feature" className="absolute inset-0 w-full h-full object-cover animate-in fade-in zoom-in-105 duration-700" />
+            <div 
+              onClick={() => navigate('/products')}
+              className="w-full md:w-1/2 relative bg-gray-200 cursor-pointer group"
+            >
+              <img 
+                key={activeIndex} 
+                src={featureData[activeIndex].img} 
+                alt="Feature" 
+                className="absolute inset-0 w-full h-full object-cover animate-in fade-in zoom-in-105 duration-700 group-hover:scale-110 transition-transform"
+                onError={(e) => {e.target.src="https://via.placeholder.com/800x600"}}
+              />
+              <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                <span className="bg-white text-black px-6 py-3 rounded-full font-bold">View Products</span>
+              </div>
             </div>
           </div>
         </div>
@@ -366,21 +521,41 @@ useEffect(() => {
             { title: "Personal Setup", desc: "Make the most of your device.", img: "/images/setup.png" },
             { title: "Delivery & Pickup", desc: "Get free delivery.", img: "/images/delivery.png" }
           ].map((info, i) => (
-            <div key={i} className="relative bg-white rounded-[2.5rem] h-[500px] shadow-sm hover:shadow-xl transition-all border border-gray-50 group overflow-hidden">
-              <img src={info.img} alt="" className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+            <div 
+              key={i} 
+              onClick={() => navigate('/products')}
+              className="relative bg-white rounded-[2.5rem] h-[500px] shadow-sm hover:shadow-xl transition-all border border-gray-50 group overflow-hidden cursor-pointer"
+            >
+              <img 
+                src={info.img} 
+                alt="" 
+                className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                onError={(e) => {e.target.src="https://via.placeholder.com/400x500"}}
+              />
               <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-transparent to-black/10"></div>
               <div className="relative z-10 p-12">
                 <p className="text-[10px] font-black mb-5 uppercase tracking-widest text-gray-500">{info.title}</p>
                 <h3 className="text-2xl font-bold text-black">{info.desc}</h3>
               </div>
-              <button className="absolute bottom-8 right-8 bg-black/80 text-white w-10 h-10 rounded-full font-bold text-xl hover:bg-black transition-colors">+</button>
+              <button 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate('/products');
+                }}
+                className="absolute bottom-8 right-8 bg-black/80 text-white w-10 h-10 rounded-full font-bold text-xl hover:bg-black transition-colors"
+              >
+                +
+              </button>
             </div>
           ))}
         </div>
       </section>
       
       <div className="text-center pb-20 mt-10">
-        <p className="text-gray-400 text-[10px] font-black tracking-[0.3em] uppercase cursor-pointer hover:text-rose-600 transition-colors inline-block border-b border-transparent hover:border-rose-600 pb-2">
+        <p 
+          onClick={handleBackToExperience}
+          className="text-gray-400 text-[10px] font-black tracking-[0.3em] uppercase cursor-pointer hover:text-rose-600 transition-colors inline-block border-b border-transparent hover:border-rose-600 pb-2"
+        >
           ← Back to Experience
         </p>
       </div>

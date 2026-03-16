@@ -5,6 +5,11 @@ import { CartContext } from "../context/cartcontext";
 import { AuthContext } from "../context/authcontext";
 import api from "../services/api";
 import toast from "react-hot-toast";
+import { 
+  ShoppingBag, MapPin, Phone, CreditCard, 
+  Truck, Shield, ArrowLeft, CheckCircle, AlertCircle,
+  Heart, Star, Package
+} from "lucide-react";
 
 const Checkout = () => {
   const { cartItems, clearCart } = useContext(CartContext);
@@ -18,29 +23,38 @@ const Checkout = () => {
   const [shippingData, setShippingData] = useState({ 
     shipping_address: "", 
     phone: "",
-    payment_method: "COD"
+    payment_method: "COD",
+    city: "",
+    state: "",
+    pincode: ""
   });
   const [loading, setLoading] = useState(false);
   const [dataLoaded, setDataLoaded] = useState(false);
+  const [errors, setErrors] = useState({});
 
   // Load checkout data
   useEffect(() => {
     console.log("Loading checkout data...");
     console.log("Location state:", location.state);
     console.log("Cart items from context:", cartItems);
-    console.log("LocalStorage cartData:", localStorage.getItem("cartData"));
 
-    // First try to get from location state
+    // First try to get from location state (Buy Now)
     if (location.state?.items && location.state.items.length > 0) {
       console.log("Using location state items:", location.state.items);
       setCheckoutItems(location.state.items);
-      setCheckoutQuantities(location.state.quantities || {});
+      
+      const qty = {};
+      location.state.items.forEach(item => {
+        qty[item.id] = item.quantity || 1;
+      });
+      setCheckoutQuantities(qty);
       setDataLoaded(true);
     } 
     // Then try from cart context
     else if (cartItems && cartItems.length > 0) {
       console.log("Using cart context items:", cartItems);
       setCheckoutItems(cartItems);
+      
       const qty = {};
       cartItems.forEach(item => {
         qty[item.id] = item.quantity || 1;
@@ -48,25 +62,29 @@ const Checkout = () => {
       setCheckoutQuantities(qty);
       setDataLoaded(true);
     }
-    // Finally try from localStorage
+    // Finally try from localStorage (backup)
     else {
-      const savedCartData = localStorage.getItem("cartData");
-      if (savedCartData) {
-        try {
-          const parsed = JSON.parse(savedCartData);
-          console.log("Using localStorage items:", parsed);
-          if (parsed.items && parsed.items.length > 0) {
-            setCheckoutItems(parsed.items || []);
-            setCheckoutQuantities(parsed.quantities || {});
+      try {
+        const savedCart = localStorage.getItem("zyphone_cart");
+        if (savedCart) {
+          const parsed = JSON.parse(savedCart);
+          if (parsed.length > 0) {
+            setCheckoutItems(parsed);
+            
+            const qty = {};
+            parsed.forEach(item => {
+              qty[item.id] = item.quantity || 1;
+            });
+            setCheckoutQuantities(qty);
             setDataLoaded(true);
           } else {
             setDataLoaded(true);
           }
-        } catch (e) {
-          console.error("Error parsing localStorage data:", e);
+        } else {
           setDataLoaded(true);
         }
-      } else {
+      } catch (e) {
+        console.error("Error parsing localStorage:", e);
         setDataLoaded(true);
       }
     }
@@ -101,11 +119,53 @@ const Checkout = () => {
     return total + (price * quantity);
   }, 0);
 
+  // Calculate GST and other charges
+  const subtotal = cartTotal;
+  const gst = Math.round(subtotal * 0.18); // 18% GST
+  const deliveryCharge = subtotal > 1000 ? 0 : 40;
+  const totalAmount = subtotal + gst + deliveryCharge;
+
   const handleInputChange = (e) => {
-    setShippingData({ ...shippingData, [e.target.name]: e.target.value });
+    setShippingData({ 
+      ...shippingData, 
+      [e.target.name]: e.target.value 
+    });
+    
+    // Clear error for this field
+    if (errors[e.target.name]) {
+      setErrors({ ...errors, [e.target.name]: null });
+    }
   };
 
-  // ✅ FIXED: handlePlaceOrder function
+  // Validate form
+  const validateForm = () => {
+    const newErrors = {};
+    
+    if (!shippingData.shipping_address || shippingData.shipping_address.trim() === "") {
+      newErrors.shipping_address = "Shipping address is required";
+    }
+    if (!shippingData.city || shippingData.city.trim() === "") {
+      newErrors.city = "City is required";
+    }
+    if (!shippingData.state || shippingData.state.trim() === "") {
+      newErrors.state = "State is required";
+    }
+    if (!shippingData.pincode || shippingData.pincode.trim() === "") {
+      newErrors.pincode = "Pincode is required";
+    } else if (!/^\d{6}$/.test(shippingData.pincode)) {
+      newErrors.pincode = "Enter a valid 6-digit pincode";
+    }
+    if (!shippingData.phone || shippingData.phone.trim() === "") {
+      newErrors.phone = "Phone number is required";
+    } else if (!/^[0-9+\-\s]{10,15}$/.test(shippingData.phone)) {
+      newErrors.phone = "Enter a valid phone number";
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  // Handle place order
   const handlePlaceOrder = async (e) => {
     e.preventDefault();
     
@@ -123,25 +183,27 @@ const Checkout = () => {
       return;
     }
 
-    // Validate form data
-    if (!shippingData.shipping_address || shippingData.shipping_address.trim() === "") {
-      toast.error("Please enter shipping address");
-      return;
-    }
-    if (!shippingData.phone || shippingData.phone.trim() === "") {
-      toast.error("Please enter phone number");
+    // Validate form
+    if (!validateForm()) {
+      toast.error("Please fill all required fields correctly");
       return;
     }
 
     setLoading(true);
 
+    // Prepare full address
+    const fullAddress = `${shippingData.shipping_address}, ${shippingData.city}, ${shippingData.state} - ${shippingData.pincode}`;
+
     // Prepare order data
     const orderData = {
-      shipping_address: shippingData.shipping_address.trim(),
+      shipping_address: fullAddress,
       phone: shippingData.phone.trim(),
-      total_price: parseFloat(cartTotal).toFixed(2),
-      payment_method: shippingData.payment_method || "COD",
-      is_paid: false,
+      total_price: parseFloat(totalAmount).toFixed(2),
+      subtotal: parseFloat(subtotal).toFixed(2),
+      gst: parseFloat(gst).toFixed(2),
+      delivery_charge: parseFloat(deliveryCharge).toFixed(2),
+      payment_method: shippingData.payment_method,
+      is_paid: shippingData.payment_method !== "COD",
       status: "pending",
       items: checkoutItems.map((item) => ({
         product_id: parseInt(item.id),
@@ -160,30 +222,26 @@ const Checkout = () => {
       if (response.status === 201 || response.status === 200) {
         toast.success("Order Placed Successfully!");
         
-        // ✅ Safe cart clearing
+        // Clear cart
         try {
           if (clearCart && typeof clearCart === 'function') {
             clearCart();
-          } else {
-            // Fallback: clear localStorage directly
-            localStorage.removeItem("zyphone_cart");
-            // ✅ FIXED: Correct array check
-            if (cartItems && Array.isArray(cartItems)) {
-              console.log("Cart had items but no clearCart function");
-            }
           }
+          localStorage.removeItem("zyphone_cart");
         } catch (cartError) {
           console.error("Error clearing cart:", cartError);
         }
         
-        // Clear temporary data
-        localStorage.removeItem("cartData");
+        // Clear any temporary data
         localStorage.removeItem("redirectAfterLogin");
         
+        // Navigate to success page
         navigate("/order-success", { 
           state: { 
             orderId: response.data.order_id || response.data.id,
-            total: cartTotal 
+            orderNumber: response.data.order_number || `ORD${Math.random().toString(36).substr(2, 9).toUpperCase()}`,
+            total: totalAmount,
+            paymentMethod: shippingData.payment_method
           } 
         });
       }
@@ -194,19 +252,24 @@ const Checkout = () => {
         console.error("Error response data:", error.response.data);
         console.error("Error response status:", error.response.status);
         
-        if (error.response.status === 500) {
-          toast.error("Server error. Please check Django console for details.");
+        if (error.response.status === 401) {
+          toast.error("Session expired. Please login again.");
+          navigate("/login", { state: { from: "/checkout" } });
+        } else if (error.response.status === 500) {
+          toast.error("Server error. Please try again later.");
         } else if (error.response.data?.error) {
           toast.error(error.response.data.error);
+        } else if (error.response.data?.message) {
+          toast.error(error.response.data.message);
         } else {
-          toast.error(`Error ${error.response.status}: Failed to place order`);
+          toast.error("Failed to place order. Please try again.");
         }
       } else if (error.request) {
         console.error("No response received:", error.request);
-        toast.error("No response from server. Please check if Django server is running.");
+        toast.error("Cannot connect to server. Please check your connection.");
       } else {
         console.error("Error message:", error.message);
-        toast.error("Failed to place order. Please try again.");
+        toast.error("An unexpected error occurred.");
       }
     } finally {
       setLoading(false);
@@ -219,7 +282,8 @@ const Checkout = () => {
       <div style={styles.page}>
         <div style={styles.container}>
           <div style={styles.loadingContainer}>
-            <p>Loading checkout...</p>
+            <div style={styles.spinner}></div>
+            <p style={styles.loadingText}>Loading checkout...</p>
           </div>
         </div>
       </div>
@@ -234,253 +298,706 @@ const Checkout = () => {
   return (
     <div style={styles.page}>
       <div style={styles.container}>
-        <h2 style={styles.title}>Checkout</h2>
         
-        {/* Order Summary */}
-        <div style={styles.summaryCard}>
-          <h3 style={styles.subtitle}>Order Summary</h3>
-          {checkoutItems.map((item) => {
-            const quantity = checkoutQuantities[item.id] || item.quantity || 1;
-            const price = Number(item.price) || Number(item.product?.price) || 0;
-            const itemTotal = price * quantity;
-            
-            return (
-              <div key={item.id} style={styles.itemRow}>
-                <div style={styles.itemInfo}>
-                  <span style={styles.itemName}>{item.name}</span>
-                  <span style={styles.itemQty}>x{quantity}</span>
-                </div>
-                <span style={styles.itemPrice}>₹{itemTotal.toLocaleString('en-IN')}</span>
-              </div>
-            );
-          })}
-          
-          <div style={styles.totalRow}>
-            <span style={styles.totalLabel}>Total Amount:</span>
-            <span style={styles.totalAmount}>₹{cartTotal.toLocaleString('en-IN')}</span>
-          </div>
+        {/* Header */}
+        <div style={styles.header}>
+          <button onClick={() => navigate("/cart")} style={styles.backButton}>
+            <ArrowLeft size={20} color="#000" />
+          </button>
+          <h2 style={styles.title}>Checkout</h2>
+          <div style={{ width: 40 }}></div>
         </div>
 
-        {/* Shipping Form */}
-        <form onSubmit={handlePlaceOrder} style={styles.form}>
-          <h3 style={styles.subtitle}>Shipping Information</h3>
-          
-          <div style={styles.formGroup}>
-            <label style={styles.label}>Shipping Address *</label>
-            <input
-              type="text"
-              name="shipping_address"
-              placeholder="Enter your full address"
-              value={shippingData.shipping_address}
-              onChange={handleInputChange}
-              required
-              style={styles.input}
-            />
+        <div style={styles.content}>
+          {/* Left Column - Order Summary */}
+          <div style={styles.leftColumn}>
+            {/* Order Items */}
+            <div style={styles.card}>
+              <div style={styles.cardHeader}>
+                <ShoppingBag size={20} color="#dc2626" />
+                <h3 style={styles.cardTitle}>Order Items</h3>
+                <span style={styles.itemCount}>{checkoutItems.length} items</span>
+              </div>
+              
+              {checkoutItems.map((item) => {
+                const quantity = checkoutQuantities[item.id] || item.quantity || 1;
+                const price = Number(item.price) || Number(item.product?.price) || 0;
+                const itemTotal = price * quantity;
+                
+                return (
+                  <div key={item.id} style={styles.itemRow}>
+                    <div style={styles.itemImage}>
+                      <img 
+                        src={item.image ? `http://127.0.0.1:8000${item.image}` : "https://via.placeholder.com/60"} 
+                        alt={item.name}
+                        style={{ width: "100%", height: "100%", objectFit: "contain" }}
+                        onError={(e) => { e.target.src = "https://via.placeholder.com/60" }}
+                      />
+                    </div>
+                    <div style={styles.itemInfo}>
+                      <span style={styles.itemName}>{item.name}</span>
+                      <span style={styles.itemQty}>Qty: {quantity}</span>
+                    </div>
+                    <span style={styles.itemPrice}>₹{itemTotal.toLocaleString('en-IN')}</span>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Price Breakdown */}
+            <div style={styles.card}>
+              <div style={styles.cardHeader}>
+                <CreditCard size={20} color="#dc2626" />
+                <h3 style={styles.cardTitle}>Price Details</h3>
+              </div>
+              
+              <div style={styles.priceRow}>
+                <span style={styles.priceLabel}>Subtotal ({checkoutItems.length} items)</span>
+                <span style={styles.priceValue}>₹{subtotal.toLocaleString('en-IN')}</span>
+              </div>
+              <div style={styles.priceRow}>
+                <span style={styles.priceLabel}>GST (18%)</span>
+                <span style={styles.priceValue}>₹{gst.toLocaleString('en-IN')}</span>
+              </div>
+              <div style={styles.priceRow}>
+                <span style={styles.priceLabel}>Delivery Charge</span>
+                {deliveryCharge === 0 ? (
+                  <span style={styles.freeDelivery}>FREE</span>
+                ) : (
+                  <span style={styles.priceValue}>₹{deliveryCharge}</span>
+                )}
+              </div>
+              
+              <div style={styles.totalRow}>
+                <span style={styles.totalLabel}>Total Amount</span>
+                <span style={styles.totalAmount}>₹{totalAmount.toLocaleString('en-IN')}</span>
+              </div>
+              
+              {deliveryCharge === 0 && (
+                <div style={styles.freeDeliveryNote}>
+                  <Truck size={14} color="#16a34a" />
+                  <span style={styles.freeDeliveryText}>You get FREE delivery!</span>
+                </div>
+              )}
+            </div>
+
+            {/* Trust Badge */}
+            <div style={styles.trustBadge}>
+              <Shield size={16} color="#9ca3af" />
+              <span style={styles.trustText}>Secure checkout powered by Zyphone</span>
+            </div>
           </div>
 
-          <div style={styles.formGroup}>
-            <label style={styles.label}>Phone Number *</label>
-            <input
-              type="tel"
-              name="phone"
-              placeholder="e.g. +91 9876543210"
-              value={shippingData.phone}
-              onChange={handleInputChange}
-              required
-              style={styles.input}
-            />
-          </div>
+          {/* Right Column - Shipping Form */}
+          <div style={styles.rightColumn}>
+            <form onSubmit={handlePlaceOrder} style={styles.form}>
+              
+              {/* Shipping Information */}
+              <div style={styles.card}>
+                <div style={styles.cardHeader}>
+                  <MapPin size={20} color="#dc2626" />
+                  <h3 style={styles.cardTitle}>Shipping Information</h3>
+                </div>
+                
+                <div style={styles.formGroup}>
+                  <label style={styles.label}>
+                    Address Line <span style={styles.required}>*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="shipping_address"
+                    placeholder="House No., Building, Street"
+                    value={shippingData.shipping_address}
+                    onChange={handleInputChange}
+                    style={{
+                      ...styles.input,
+                      ...(errors.shipping_address ? styles.inputError : {})
+                    }}
+                  />
+                  {errors.shipping_address && (
+                    <span style={styles.errorText}>
+                      <AlertCircle size={12} />
+                      {errors.shipping_address}
+                    </span>
+                  )}
+                </div>
 
-          <div style={styles.formGroup}>
-            <label style={styles.label}>Payment Method</label>
-            <select
-              name="payment_method"
-              value={shippingData.payment_method}
-              onChange={handleInputChange}
-              style={styles.select}
-            >
-              <option value="COD">Cash on Delivery</option>
-              <option value="CARD">Credit/Debit Card</option>
-              <option value="UPI">UPI</option>
-            </select>
-          </div>
+                <div style={styles.row}>
+                  <div style={styles.formGroup}>
+                    <label style={styles.label}>
+                      City <span style={styles.required}>*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="city"
+                      placeholder="City"
+                      value={shippingData.city}
+                      onChange={handleInputChange}
+                      style={{
+                        ...styles.input,
+                        ...(errors.city ? styles.inputError : {})
+                      }}
+                    />
+                    {errors.city && (
+                      <span style={styles.errorText}>
+                        <AlertCircle size={12} />
+                        {errors.city}
+                      </span>
+                    )}
+                  </div>
 
-          <div style={styles.buttonGroup}>
-            <button 
-              type="button" 
-              onClick={() => navigate("/cart")}
-              style={styles.backButton}
-            >
-              Back to Cart
-            </button>
-            
-            <button 
-              type="submit" 
-              disabled={loading} 
-              style={{
-                ...styles.submitButton,
-                ...(loading ? styles.disabledButton : {})
-              }}
-            >
-              {loading ? "Processing Order..." : "Confirm Order"}
-            </button>
+                  <div style={styles.formGroup}>
+                    <label style={styles.label}>
+                      State <span style={styles.required}>*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="state"
+                      placeholder="State"
+                      value={shippingData.state}
+                      onChange={handleInputChange}
+                      style={{
+                        ...styles.input,
+                        ...(errors.state ? styles.inputError : {})
+                      }}
+                    />
+                    {errors.state && (
+                      <span style={styles.errorText}>
+                        <AlertCircle size={12} />
+                        {errors.state}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <div style={styles.row}>
+                  <div style={styles.formGroup}>
+                    <label style={styles.label}>
+                      Pincode <span style={styles.required}>*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="pincode"
+                      placeholder="6-digit pincode"
+                      value={shippingData.pincode}
+                      onChange={handleInputChange}
+                      maxLength="6"
+                      style={{
+                        ...styles.input,
+                        ...(errors.pincode ? styles.inputError : {})
+                      }}
+                    />
+                    {errors.pincode && (
+                      <span style={styles.errorText}>
+                        <AlertCircle size={12} />
+                        {errors.pincode}
+                      </span>
+                    )}
+                  </div>
+
+                  <div style={styles.formGroup}>
+                    <label style={styles.label}>
+                      Phone <span style={styles.required}>*</span>
+                    </label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      placeholder="+91 98765 43210"
+                      value={shippingData.phone}
+                      onChange={handleInputChange}
+                      style={{
+                        ...styles.input,
+                        ...(errors.phone ? styles.inputError : {})
+                      }}
+                    />
+                    {errors.phone && (
+                      <span style={styles.errorText}>
+                        <AlertCircle size={12} />
+                        {errors.phone}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Payment Method */}
+              <div style={styles.card}>
+                <div style={styles.cardHeader}>
+                  <CreditCard size={20} color="#dc2626" />
+                  <h3 style={styles.cardTitle}>Payment Method</h3>
+                </div>
+                
+                <div style={styles.paymentOptions}>
+                  <label style={styles.radioLabel}>
+                    <input
+                      type="radio"
+                      name="payment_method"
+                      value="COD"
+                      checked={shippingData.payment_method === "COD"}
+                      onChange={handleInputChange}
+                      style={styles.radio}
+                    />
+                    <div style={styles.radioContent}>
+                      <span style={styles.radioTitle}>Cash on Delivery</span>
+                      <span style={styles.radioDesc}>Pay when you receive your order</span>
+                    </div>
+                  </label>
+
+                  <label style={styles.radioLabel}>
+                    <input
+                      type="radio"
+                      name="payment_method"
+                      value="CARD"
+                      checked={shippingData.payment_method === "CARD"}
+                      onChange={handleInputChange}
+                      style={styles.radio}
+                    />
+                    <div style={styles.radioContent}>
+                      <span style={styles.radioTitle}>Credit/Debit Card</span>
+                      <span style={styles.radioDesc}>Pay securely with card</span>
+                    </div>
+                  </label>
+
+                  <label style={styles.radioLabel}>
+                    <input
+                      type="radio"
+                      name="payment_method"
+                      value="UPI"
+                      checked={shippingData.payment_method === "UPI"}
+                      onChange={handleInputChange}
+                      style={styles.radio}
+                    />
+                    <div style={styles.radioContent}>
+                      <span style={styles.radioTitle}>UPI</span>
+                      <span style={styles.radioDesc}>Google Pay, PhonePe, etc.</span>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div style={styles.buttonGroup}>
+                <button 
+                  type="button" 
+                  onClick={() => navigate("/cart")}
+                  style={styles.backButtonLarge}
+                >
+                  Back to Cart
+                </button>
+                
+                <button 
+                  type="submit" 
+                  disabled={loading} 
+                  style={{
+                    ...styles.submitButton,
+                    ...(loading ? styles.disabledButton : {})
+                  }}
+                >
+                  {loading ? (
+                    <>
+                      <div style={styles.buttonSpinner}></div>
+                      Processing...
+                    </>
+                  ) : (
+                    <>
+                      <CheckCircle size={18} />
+                      Place Order • ₹{totalAmount.toLocaleString('en-IN')}
+                    </>
+                  )}
+                </button>
+              </div>
+
+              {/* Terms */}
+              <p style={styles.terms}>
+                By placing this order, you agree to our <span style={styles.termsLink}>Terms of Service</span> and <span style={styles.termsLink}>Privacy Policy</span>
+              </p>
+            </form>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );
 };
 
-// Styles
+// Styles with new color theme
 const styles = {
   page: {
     padding: "40px 20px",
-    backgroundColor: "#0a0a0a",
-    color: "#fff",
-    minHeight: "100vh"
+    backgroundColor: "#f5f5f7",
+    minHeight: "100vh",
+    fontFamily: "'Outfit', sans-serif"
   },
   container: {
-    maxWidth: "800px",
+    maxWidth: "1200px",
     margin: "0 auto"
   },
-  title: {
-    fontSize: "2rem",
-    textAlign: "center",
-    marginBottom: "40px",
-    fontWeight: "600",
-    borderLeft: "4px solid #3b82f6",
-    paddingLeft: "20px"
-  },
-  subtitle: {
-    fontSize: "1.3rem",
-    marginBottom: "20px",
-    color: "#fff",
-    fontWeight: "500"
-  },
-  summaryCard: {
-    background: "#1a1a1a",
-    padding: "25px",
-    borderRadius: "12px",
-    border: "1px solid #2a2a2a",
-    marginBottom: "30px"
-  },
-  itemRow: {
+  header: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: "10px 0",
-    borderBottom: "1px solid #2a2a2a"
+    marginBottom: "40px"
+  },
+  backButton: {
+    width: "44px",
+    height: "44px",
+    borderRadius: "12px",
+    border: "1px solid #e8e6df",
+    backgroundColor: "#fff",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    cursor: "pointer",
+    transition: "all 0.2s",
+    boxShadow: "0 2px 4px rgba(0,0,0,0.02)"
+  },
+  title: {
+    fontSize: "2rem",
+    fontWeight: "700",
+    color: "#000",
+    fontFamily: "'Fraunces', serif",
+    letterSpacing: "-0.02em"
+  },
+  content: {
+    display: "grid",
+    gridTemplateColumns: "1fr 1.5fr",
+    gap: "30px"
+  },
+  leftColumn: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "20px"
+  },
+  rightColumn: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "20px"
+  },
+  card: {
+    backgroundColor: "#fff",
+    borderRadius: "24px",
+    padding: "24px",
+    border: "1px solid #f0f0f0",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.02)",
+    transition: "box-shadow 0.2s"
+  },
+  cardHeader: {
+    display: "flex",
+    alignItems: "center",
+    gap: "10px",
+    marginBottom: "20px",
+    borderBottom: "1px solid #f0f0f0",
+    paddingBottom: "16px"
+  },
+  cardTitle: {
+    fontSize: "1.1rem",
+    fontWeight: "600",
+    color: "#000",
+    fontFamily: "'Outfit', sans-serif",
+    flex: 1
+  },
+  itemCount: {
+    fontSize: "0.85rem",
+    color: "#9ca3af",
+    backgroundColor: "#f5f5f7",
+    padding: "4px 10px",
+    borderRadius: "20px",
+    fontFamily: "'DM Mono', monospace"
+  },
+  itemRow: {
+    display: "flex",
+    alignItems: "center",
+    gap: "15px",
+    padding: "15px 0",
+    borderBottom: "1px solid #f0f0f0"
+  },
+  itemImage: {
+    width: "70px",
+    height: "70px",
+    backgroundColor: "#f5f5f7",
+    borderRadius: "16px",
+    overflow: "hidden",
+    padding: "8px"
   },
   itemInfo: {
-    display: "flex",
-    gap: "15px",
-    alignItems: "center"
+    flex: 1
   },
   itemName: {
-    fontSize: "1rem",
-    color: "#fff"
+    fontSize: "0.95rem",
+    fontWeight: "500",
+    color: "#000",
+    marginBottom: "4px",
+    fontFamily: "'Outfit', sans-serif"
   },
   itemQty: {
-    fontSize: "0.9rem",
-    color: "#888"
+    fontSize: "0.85rem",
+    color: "#9ca3af",
+    fontFamily: "'DM Mono', monospace"
   },
   itemPrice: {
     fontSize: "1rem",
-    color: "#3b82f6",
-    fontWeight: "600"
+    fontWeight: "600",
+    color: "#000",
+    fontFamily: "'DM Mono', monospace"
+  },
+  priceRow: {
+    display: "flex",
+    justifyContent: "space-between",
+    padding: "12px 0",
+    color: "#4b5563",
+    fontSize: "0.95rem"
+  },
+  priceLabel: {
+    color: "#6b7280"
+  },
+  priceValue: {
+    color: "#000",
+    fontWeight: "500",
+    fontFamily: "'DM Mono', monospace"
+  },
+  freeDelivery: {
+    color: "#16a34a",
+    fontWeight: "600",
+    fontFamily: "'DM Mono', monospace"
   },
   totalRow: {
     display: "flex",
     justifyContent: "space-between",
-    marginTop: "20px",
-    paddingTop: "20px",
-    borderTop: "2px solid #2a2a2a",
-    fontSize: "1.2rem"
+    marginTop: "16px",
+    paddingTop: "16px",
+    borderTop: "2px solid #000",
+    fontSize: "1.1rem",
+    fontWeight: "600"
   },
   totalLabel: {
-    fontWeight: "600",
-    color: "#fff"
+    color: "#000"
   },
   totalAmount: {
-    fontWeight: "700",
-    color: "#3b82f6",
-    fontSize: "1.4rem"
+    color: "#dc2626",
+    fontSize: "1.3rem",
+    fontFamily: "'Fraunces', serif"
+  },
+  freeDeliveryNote: {
+    marginTop: "16px",
+    padding: "12px",
+    backgroundColor: "#f0fdf4",
+    borderRadius: "12px",
+    display: "flex",
+    alignItems: "center",
+    gap: "8px"
+  },
+  freeDeliveryText: {
+    color: "#16a34a",
+    fontSize: "0.9rem",
+    fontWeight: "500"
+  },
+  trustBadge: {
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
+    padding: "12px 16px",
+    backgroundColor: "#fff",
+    borderRadius: "12px",
+    border: "1px solid #f0f0f0"
+  },
+  trustText: {
+    fontSize: "0.85rem",
+    color: "#6b7280"
   },
   form: {
-    background: "#1a1a1a",
-    padding: "25px",
-    borderRadius: "12px",
-    border: "1px solid #2a2a2a"
+    display: "flex",
+    flexDirection: "column",
+    gap: "20px"
   },
   formGroup: {
-    marginBottom: "20px"
+    marginBottom: "16px",
+    flex: 1
+  },
+  row: {
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    gap: "16px"
   },
   label: {
     display: "block",
-    marginBottom: "8px",
-    color: "#aaa",
-    fontSize: "0.95rem"
+    marginBottom: "6px",
+    color: "#4b5563",
+    fontSize: "0.9rem",
+    fontWeight: "500"
+  },
+  required: {
+    color: "#dc2626"
   },
   input: {
     width: "100%",
-    padding: "12px",
-    borderRadius: "8px",
-    border: "1px solid #333",
-    backgroundColor: "#222",
-    color: "#fff",
-    fontSize: "1rem",
+    padding: "14px",
+    borderRadius: "12px",
+    border: "1px solid #e8e6df",
+    backgroundColor: "#fff",
+    color: "#000",
+    fontSize: "0.95rem",
     outline: "none",
-    transition: "border 0.2s"
+    transition: "all 0.2s",
+    fontFamily: "'Outfit', sans-serif"
   },
-  select: {
-    width: "100%",
-    padding: "12px",
-    borderRadius: "8px",
-    border: "1px solid #333",
-    backgroundColor: "#222",
-    color: "#fff",
-    fontSize: "1rem",
-    outline: "none",
-    cursor: "pointer"
+  inputError: {
+    border: "1px solid #dc2626",
+    backgroundColor: "#fff5f5"
   },
-  buttonGroup: {
+  errorText: {
+    color: "#dc2626",
+    fontSize: "0.8rem",
+    marginTop: "4px",
     display: "flex",
-    gap: "15px",
-    marginTop: "30px"
+    alignItems: "center",
+    gap: "4px"
   },
-  backButton: {
-    flex: 1,
-    padding: "15px",
-    backgroundColor: "transparent",
-    color: "#fff",
-    fontWeight: "600",
-    border: "2px solid #333",
-    borderRadius: "8px",
+  paymentOptions: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "12px"
+  },
+  radioLabel: {
+    display: "flex",
+    alignItems: "flex-start",
+    gap: "12px",
+    padding: "16px",
+    border: "1px solid #e8e6df",
+    borderRadius: "16px",
     cursor: "pointer",
     transition: "all 0.2s"
   },
+  radio: {
+    marginTop: "2px",
+    accentColor: "#dc2626"
+  },
+  radioContent: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "4px"
+  },
+  radioTitle: {
+    fontSize: "0.95rem",
+    fontWeight: "600",
+    color: "#000"
+  },
+  radioDesc: {
+    fontSize: "0.85rem",
+    color: "#9ca3af"
+  },
+  buttonGroup: {
+    display: "flex",
+    gap: "16px",
+    marginTop: "20px"
+  },
+  backButtonLarge: {
+    flex: 1,
+    padding: "16px",
+    backgroundColor: "#fff",
+    color: "#000",
+    fontWeight: "600",
+    border: "1px solid #000",
+    borderRadius: "40px",
+    cursor: "pointer",
+    transition: "all 0.2s",
+    fontSize: "0.95rem",
+    fontFamily: "'Outfit', sans-serif"
+  },
   submitButton: {
     flex: 2,
-    padding: "15px",
-    backgroundColor: "#3b82f6",
+    padding: "16px",
+    backgroundColor: "#000",
     color: "#fff",
     fontWeight: "600",
     border: "none",
-    borderRadius: "8px",
+    borderRadius: "40px",
     cursor: "pointer",
-    transition: "background 0.2s"
+    transition: "all 0.2s",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "8px",
+    fontSize: "0.95rem",
+    fontFamily: "'Outfit', sans-serif"
   },
   disabledButton: {
-    backgroundColor: "#666",
+    backgroundColor: "#9ca3af",
     cursor: "not-allowed"
+  },
+  terms: {
+    textAlign: "center",
+    fontSize: "0.8rem",
+    color: "#9ca3af",
+    marginTop: "16px"
+  },
+  termsLink: {
+    color: "#000",
+    fontWeight: "500",
+    cursor: "pointer",
+    textDecoration: "underline"
   },
   loadingContainer: {
     textAlign: "center",
-    padding: "50px",
-    background: "#1a1a1a",
-    borderRadius: "12px",
-    color: "#888"
+    padding: "60px",
+    backgroundColor: "#fff",
+    borderRadius: "24px",
+    border: "1px solid #f0f0f0"
+  },
+  loadingText: {
+    fontSize: "0.95rem",
+    color: "#6b7280",
+    marginTop: "16px",
+    fontFamily: "'Outfit', sans-serif"
+  },
+  spinner: {
+    width: "48px",
+    height: "48px",
+    border: "3px solid #f0f0f0",
+    borderTopColor: "#000",
+    borderRadius: "50%",
+    animation: "spin 0.8s linear infinite",
+    margin: "0 auto"
+  },
+  buttonSpinner: {
+    width: "18px",
+    height: "18px",
+    border: "2px solid rgba(255,255,255,0.3)",
+    borderTopColor: "#fff",
+    borderRadius: "50%",
+    animation: "spin 0.8s linear infinite"
   }
 };
+
+// Add global animation
+const styleSheet = document.createElement("style");
+styleSheet.textContent = `
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400&family=DM+Mono:wght@400;500&family=Outfit:wght@400;500;600&display=swap');
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  
+  * {
+    box-sizing: border-box;
+  }
+  
+  .pd-backButton:hover {
+    background-color: #f5f5f7 !important;
+  }
+  
+  .pd-submitButton:hover {
+    background-color: #dc2626 !important;
+  }
+  
+  .pd-radioLabel:hover {
+    border-color: #dc2626 !important;
+    background-color: #fff5f5 !important;
+  }
+  
+  .pd-input:focus {
+    border-color: #000 !important;
+    box-shadow: 0 0 0 3px rgba(0,0,0,0.05) !important;
+  }
+`;
+document.head.appendChild(styleSheet);
 
 export default Checkout;
