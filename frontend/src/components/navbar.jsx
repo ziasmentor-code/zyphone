@@ -54,7 +54,7 @@ const Navbar = () => {
 
           {/* Desktop Navigation - Only for logged in users */}
           {user && (
-            <div style={styles.desktopNav}>
+            <div style={styles.desktopNav} className="desktop-nav">
               {/* Wishlist */}
               <Link to="/wishlist" style={styles.iconLink}>
                 <Heart size={20} color="#4b5563" />
@@ -120,6 +120,7 @@ const Navbar = () => {
             <button 
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               style={styles.menuButton}
+              className="mobile-menu-btn"
             >
               {isMenuOpen ? <X size={24} color="#4b5563" /> : <Menu size={24} color="#4b5563" />}
             </button>
@@ -326,35 +327,56 @@ const styles = {
   },
 };
 
-// Responsive styles
-const styleSheet = document.createElement("style");
-styleSheet.textContent = `
-  @media (max-width: 768px) {
-    .desktop-nav {
-      display: none !important;
-    }
-    .mobile-menu-btn {
-      display: block !important;
-    }
-  }
-  @media (min-width: 769px) {
-    .mobile-menu-btn {
-      display: none !important;
-    }
-  }
+// Add this to your global CSS file or create a new CSS file
+// For now, adding it to the component
+const GlobalStyles = () => {
+  React.useEffect(() => {
+    const style = document.createElement('style');
+    style.innerHTML = `
+      @media (max-width: 768px) {
+        .desktop-nav {
+          display: none !important;
+        }
+        .mobile-menu-btn {
+          display: block !important;
+        }
+      }
+      
+      @media (min-width: 769px) {
+        .mobile-menu-btn {
+          display: none !important;
+        }
+        .desktop-nav {
+          display: flex !important;
+        }
+      }
+      
+      .dropdown-item:hover,
+      .mobile-link:hover {
+        background-color: #f3f4f6;
+      }
+      
+      button:hover,
+      a:hover {
+        opacity: 0.8;
+      }
+    `;
+    document.head.appendChild(style);
+    
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
   
-  a:hover, button:hover {
-    opacity: 0.8;
-  }
-  
-  .dropdown-item:hover {
-    background: #f3f4f6;
-  }
-  
-  .mobile-link:hover {
-    background: #f3f4f6;
-  }
-`;
-document.head.appendChild(styleSheet);
+  return null;
+};
 
-export default Navbar;
+// Wrap your component with GlobalStyles
+const NavbarWithStyles = (props) => (
+  <>
+    <GlobalStyles />
+    <Navbar {...props} />
+  </>
+);
+
+export default NavbarWithStyles;

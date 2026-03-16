@@ -15,45 +15,34 @@ export default function Wishlist() {
   
   const [imageErrors, setImageErrors] = useState({});
 
-  // ✅ FIXED: Safe image URL function
+  // ✅ Safe image URL function
   const getImageUrl = (item) => {
     const image = item?.image || item?.product?.image;
     
-    console.log('Wishlist image path:', image);
-    
-    // If no image
     if (!image) {
       return "https://via.placeholder.com/200/1a1a1a/666?text=No+Image";
     }
     
-    // If it's already a full URL
-    if (typeof image === 'string' && image.startsWith('http')) {
+    if (typeof image === 'string' && (image.startsWith('http') || image.startsWith('data:image'))) {
       return image;
     }
     
-    // If it's base64
-    if (typeof image === 'string' && image.startsWith('data:image')) {
-      return image;
-    }
-    
-    // Handle Django media files
     const baseURL = 'http://127.0.0.1:8000';
     if (typeof image === 'string' && image.startsWith('/media/')) {
       return `${baseURL}${image}`;
     }
     
-    // Default case
     return `${baseURL}/media/${image}`;
   };
 
   const handleImageError = (itemId) => {
-    console.log('Image failed to load for item:', itemId);
     setImageErrors(prev => ({
       ...prev,
       [itemId]: true
     }));
   };
 
+  // ✅ UPDATED: Add to cart and automatically remove from wishlist
   const handleAddToCart = (item) => {
     if (!user) {
       toast.error("Please login to add to cart");
@@ -61,6 +50,7 @@ export default function Wishlist() {
       return;
     }
     
+    // 1. Add to Cart Context
     addToCart({
       id: item.id,
       name: item.name,
@@ -69,7 +59,10 @@ export default function Wishlist() {
       description: item.description
     });
     
-    toast.success("Added to cart!");
+    // 2. Remove from Wishlist Context (This solves your issue)
+    removeFromWishlist(item.id);
+    
+    toast.success(`${item.name} moved to cart!`);
   };
 
   const handleRemove = (id, name) => {
@@ -90,7 +83,7 @@ export default function Wishlist() {
           </button>
           <h1 style={styles.title}>My Wishlist</h1>
           <div style={styles.heartIcon}>
-            <Heart size={24} fill={wishlistItems.length > 0 ? "#ef4444" : "none"} color="#ef4444" />
+            <Heart size={24} fill={wishlistItems?.length > 0 ? "#ef4444" : "none"} color="#ef4444" />
           </div>
         </div>
 
@@ -103,7 +96,7 @@ export default function Wishlist() {
               Save your favorite items here and they'll appear when you're ready to shop.
             </p>
             <button 
-              onClick={() => navigate("/products")}
+              onClick={() => navigate("/all-products")}
               style={styles.shopBtn}
             >
               Continue Shopping
