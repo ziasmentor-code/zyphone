@@ -6,23 +6,28 @@ from products.models import Newsletter # 👈 Newsletter model import cheyyuka
 
 User = get_user_model()
 
+# backend/api/views.py
+
 @api_view(['POST'])
-@permission_classes([AllowAny])
 def register(request):
-    username = request.data.get("username")
-    email = request.data.get("email")
-    password = request.data.get("password")
+    email = request.data.get('email')
+    password = request.data.get('password')
+    
+    # യൂസർനെയിം അയച്ചിട്ടില്ലെങ്കിൽ ഇമെയിൽ തന്നെ യൂസർനെയിം ആയി എടുക്കുക
+    username = request.data.get('username', email) 
 
-    if User.objects.filter(username=username).exists():
-        return Response({"message": "User already exists"}, status=400)
+    if not email or not password:
+        return Response({'error': 'Please provide email and password'}, status=400)
 
-    User.objects.create_user(
-        username=username,
-        email=email,
-        password=password
-    )
-
-    return Response({"message": "User created successfully"})
+    try:
+        user = User.objects.create_user(
+            username=username, # ഇവിടെ username നിർബന്ധമായും നൽകണം
+            email=email,
+            password=password
+        )
+        return Response({'message': 'User registered successfully'}, status=201)
+    except Exception as e:
+        return Response({'error': str(e)}, status=400)
 
 # ─────────────── ADD THIS SUBSCRIBE VIEW ───────────────
 @api_view(['POST'])

@@ -3722,3 +3722,57 @@ INFO 2026-03-16 16:33:15,446 log 3172 10224 "OPTIONS /api/orders/20/ HTTP/1.1" 2
 INFO 2026-03-16 16:33:15,446 log 3172 12276 "OPTIONS /api/orders/20/ HTTP/1.1" 200 0
 INFO 2026-03-16 16:33:15,481 log 3172 12276 "GET /api/orders/20/ HTTP/1.1" 200 433
 INFO 2026-03-16 16:33:15,512 log 3172 12276 "GET /api/orders/20/ HTTP/1.1" 200 433
+INFO 2026-03-16 16:36:48,822 log 3172 12276 "GET /api/products/ HTTP/1.1" 200 9462
+INFO 2026-03-16 16:36:48,851 log 3172 12276 "GET /api/products/ HTTP/1.1" 200 9462
+INFO 2026-03-16 16:36:50,278 log 3172 12276 "GET /api/products/10/ HTTP/1.1" 200 148
+INFO 2026-03-16 16:36:50,285 log 3172 10224 "GET /api/products/?limit=8 HTTP/1.1" 200 9462
+INFO 2026-03-16 16:36:50,310 log 3172 12276 "GET /api/products/10/ HTTP/1.1" 200 148
+INFO 2026-03-16 16:36:50,318 log 3172 10224 "GET /api/products/?limit=8 HTTP/1.1" 200 9462
+WARNING 2026-03-16 16:37:08,835 log 3172 10224 Unauthorized: /api/token/
+WARNING 2026-03-16 16:37:08,836 log 3172 10224 "POST /api/token/ HTTP/1.1" 401 63
+INFO 2026-03-16 16:39:21,065 autoreload 21116 10904 Watching for file changes with StatReloader
+INFO 2026-03-16 16:39:51,627 log 21116 17072 "OPTIONS /api/register/ HTTP/1.1" 200 0
+ERROR 2026-03-16 16:39:51,745 log 21116 17072 Internal Server Error: /api/register/
+Traceback (most recent call last):
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\views\generic\base.py", line 106, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\pc\Desktop\zyphone\backend\api\views.py", line 19, in register
+    User.objects.create_user(
+    ~~~~~~~~~~~~~~~~~~~~~~~~^
+        username=username,
+        ^^^^^^^^^^^^^^^^^^
+        email=email,
+        ^^^^^^^^^^^^
+        password=password
+        ^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\contrib\auth\models.py", line 175, in create_user
+    return self._create_user(username, email, password, **extra_fields)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\contrib\auth\models.py", line 162, in _create_user
+    user = self._create_user_object(username, email, password, **extra_fields)
+  File "C:\Users\pc\Desktop\zyphone\venv\Lib\site-packages\django\contrib\auth\models.py", line 145, in _create_user_object
+    raise ValueError("The given username must be set")
+ValueError: The given username must be set
+ERROR 2026-03-16 16:39:51,748 log 21116 17072 "POST /api/register/ HTTP/1.1" 500 21252
+INFO 2026-03-16 16:40:43,328 autoreload 21116 10904 C:\Users\pc\Desktop\zyphone\backend\api\views.py changed, reloading.
+INFO 2026-03-16 16:40:43,811 autoreload 12372 2880 Watching for file changes with StatReloader

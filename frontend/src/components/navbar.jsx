@@ -17,7 +17,6 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
-  // Scroll effect
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -42,147 +41,121 @@ const Navbar = () => {
       <nav style={{
         ...styles.navbar,
         background: isScrolled ? 'rgba(255, 255, 255, 0.98)' : '#ffffff',
-        boxShadow: isScrolled ? '0 2px 10px rgba(0,0,0,0.05)' : 'none',
-        borderBottom: '1px solid #f0f0f0'
+        boxShadow: isScrolled ? '0 2px 15px rgba(0,0,0,0.08)' : 'none',
+        borderBottom: isScrolled ? 'none' : '1px solid #f0f0f0'
       }}>
         <div style={styles.container}>
           
-          {/* Logo - Always visible */}
-          <Link to="/" style={styles.logo}>
-            ZYPHONE
+          {/* Logo Section */}
+          <Link to="/" style={styles.logoContainer}>
+            <img 
+              src="/logo.png" 
+              alt="ZYPHONE" 
+              style={styles.logoImage}
+              onError={(e) => {
+                e.target.style.display = 'none';
+                e.target.nextSibling.style.display = 'block';
+              }}
+            />
+            <span style={styles.logoTextAlt}>ZYPHONE</span>
           </Link>
 
-          {/* Desktop Navigation - Only for logged in users */}
-          {user && (
-            <div style={styles.desktopNav} className="desktop-nav">
-              {/* Wishlist */}
-              <Link to="/wishlist" style={styles.iconLink}>
-                <Heart size={20} color="#4b5563" />
-                {wishlistCount > 0 && (
-                  <span style={styles.badge}>{wishlistCount}</span>
-                )}
-              </Link>
+          {/* Desktop Navigation */}
+          <div style={styles.desktopNav} className="desktop-nav">
+            {user ? (
+              <>
+                <Link to="/wishlist" style={styles.iconLink}>
+                  <Heart size={22} color="#111" />
+                  {wishlistCount > 0 && <span style={styles.badge}>{wishlistCount}</span>}
+                </Link>
 
-              {/* Cart */}
-              <Link to="/cart" style={styles.iconLink}>
-                <ShoppingCart size={20} color="#4b5563" />
-                {cartCount > 0 && (
-                  <span style={styles.badge}>{cartCount}</span>
-                )}
-              </Link>
+                <Link to="/cart" style={styles.iconLink}>
+                  <ShoppingCart size={22} color="#111" />
+                  {cartCount > 0 && <span style={styles.badge}>{cartCount}</span>}
+                </Link>
 
-              {/* User Menu with Dropdown */}
-              <div style={styles.userMenuContainer}>
-                <button 
-                  onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                  style={styles.userButton}
-                >
-                  <User size={20} color="#4b5563" />
-                </button>
-
-                {isUserMenuOpen && (
-                  <div style={styles.dropdown}>
-                    <div style={styles.userInfo}>
-                      <strong>{user?.email?.split('@')[0]}</strong>
-                      <small>{user?.email}</small>
+                <div style={styles.userMenuContainer}>
+                  <button 
+                    onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                    style={styles.userButton}
+                  >
+                    <div style={styles.avatar}>
+                      <User size={18} color="#fff" />
                     </div>
-                    <div style={styles.dropdownDivider} />
-                    
-                    <Link to="/profile" style={styles.dropdownItem} onClick={() => setIsUserMenuOpen(false)}>
-                      <User size={16} />
-                      <span>Profile</span>
-                    </Link>
-                    
-                    <Link to="/my-orders" style={styles.dropdownItem} onClick={() => setIsUserMenuOpen(false)}>
-                      <Package size={16} />
-                      <span>My Orders</span>
-                    </Link>
-                    
-                    <Link to="/settings" style={styles.dropdownItem} onClick={() => setIsUserMenuOpen(false)}>
-                      <Settings size={16} />
-                      <span>Settings</span>
-                    </Link>
-                    
-                    <div style={styles.dropdownDivider} />
-                    
-                    <button onClick={handleLogout} style={styles.dropdownItem}>
-                      <LogOut size={16} />
-                      <span>Logout</span>
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
+                  </button>
 
-          {/* Mobile Menu Button - Only for logged in users */}
-          {user && (
-            <button 
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              style={styles.menuButton}
-              className="mobile-menu-btn"
-            >
-              {isMenuOpen ? <X size={24} color="#4b5563" /> : <Menu size={24} color="#4b5563" />}
-            </button>
-          )}
+                  {isUserMenuOpen && (
+                    <div style={styles.dropdown}>
+                      <div style={styles.userInfo}>
+                        <p style={styles.userName}>{user?.email?.split('@')[0]}</p>
+                        <p style={styles.userEmail}>{user?.email}</p>
+                      </div>
+                      <div style={styles.dropdownDivider} />
+                      <Link to="/profile" style={styles.dropdownItem} onClick={() => setIsUserMenuOpen(false)}>
+                        <User size={16} /> Profile
+                      </Link>
+                      <Link to="/my-orders" style={styles.dropdownItem} onClick={() => setIsUserMenuOpen(false)}>
+                        <Package size={16} /> My Orders
+                      </Link>
+                      <div style={styles.dropdownDivider} />
+                      <button onClick={handleLogout} style={{...styles.dropdownItem, color: '#dc2626'}}>
+                        <LogOut size={16} /> Logout
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </>
+            ) : (
+              <div style={styles.authLinks}>
+                <Link to="/login" style={styles.loginLink}>Login</Link>
+                <Link to="/signup" style={styles.registerBtn}>Register</Link>
+              </div>
+            )}
+          </div>
+
+          {/* Mobile Button */}
+          <button 
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            style={styles.menuButton}
+            className="mobile-menu-btn"
+          >
+            {isMenuOpen ? <X size={26} /> : <Menu size={26} />}
+          </button>
         </div>
 
-        {/* Mobile Menu - Only for logged in users */}
-        {user && isMenuOpen && (
+        {/* Mobile Menu */}
+        {isMenuOpen && (
           <div style={styles.mobileMenu}>
-            {/* User Info in Mobile */}
-            <div style={styles.mobileUserInfo}>
-              <User size={24} color="#4b5563" />
-              <div>
-                <strong>{user?.email?.split('@')[0]}</strong>
-                <small>{user?.email}</small>
+            {user ? (
+              <>
+                <Link to="/wishlist" style={styles.mobileLink} onClick={() => setIsMenuOpen(false)}>
+                  <Heart size={20} /> Wishlist ({wishlistCount})
+                </Link>
+                <Link to="/cart" style={styles.mobileLink} onClick={() => setIsMenuOpen(false)}>
+                  <ShoppingCart size={20} /> Cart ({cartCount})
+                </Link>
+                <div style={styles.mobileDivider} />
+                <Link to="/profile" style={styles.mobileLink} onClick={() => setIsMenuOpen(false)}>
+                  <User size={20} /> Profile
+                </Link>
+                <button onClick={handleLogout} style={{...styles.mobileLink, color: '#dc2626'}}>
+                  <LogOut size={20} /> Logout
+                </button>
+              </>
+            ) : (
+              <div style={styles.mobileAuthContainer}>
+                <Link to="/login" style={styles.mobileAuthLink} onClick={() => setIsMenuOpen(false)}>Login</Link>
+                <Link to="/signup" style={styles.mobileRegisterBtn} onClick={() => setIsMenuOpen(false)}>Register</Link>
               </div>
-            </div>
-            
-            <div style={styles.mobileDivider} />
-
-            <Link to="/wishlist" style={styles.mobileLink} onClick={() => setIsMenuOpen(false)}>
-              <Heart size={18} />
-              <span>Wishlist {wishlistCount > 0 && `(${wishlistCount})`}</span>
-            </Link>
-
-            <Link to="/cart" style={styles.mobileLink} onClick={() => setIsMenuOpen(false)}>
-              <ShoppingCart size={18} />
-              <span>Cart {cartCount > 0 && `(${cartCount})`}</span>
-            </Link>
-
-            <Link to="/profile" style={styles.mobileLink} onClick={() => setIsMenuOpen(false)}>
-              <User size={18} />
-              <span>Profile</span>
-            </Link>
-
-            <Link to="/my-orders" style={styles.mobileLink} onClick={() => setIsMenuOpen(false)}>
-              <Package size={18} />
-              <span>My Orders</span>
-            </Link>
-
-            <Link to="/settings" style={styles.mobileLink} onClick={() => setIsMenuOpen(false)}>
-              <Settings size={18} />
-              <span>Settings</span>
-            </Link>
-
-            <div style={styles.mobileDivider} />
-
-            <button onClick={handleLogout} style={styles.mobileLink}>
-              <LogOut size={18} />
-              <span>Logout</span>
-            </button>
+            )}
           </div>
         )}
       </nav>
-      
-      {/* Spacer */}
       <div style={{ height: "70px" }} />
     </>
   );
 };
 
-// Styles
 const styles = {
   navbar: {
     position: "fixed",
@@ -193,49 +166,72 @@ const styles = {
     transition: "all 0.3s ease",
   },
   container: {
-    maxWidth: "1200px",
+    maxWidth: "1250px",
     margin: "0 auto",
-    padding: "0 30px",
+    padding: "0 20px",
     height: "70px",
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
   },
-  logo: {
-    fontSize: "1.5rem",
-    fontWeight: "700",
-    color: "#111",
+  logoContainer: {
+    display: "flex",
+    alignItems: "center",
     textDecoration: "none",
-    letterSpacing: "-0.5px",
+  },
+  logoImage: {
+    height: "32px",
+    width: "auto",
+  },
+  logoTextAlt: {
+    display: "none",
+    fontSize: "1.4rem",
+    fontWeight: "800",
+    color: "#000",
   },
   desktopNav: {
     display: "flex",
     alignItems: "center",
+    gap: "20px",
+  },
+  authLinks: {
+    display: "flex",
+    alignItems: "center",
     gap: "15px",
+  },
+  loginLink: {
+    textDecoration: "none",
+    color: "#111",
+    fontSize: "14px",
+    fontWeight: "600",
+  },
+  registerBtn: {
+    textDecoration: "none",
+    background: "#000",
+    color: "#fff",
+    padding: "8px 20px",
+    borderRadius: "25px",
+    fontSize: "14px",
+    fontWeight: "600",
   },
   iconLink: {
     position: "relative",
-    textDecoration: "none",
     padding: "8px",
-    borderRadius: "8px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
   },
   badge: {
     position: "absolute",
-    top: "0",
-    right: "0",
-    background: "#dc2626",
+    top: "-2px",
+    right: "-2px",
+    background: "#000",
     color: "#fff",
     fontSize: "10px",
-    fontWeight: "600",
-    minWidth: "16px",
-    height: "16px",
-    borderRadius: "8px",
+    minWidth: "18px",
+    height: "18px",
+    borderRadius: "50%",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    border: "2px solid #fff",
   },
   userMenuContainer: {
     position: "relative",
@@ -244,139 +240,113 @@ const styles = {
     background: "none",
     border: "none",
     cursor: "pointer",
-    padding: "8px",
-    borderRadius: "8px",
+  },
+  avatar: {
+    width: "35px",
+    height: "35px",
+    borderRadius: "50%",
+    background: "#111",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
   },
   dropdown: {
     position: "absolute",
-    top: "100%",
+    top: "120%",
     right: 0,
-    marginTop: "8px",
     background: "#fff",
-    border: "1px solid #e5e7eb",
     borderRadius: "12px",
-    width: "200px",
+    width: "220px",
+    boxShadow: "0 10px 25px rgba(0,0,0,0.1)",
+    border: "1px solid #f0f0f0",
     overflow: "hidden",
-    boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
   },
   userInfo: {
     padding: "15px",
     background: "#f9fafb",
   },
+  userName: {
+    margin: 0,
+    fontWeight: "600",
+    fontSize: "14px",
+  },
+  userEmail: {
+    margin: 0,
+    fontSize: "12px",
+    color: "#6b7280",
+  },
   dropdownItem: {
     display: "flex",
     alignItems: "center",
-    gap: "12px",
+    gap: "10px",
     padding: "12px 15px",
-    color: "#4b5563",
+    color: "#374151",
     textDecoration: "none",
     fontSize: "14px",
     width: "100%",
-    textAlign: "left",
     border: "none",
     background: "none",
+    textAlign: "left",
     cursor: "pointer",
-    transition: "background 0.2s",
   },
   dropdownDivider: {
     height: "1px",
-    background: "#e5e7eb",
-    margin: "4px 0",
+    background: "#f0f0f0",
   },
   menuButton: {
-    display: "none",
     background: "none",
     border: "none",
     cursor: "pointer",
-    padding: "8px",
+    display: "none",
   },
   mobileMenu: {
-    padding: "20px",
-    borderTop: "1px solid #e5e7eb",
+    position: "absolute",
+    top: "70px",
+    left: 0,
+    right: 0,
     background: "#fff",
-  },
-  mobileUserInfo: {
+    padding: "10px 20px 30px",
     display: "flex",
-    alignItems: "center",
-    gap: "12px",
-    padding: "10px 0",
-    marginBottom: "10px",
-  },
-  mobileDivider: {
-    height: "1px",
-    background: "#e5e7eb",
-    margin: "10px 0",
+    flexDirection: "column",
   },
   mobileLink: {
     display: "flex",
     alignItems: "center",
     gap: "12px",
-    padding: "12px",
-    color: "#4b5563",
+    padding: "15px",
     textDecoration: "none",
-    fontSize: "14px",
-    width: "100%",
-    border: "none",
-    background: "none",
-    cursor: "pointer",
-    borderRadius: "8px",
-    transition: "background 0.2s",
+    color: "#111",
+    fontSize: "15px",
   },
+  mobileAuthContainer: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "10px",
+    padding: "10px 0",
+  },
+  mobileAuthLink: {
+    textAlign: "center",
+    padding: "12px",
+    textDecoration: "none",
+    color: "#111",
+    fontWeight: "600",
+    border: "1px solid #eee",
+    borderRadius: "8px",
+  },
+  mobileRegisterBtn: {
+    textAlign: "center",
+    padding: "12px",
+    textDecoration: "none",
+    background: "#000",
+    color: "#fff",
+    fontWeight: "600",
+    borderRadius: "8px",
+  },
+  mobileDivider: {
+    height: "1px",
+    background: "#f0f0f0",
+    margin: "10px 0",
+  }
 };
 
-// Add this to your global CSS file or create a new CSS file
-// For now, adding it to the component
-const GlobalStyles = () => {
-  React.useEffect(() => {
-    const style = document.createElement('style');
-    style.innerHTML = `
-      @media (max-width: 768px) {
-        .desktop-nav {
-          display: none !important;
-        }
-        .mobile-menu-btn {
-          display: block !important;
-        }
-      }
-      
-      @media (min-width: 769px) {
-        .mobile-menu-btn {
-          display: none !important;
-        }
-        .desktop-nav {
-          display: flex !important;
-        }
-      }
-      
-      .dropdown-item:hover,
-      .mobile-link:hover {
-        background-color: #f3f4f6;
-      }
-      
-      button:hover,
-      a:hover {
-        opacity: 0.8;
-      }
-    `;
-    document.head.appendChild(style);
-    
-    return () => {
-      document.head.removeChild(style);
-    };
-  }, []);
-  
-  return null;
-};
-
-// Wrap your component with GlobalStyles
-const NavbarWithStyles = (props) => (
-  <>
-    <GlobalStyles />
-    <Navbar {...props} />
-  </>
-);
-
-export default NavbarWithStyles;
+export default Navbar;

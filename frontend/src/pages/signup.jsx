@@ -23,10 +23,11 @@ export default function Signup() {
     setLoading(true);
 
     try {
-      // ✅ Use your register endpoint
+      // ✅ ഇമെയിലിനൊപ്പം username കൂടി അയക്കുന്നു
       const response = await axios.post("http://127.0.0.1:8000/api/register/", {
         email: email,
-        password: password
+        password: password,
+        username: email // Django-യുടെ 'The given username must be set' എറർ ഒഴിവാക്കാൻ ഇത് സഹായിക്കും
       });
 
       console.log("Signup response:", response.data);
@@ -37,10 +38,14 @@ export default function Signup() {
     } catch (error) {
       console.error("Signup error:", error.response?.data);
       
-      if (error.response?.data?.error) {
-        toast.error(error.response.data.error);
-      } else if (error.response?.data?.email) {
-        toast.error(error.response.data.email[0]);
+      // ബാക്കെൻഡിൽ നിന്നുള്ള കൃത്യമായ എറർ മെസ്സേജ് കാണിക്കാൻ
+      const backendError = error.response?.data;
+      if (backendError?.error) {
+        toast.error(backendError.error);
+      } else if (backendError?.email) {
+        toast.error("Email: " + backendError.email[0]);
+      } else if (backendError?.username) {
+        toast.error("Username: " + backendError.username[0]);
       } else {
         toast.error("Signup failed. Please try again.");
       }
@@ -120,6 +125,7 @@ export default function Signup() {
   );
 }
 
+// Styles ഭാഗത്ത് മാറ്റമില്ല, പഴയത് തന്നെ ഉപയോഗിക്കാം
 const styles = {
   page: {
     minHeight: "100vh",
@@ -181,7 +187,8 @@ const styles = {
     fontSize: "1rem",
     fontWeight: "600",
     cursor: "pointer",
-    marginTop: "10px"
+    marginTop: "10px",
+    transition: "0.3s"
   },
   buttonDisabled: {
     background: "#666",
