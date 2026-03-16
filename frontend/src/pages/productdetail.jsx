@@ -4,8 +4,15 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { CartContext } from "../context/cartcontext";
 import { AuthContext } from "../context/authcontext";
+import { WishlistContext } from "../context/wishlistcontext";
 import toast from "react-hot-toast";
-import { Star, ArrowLeft, Heart, ShieldCheck, Truck, Package, Zap, ChevronRight } from "lucide-react";
+import { 
+  Star, ArrowLeft, Heart, ShieldCheck, Truck, Package, Zap, ChevronRight,
+  ZoomIn, ZoomOut, Maximize, X 
+} from "lucide-react";
+
+// Import Footer
+import Footer from "../components/footer";
 
 /* ─── Google Fonts ─────────────────────────────────────────────────────────── */
 const FontImport = () => (
@@ -21,6 +28,10 @@ const FontImport = () => (
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
+    @keyframes zoomIn {
+      from { transform: scale(0.95); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
 
     .pd-fadein { animation: fadeUp 0.45s ease both; }
     .pd-fadein-1 { animation: fadeUp 0.45s 0.05s ease both; }
@@ -28,9 +39,124 @@ const FontImport = () => (
     .pd-fadein-3 { animation: fadeUp 0.45s 0.20s ease both; }
     .pd-fadein-4 { animation: fadeUp 0.45s 0.28s ease both; }
     .pd-fadein-5 { animation: fadeUp 0.45s 0.36s ease both; }
+    .pd-zoom-in { animation: zoomIn 0.3s ease both; }
 
-    .pd-img-wrap img { transition: transform 0.5s cubic-bezier(.22,.68,0,1.2); }
-    .pd-img-wrap:hover img { transform: scale(1.06); }
+    /* Image Zoom Styles */
+    .pd-image-container {
+      position: relative;
+      overflow: hidden;
+      cursor: crosshair;
+    }
+
+    .pd-image-container.zoomed {
+      cursor: zoom-out;
+    }
+
+    .pd-main-image {
+      transition: transform 0.3s ease-out;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .pd-image-container.zoomed .pd-main-image {
+      transform: scale(2.5);
+    }
+
+    .pd-zoom-lens {
+      position: absolute;
+      border: 2px solid #dc2626;
+      background: rgba(255, 255, 255, 0.2);
+      width: 150px;
+      height: 150px;
+      pointer-events: none;
+      display: none;
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    .pd-image-container:hover .pd-zoom-lens {
+      display: block;
+    }
+
+    .pd-zoom-controls {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      gap: 8px;
+      z-index: 10;
+    }
+
+    .pd-zoom-btn {
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 0.5px solid #e8e6df;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      backdrop-filter: blur(4px);
+    }
+
+    .pd-zoom-btn:hover {
+      background: #fff;
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    /* Fullscreen Modal */
+    .pd-fullscreen-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: zoomIn 0.3s ease;
+    }
+
+    .pd-fullscreen-image {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+      cursor: zoom-in;
+    }
+
+    .pd-fullscreen-image.zoomed {
+      cursor: zoom-out;
+      transform: scale(2);
+      transition: transform 0.3s ease;
+    }
+
+    .pd-fullscreen-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #fff;
+      transition: all 0.2s;
+    }
+
+    .pd-fullscreen-close:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.1);
+    }
 
     .pd-cart-btn:hover { background: #111 !important; }
     .pd-buy-btn:hover  { background: #b91c1c !important; }
@@ -58,6 +184,7 @@ const fmt  = (n) => Number(n || 0).toLocaleString("en-IN");
 const imgUrl = (path) => {
   if (!path) return "https://via.placeholder.com/400/f5f5f0/999?text=";
   if (path.startsWith("http")) return path;
+  if (path.startsWith("/media")) return `${BASE}${path}`;
   return `${BASE}${path}`;
 };
 
@@ -102,62 +229,302 @@ const FeaturePill = ({ Icon, title, sub }) => (
   </div>
 );
 
-/* ─── Related Product Card ──────────────────────────────────────────────────── */
-const RelCard = ({ product, onClick }) => (
-  <div className="pd-rel-card" onClick={onClick} style={{
-    background: "#fff", borderRadius: 16,
-    border: "0.5px solid #e8e6df", overflow: "hidden",
-  }}>
-    <div style={{
-      background: "#f5f5f0", height: 160,
-      display: "flex", alignItems: "center", justifyContent: "center",
-      overflow: "hidden", padding: 16,
-    }}>
-      <img
-        className="pd-rel-img"
-        src={imgUrl(product.image)}
-        alt={product.name}
-        style={{ maxHeight: 130, maxWidth: "100%", objectFit: "contain" }}
-      />
-    </div>
-    <div style={{ padding: "14px 16px" }}>
-      <p style={{
-        fontSize: 13, fontWeight: 600, color: "#111",
-        fontFamily: "'Outfit', sans-serif",
-        overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
-        marginBottom: 6,
-      }}>{product.name}</p>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <span style={{
-          fontSize: 15, fontWeight: 600, color: "#111",
-          fontFamily: "'DM Mono', monospace",
-        }}>₹{fmt(product.price)}</span>
+/* ─── Image Zoom Component with Wishlist ──────────────────────────────────── */
+const ImageZoom = ({ src, alt, isWishlisted, onWishlistClick }) => {
+  const [isZoomed, setIsZoomed] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [lensPosition, setLensPosition] = useState({ x: 0, y: 0 });
+  const [fullscreenZoom, setFullscreenZoom] = useState(false);
+
+  const handleMouseMove = (e) => {
+    if (!isZoomed) return;
+    
+    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - left) / width) * 100;
+    const y = ((e.clientY - top) / height) * 100;
+    
+    setPosition({ x, y });
+    
+    const lensX = e.clientX - left - 75;
+    const lensY = e.clientY - top - 75;
+    setLensPosition({ x: lensX, y: lensY });
+  };
+
+  const toggleZoom = () => {
+    setIsZoomed(!isZoomed);
+  };
+
+  const openFullscreen = () => {
+    setIsFullscreen(true);
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeFullscreen = () => {
+    setIsFullscreen(false);
+    setFullscreenZoom(false);
+    document.body.style.overflow = 'auto';
+  };
+
+  const toggleFullscreenZoom = () => {
+    setFullscreenZoom(!fullscreenZoom);
+  };
+
+  return (
+    <>
+      <div 
+        className={`pd-image-container ${isZoomed ? 'zoomed' : ''}`}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={() => setIsZoomed(false)}
+        style={{
+          background: "#f0efe9",
+          borderRadius: 28,
+          padding: "48px 40px",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          minHeight: 460, overflow: "hidden",
+          border: "0.5px solid #e8e6df",
+          position: "relative",
+        }}
+      >
+        {/* Featured Tag */}
         <div style={{
-          display: "flex", alignItems: "center", gap: 3,
-          background: "#f0fdf4", padding: "2px 8px", borderRadius: 10,
+          position: "absolute", top: 20, left: 20,
+          background: "#fff", border: "0.5px solid #e8e6df",
+          borderRadius: 20, padding: "4px 12px",
+          fontSize: 11, fontWeight: 600, color: "#dc2626",
+          letterSpacing: "0.08em", textTransform: "uppercase",
+          fontFamily: "'DM Mono', monospace",
+          zIndex: 2,
         }}>
-          <Star size={10} fill="#16a34a" color="#16a34a" />
-          <span style={{ fontSize: 11, color: "#16a34a", fontFamily: "'DM Mono', monospace" }}>4.8</span>
+          New Arrival
+        </div>
+
+        {/* Wishlist button */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onWishlistClick();
+          }}
+          style={{
+            position: "absolute", top: 20, right: 20,
+            width: 44,
+            height: 44,
+            borderRadius: 12,
+            background: "#fff",
+            border: isWishlisted ? "2px solid #dc2626" : "1px solid #e8e6df",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: "pointer",
+            transition: "all 0.2s",
+            zIndex: 10,
+            boxShadow: "0 2px 8px rgba(0,0,0,0.1)"
+          }}
+          onMouseEnter={(e) => {
+            if (!isWishlisted) e.currentTarget.style.borderColor = "#dc2626";
+          }}
+          onMouseLeave={(e) => {
+            if (!isWishlisted) e.currentTarget.style.borderColor = "#e8e6df";
+          }}
+        >
+          <Heart
+            size={20}
+            color={isWishlisted ? "#dc2626" : "#9ca3af"}
+            fill={isWishlisted ? "#dc2626" : "none"}
+          />
+        </button>
+
+        {/* Zoom Lens */}
+        {isZoomed && (
+          <div 
+            className="pd-zoom-lens"
+            style={{
+              left: lensPosition.x,
+              top: lensPosition.y,
+            }}
+          />
+        )}
+
+        {/* Main Image */}
+        <img
+          src={src}
+          alt={alt}
+          className="pd-main-image"
+          onClick={toggleZoom}
+          style={{
+            maxHeight: 380,
+            maxWidth: "100%",
+            objectFit: "contain",
+            transform: isZoomed ? 'scale(2.5)' : 'scale(1)',
+            transformOrigin: `${position.x}% ${position.y}%`,
+            cursor: isZoomed ? 'zoom-out' : 'zoom-in',
+          }}
+        />
+
+        {/* Zoom Controls */}
+        <div className="pd-zoom-controls">
+          <button 
+            className="pd-zoom-btn"
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleZoom();
+            }}
+            title={isZoomed ? "Zoom out" : "Zoom in"}
+          >
+            {isZoomed ? <ZoomOut size={18} /> : <ZoomIn size={18} />}
+          </button>
+          <button 
+            className="pd-zoom-btn"
+            onClick={(e) => {
+              e.stopPropagation();
+              openFullscreen();
+            }}
+            title="Fullscreen"
+          >
+            <Maximize size={18} />
+          </button>
+        </div>
+      </div>
+
+      {/* Fullscreen Modal */}
+      {isFullscreen && (
+        <div className="pd-fullscreen-modal" onClick={closeFullscreen}>
+          <img
+            src={src}
+            alt={alt}
+            className={`pd-fullscreen-image ${fullscreenZoom ? 'zoomed' : ''}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleFullscreenZoom();
+            }}
+            style={{
+              transform: fullscreenZoom ? 'scale(2)' : 'scale(1)',
+              transition: 'transform 0.3s ease',
+            }}
+          />
+          <button className="pd-fullscreen-close" onClick={closeFullscreen}>
+            <X size={24} />
+          </button>
+        </div>
+      )}
+    </>
+  );
+};
+
+/* ─── Related Product Card ──────────────────────────────────────────────────── */
+const RelCard = ({ product, onClick }) => {
+  const handleClick = (e) => {
+    e.stopPropagation();
+    console.log("Product clicked:", product.id);
+    onClick();
+  };
+
+  return (
+    <div 
+      className="pd-rel-card" 
+      onClick={handleClick}
+      style={{
+        background: "#fff", 
+        borderRadius: 16,
+        border: "0.5px solid #e8e6df", 
+        overflow: "hidden",
+        cursor: "pointer",
+        transition: "all 0.2s",
+        position: "relative"
+      }}
+    >
+      <div style={{
+        background: "#f5f5f0", 
+        height: 160,
+        display: "flex", 
+        alignItems: "center", 
+        justifyContent: "center",
+        overflow: "hidden", 
+        padding: 16,
+        pointerEvents: "none"
+      }}>
+        <img
+          className="pd-rel-img"
+          src={imgUrl(product.image)}
+          alt={product.name}
+          style={{ 
+            maxHeight: 130, 
+            maxWidth: "100%", 
+            objectFit: "contain",
+            pointerEvents: "none"
+          }}
+        />
+      </div>
+      <div style={{ 
+        padding: "14px 16px",
+        pointerEvents: "none"
+      }}>
+        <p style={{
+          fontSize: 13, 
+          fontWeight: 600, 
+          color: "#111",
+          fontFamily: "'Outfit', sans-serif",
+          overflow: "hidden", 
+          textOverflow: "ellipsis", 
+          whiteSpace: "nowrap",
+          marginBottom: 6,
+        }}>{product.name}</p>
+        <div style={{ 
+          display: "flex", 
+          justifyContent: "space-between", 
+          alignItems: "center" 
+        }}>
+          <span style={{
+            fontSize: 15, 
+            fontWeight: 600, 
+            color: "#111",
+            fontFamily: "'DM Mono', monospace",
+          }}>₹{fmt(product.price)}</span>
+          <div style={{
+            display: "flex", 
+            alignItems: "center", 
+            gap: 3,
+            background: "#f0fdf4", 
+            padding: "2px 8px", 
+            borderRadius: 10,
+          }}>
+            <Star size={10} fill="#16a34a" color="#16a34a" />
+            <span style={{ 
+              fontSize: 11, 
+              color: "#16a34a", 
+              fontFamily: "'DM Mono', monospace" 
+            }}>4.8</span>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 /* ─── Main Component ────────────────────────────────────────────────────────── */
 export default function ProductDetail() {
-  const { id }     = useParams();
-  const navigate   = useNavigate();
-  const { addToCart }    = useContext(CartContext);
-  const { user, token }  = useContext(AuthContext);
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { addToCart } = useContext(CartContext);
+  const { user } = useContext(AuthContext);
+  const { addToWishlist, removeFromWishlist, isInWishlist } = useContext(WishlistContext);
 
-  const [product,     setProduct]     = useState(null);
-  const [related,     setRelated]     = useState([]);
-  const [loading,     setLoading]     = useState(true);
-  const [error,       setError]       = useState(null);
+  const [product, setProduct] = useState(null);
+  const [related, setRelated] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [isWishlisted, setIsWishlisted] = useState(false);
-  const [imgError,    setImgError]    = useState(false);
-  const [adding,      setAdding]      = useState(false);
+  const [imgError, setImgError] = useState(false);
+  const [adding, setAdding] = useState(false);
+
+  // Check if product is in wishlist when product loads
+  useEffect(() => {
+    if (product) {
+      const inWishlist = isInWishlist(product.id);
+      setIsWishlisted(inWishlist);
+      console.log("Product in wishlist?", inWishlist);
+    }
+  }, [product, isInWishlist]);
 
   /* fetch product */
   useEffect(() => {
@@ -168,64 +535,59 @@ export default function ProductDetail() {
         setProduct(res.data);
         setLoading(false);
       })
-      .catch(() => {
+      .catch((err) => {
+        console.error("Error fetching product:", err);
         setError("Product not found or server error");
         setLoading(false);
       });
   }, [id]);
 
-  /* fetch featured/popular related products */
+  /* fetch related products */
   useEffect(() => {
-    axios.get(`${BASE}/api/products/?featured=true&limit=4`)
-      .catch(() => axios.get(`${BASE}/api/products/?limit=8`))
+    axios.get(`${BASE}/api/products/?limit=8`)
       .then((res) => {
-        const list = Array.isArray(res.data)
-          ? res.data
-          : res.data?.results || [];
+        const list = Array.isArray(res.data) ? res.data : res.data?.results || [];
         setRelated(list.filter((p) => String(p.id) !== String(id)).slice(0, 4));
       })
       .catch(() => {});
   }, [id]);
 
   /* handlers */
- // pages/ProductDetail.jsx - Updated handleAddToCart
-// pages/ProductDetail.jsx - Updated handleAddToCart
-const handleAddToCart = async () => {
-  if (!user) {
-    toast.error("Please login first");
-    navigate("/login", { 
-      state: { 
-        from: `/product/${id}`,
-        message: "Please login to add items to cart"
-      } 
-    });
-    return;
-  }
-  
-  setAdding(true);
-  try {
-    // ✅ Add to local cart context ONLY (skip API for now)
-    addToCart({ 
-      id: product.id, 
-      name: product.name, 
-      price: product.price, 
-      image: product.image, 
-      description: product.description 
-    });
+  const handleAddToCart = async () => {
+    if (!user) {
+      toast.error("Please login first");
+      navigate("/login", { 
+        state: { 
+          from: `/product/${id}`,
+          message: "Please login to add items to cart"
+        } 
+      });
+      return;
+    }
     
-    toast.success("Added to cart! Redirecting...");
-    
-    setTimeout(() => {
-      navigate("/cart");
-    }, 800);
-    
-  } catch (error) {
-    console.error("Error:", error);
-    toast.error("Failed to add to cart");
-  } finally {
-    setAdding(false);
-  }
-};
+    setAdding(true);
+    try {
+      addToCart({ 
+        id: product.id, 
+        name: product.name, 
+        price: product.price, 
+        image: product.image, 
+        description: product.description 
+      });
+      
+      toast.success("Added to cart! 🛒");
+      
+      setTimeout(() => {
+        navigate("/cart");
+      }, 800);
+      
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error("Failed to add to cart");
+    } finally {
+      setAdding(false);
+    }
+  };
 
   const handleBuyNow = () => {
     if (!user) {
@@ -246,18 +608,16 @@ const handleAddToCart = async () => {
       });
       return;
     }
-    const t = toast.loading("Processing…");
-    setTimeout(() => {
-      addToCart({ 
-        id: product.id, 
-        name: product.name, 
-        price: product.price, 
-        image: product.image, 
-        quantity: 1 
-      });
-      toast.success(`Redirecting to checkout…`, { id: t });
-      navigate("/checkout");
-    }, 700);
+    
+    addToCart({ 
+      id: product.id, 
+      name: product.name, 
+      price: product.price, 
+      image: product.image, 
+      quantity: 1 
+    });
+    toast.success("Redirecting to checkout...");
+    navigate("/checkout");
   };
 
   const handleWishlist = () => {
@@ -271,12 +631,19 @@ const handleAddToCart = async () => {
       });
       return; 
     }
-    setIsWishlisted((w) => !w);
-    toast.success(isWishlisted ? "Removed from wishlist" : "Added to wishlist ♡");
+    
+    if (isWishlisted) {
+      removeFromWishlist(product.id);
+      setIsWishlisted(false);
+      toast.success("Removed from wishlist");
+    } else {
+      addToWishlist(product);
+      setIsWishlisted(true);
+      toast.success("Added to wishlist! ❤️");
+    }
   };
 
   const handleBack = () => {
-    // Go back to previous page, or to products if no history
     if (window.history.length > 2) {
       navigate(-1);
     } else {
@@ -319,10 +686,25 @@ const handleAddToCart = async () => {
   return (
     <>
       <FontImport />
-      <div style={{ minHeight: "100vh", background: "#faf9f6", fontFamily: "'Outfit', sans-serif" }}>
-        <div style={{ maxWidth: 1160, margin: "0 auto", padding: "40px 24px 80px" }}>
+      {/* Main container with flex column for footer */}
+      <div style={{ 
+        minHeight: "100vh", 
+        background: "#faf9f6", 
+        fontFamily: "'Outfit', sans-serif",
+        display: "flex",
+        flexDirection: "column"
+      }}>
+        
+        {/* Content wrapper */}
+        <div style={{ 
+          flex: "1 0 auto",
+          maxWidth: 1160, 
+          margin: "0 auto", 
+          padding: "40px 24px 80px", 
+          width: "100%" 
+        }}>
 
-          {/* Back */}
+          {/* Back button */}
           <button
             className="pd-back-btn pd-fadein"
             onClick={handleBack}
@@ -341,61 +723,17 @@ const handleAddToCart = async () => {
           {/* Main grid */}
           <div className="pd-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60, alignItems: "start" }}>
 
-            {/* ── Left: Image ── */}
+            {/* Left: Image with Zoom and Wishlist */}
             <div className="pd-fadein-1">
-              <div
-                className="pd-img-wrap"
-                style={{
-                  background: "#f0efe9",
-                  borderRadius: 28,
-                  padding: "48px 40px",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  minHeight: 460, overflow: "hidden",
-                  border: "0.5px solid #e8e6df",
-                  position: "relative",
-                }}
-              >
-                {/* Tag */}
-                <div style={{
-                  position: "absolute", top: 20, left: 20,
-                  background: "#fff", border: "0.5px solid #e8e6df",
-                  borderRadius: 20, padding: "4px 12px",
-                  fontSize: 11, fontWeight: 600, color: "#dc2626",
-                  letterSpacing: "0.08em", textTransform: "uppercase",
-                  fontFamily: "'DM Mono', monospace",
-                }}>
-                  Featured
-                </div>
-
-                {/* Wishlist */}
-                <button
-                  className="pd-wish-btn"
-                  onClick={handleWishlist}
-                  style={{
-                    position: "absolute", top: 20, right: 20,
-                    width: 40, height: 40, borderRadius: 12,
-                    background: "#fff", border: "0.5px solid #e8e6df",
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    cursor: "pointer", transition: "border-color 0.2s",
-                  }}
-                >
-                  <Heart
-                    size={18}
-                    color={isWishlisted ? "#dc2626" : "#9ca3af"}
-                    fill={isWishlisted ? "#dc2626" : "none"}
-                  />
-                </button>
-
-                <img
-                  src={imgError ? "https://via.placeholder.com/400/f0efe9/999?text=" : imgUrl(product.image)}
-                  alt={product.name}
-                  onError={() => setImgError(true)}
-                  style={{ maxHeight: 380, maxWidth: "100%", objectFit: "contain" }}
-                />
-              </div>
+              <ImageZoom 
+                src={imgUrl(product.image)} 
+                alt={product.name}
+                isWishlisted={isWishlisted}
+                onWishlistClick={handleWishlist}
+              />
             </div>
 
-            {/* ── Right: Info ── */}
+            {/* Right: Info */}
             <div style={{ display: "flex", flexDirection: "column", paddingTop: 8 }}>
 
               {/* Category label */}
@@ -491,19 +829,18 @@ const handleAddToCart = async () => {
 
               {/* Feature pills */}
               <div className="pd-fadein-5" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-                <FeaturePill Icon={Truck}      title="Free Delivery"   sub="On all orders" />
+                <FeaturePill Icon={Truck} title="Free Delivery" sub="On all orders" />
                 <FeaturePill Icon={ShieldCheck} title="1 Year Warranty" sub="Official warranty" />
-                <FeaturePill Icon={Package}    title="Easy Returns"    sub="7-day return policy" />
-                <FeaturePill Icon={Star}       title="Top Rated"       sub="4.8 / 5 stars" />
+                <FeaturePill Icon={Package} title="Easy Returns" sub="7-day return policy" />
+                <FeaturePill Icon={Star} title="Top Rated" sub="4.8 / 5 stars" />
               </div>
 
             </div>
           </div>
 
-          {/* ── Related Products ─────────────────────────────────────────────── */}
+          {/* Related Products */}
           {related.length > 0 && (
             <div style={{ marginTop: 80 }}>
-
               {/* Section header */}
               <div style={{
                 display: "flex", alignItems: "flex-end", justifyContent: "space-between",
@@ -514,13 +851,13 @@ const handleAddToCart = async () => {
                     fontSize: 10, letterSpacing: "0.16em", textTransform: "uppercase",
                     color: "#9ca3af", fontFamily: "'DM Mono', monospace", marginBottom: 5,
                   }}>
-                    Handpicked for you
+                    You might also like
                   </p>
                   <h2 style={{
                     fontFamily: "'Fraunces', serif", fontSize: 26,
                     fontWeight: 700, color: "#111",
                   }}>
-                    Featured Products
+                    Related Products
                   </h2>
                 </div>
                 <button
@@ -538,6 +875,7 @@ const handleAddToCart = async () => {
                 </button>
               </div>
 
+              {/* Related products grid */}
               <div
                 className="pd-rel-grid"
                 style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}
@@ -546,7 +884,10 @@ const handleAddToCart = async () => {
                   <RelCard
                     key={p.id}
                     product={p}
-                    onClick={() => navigate(`/product/${p.id}`)}
+                    onClick={() => {
+                      console.log("Navigating to product:", p.id);
+                      navigate(`/product/${p.id}`);
+                    }}
                   />
                 ))}
               </div>
@@ -554,6 +895,9 @@ const handleAddToCart = async () => {
           )}
 
         </div>
+
+        {/* Footer */}
+        <Footer />
       </div>
     </>
   );

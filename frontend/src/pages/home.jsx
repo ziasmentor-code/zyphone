@@ -13,7 +13,8 @@ import image18    from "../assets/images/image18.jpg";
 import image19    from "../assets/images/image19.jpg"; 
 import image20    from "../assets/images/image20.jpg"; 
 import image21    from "../assets/images/image21.jpg";
-import img20      from "../assets/images/img20.jpg"; 
+import img20      from "../assets/images/img20.jpg";
+import img18 from '../assets/img18.jpg'; 
 
 // Media Imports
 import heroVideo  from "../assets/images/herovideo.mp4";
@@ -142,6 +143,58 @@ const handleFleetNavigation = (productName) => {
           ))}
         </div>
 
+
+{/* ─────────────── iPHONE AIR - LAYERED STYLE ─────────────── */}
+{/* ─────────────── FULL WIDTH iPHONE AIR SECTION ─────────────── */}
+<section className="bg-[#f5f5f7] pt-24 pb-0 text-center overflow-hidden w-full">
+      <div className="w-full flex flex-col items-center">
+        
+        <div className="px-6 mb-12">
+          <h3 className="text-xl md:text-2xl font-semibold text-gray-900 mb-4">
+            iPhone Air
+          </h3>
+
+          <h2 className="text-5xl md:text-8xl font-bold tracking-tight text-gray-900 leading-none">
+            So this is what <br />
+            <span className="text-gray-400">the future feels like.</span>
+          </h2>
+
+          <div className="flex justify-center gap-6 mt-10 mb-16">
+            {/* 3. onClick ചേർക്കുക */}
+            <button 
+              onClick={() => navigate('/all-products')} // നിങ്ങളുടെ product page path നൽകുക
+              className="bg-[#0071e3] text-white px-8 py-3 rounded-full text-lg font-medium hover:bg-[#0077ed] transition shadow-lg active:scale-95"
+            >
+              Buy
+            </button>
+            
+            <button 
+              onClick={() => navigate('/product-details/iphone-air')} // ഉദാഹരണത്തിന്
+              className="text-[#0071e3] text-lg font-medium hover:underline flex items-center"
+            >
+              Learn more &nbsp; {'>'}
+            </button>
+          </div>
+        </div>
+
+        {/* Full Width Image with Hover Effect */}
+        <div className="w-full overflow-hidden">
+          <img 
+            src={img18} 
+            alt="iPhone Air Full View" 
+            className="w-full h-auto object-cover block transition-transform duration-1000 ease-out hover:scale-105 cursor-pointer"
+            onClick={() => navigate('/all-products')} // ഇമേജിൽ ക്ലിക്ക് ചെയ്താലും വർക്ക് ആകും
+          />
+        </div>
+
+        <div className="py-16 px-6 max-w-2xl text-xl md:text-2xl text-gray-600 font-medium leading-relaxed text-center mx-auto">
+          <p>
+            The all-new iPhone Air is so incredibly light that it nearly disappears in your hand. 
+            Weighting just 165 grams, it's the thinnest iPhone ever.
+          </p>
+        </div>
+      </div>
+    </section>
         {/* ─────────────── BEYOND LIMITS ─────────────── */}
         <section className="relative w-full h-screen flex items-center overflow-hidden">
           <div className="absolute inset-0">
@@ -219,6 +272,7 @@ const handleFleetNavigation = (productName) => {
             ))}
           </div>
         </section>
+
 
         {/* ─────────────── HOPPUP STYLE FEATURE ─────────────── */}
         <section className="flex flex-col md:flex-row w-full min-h-[80vh] bg-[#1A1D2B] overflow-hidden">

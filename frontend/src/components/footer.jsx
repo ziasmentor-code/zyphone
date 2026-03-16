@@ -1,4 +1,4 @@
-// components/Footer.jsx
+// components/Footer.jsx - Complete with Careers, Press, Blog
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -6,7 +6,8 @@ import { toast } from 'react-hot-toast';
 import { 
   Mail, MapPin, Phone, ArrowRight, 
   Heart, Shield, Truck, CreditCard,
-  Instagram, Facebook, Twitter, Youtube
+  Instagram, Facebook, Twitter, Youtube,
+  Briefcase, Newspaper, BookOpen, Users
 } from 'lucide-react';
 
 const Footer = () => {
@@ -223,14 +224,14 @@ const Footer = () => {
           ))}
         </div>
 
-        {/* Links Grid */}
+        {/* Links Grid - With Careers, Press, Blog */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(4, 1fr)',
           gap: '30px',
           marginBottom: '50px'
         }}>
-          {/* Shop */}
+          {/* Shop Column */}
           <div>
             <h5 style={{
               fontSize: '12px',
@@ -240,38 +241,53 @@ const Footer = () => {
               color: '#999',
               marginBottom: '20px'
             }}>
-              Shop
+              SHOP
             </h5>
             <ul style={{ listStyle: 'none', padding: 0 }}>
-              {[
-                { label: 'Smartphones', path: '/products?category=phone' },
-                { label: 'Audio & Buds', path: '/products?category=headset' },
-                { label: 'Wearables', path: '/products?category=watch' },
-                { label: 'All Devices', path: '/products' }
-              ].map((item, index) => (
-                <li key={index} style={{ marginBottom: '12px' }}>
-                  <button
-                    onClick={() => handleNavigation(item.path)}
-                    style={{
-                      background: 'none',
-                      border: 'none',
-                      color: '#666',
-                      cursor: 'pointer',
-                      fontSize: '14px',
-                      padding: 0,
-                      transition: 'color 0.3s'
-                    }}
-                    onMouseEnter={(e) => e.currentTarget.style.color = '#dc2626'}
-                    onMouseLeave={(e) => e.currentTarget.style.color = '#666'}
-                  >
-                    {item.label}
-                  </button>
-                </li>
-              ))}
+              <li style={{ marginBottom: '12px' }}>
+                <button
+                  onClick={() => handleNavigation('/products?category=phone')}
+                  style={linkStyle}
+                  onMouseEnter={(e) => e.currentTarget.style.color = '#dc2626'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = '#666'}
+                >
+                  Smartphones
+                </button>
+              </li>
+              <li style={{ marginBottom: '12px' }}>
+                <button
+                  onClick={() => handleNavigation('/products?category=headset')}
+                  style={linkStyle}
+                  onMouseEnter={(e) => e.currentTarget.style.color = '#dc2626'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = '#666'}
+                >
+                  Audio & Buds
+                </button>
+              </li>
+              <li style={{ marginBottom: '12px' }}>
+                <button
+                  onClick={() => handleNavigation('/products?category=watch')}
+                  style={linkStyle}
+                  onMouseEnter={(e) => e.currentTarget.style.color = '#dc2626'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = '#666'}
+                >
+                  Wearables
+                </button>
+              </li>
+              <li style={{ marginBottom: '12px' }}>
+                <button
+                  onClick={() => handleNavigation('/products')}
+                  style={linkStyle}
+                  onMouseEnter={(e) => e.currentTarget.style.color = '#dc2626'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = '#666'}
+                >
+                  All Devices
+                </button>
+              </li>
             </ul>
           </div>
 
-          {/* Support */}
+          {/* Support Column */}
           <div>
             <h5 style={{
               fontSize: '12px',
@@ -281,68 +297,47 @@ const Footer = () => {
               color: '#999',
               marginBottom: '20px'
             }}>
-              Support
+              SUPPORT
             </h5>
             <ul style={{ listStyle: 'none', padding: 0 }}>
-              {[
-                { label: 'Order Tracking', path: '/my-orders' },
-                { label: 'My Account', path: '/profile' },
-                { label: 'Warranty Info' },
-                { label: 'FAQs' }
-              ].map((item, index) => (
-                <li key={index} style={{ marginBottom: '12px' }}>
-                  <button
-                    onClick={() => item.path && handleNavigation(item.path)}
-                    style={{
-                      background: 'none',
-                      border: 'none',
-                      color: '#666',
-                      cursor: 'pointer',
-                      fontSize: '14px',
-                      padding: 0,
-                      transition: 'color 0.3s'
-                    }}
-                    onMouseEnter={(e) => e.currentTarget.style.color = '#dc2626'}
-                    onMouseLeave={(e) => e.currentTarget.style.color = '#666'}
-                  >
-                    {item.label}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Company */}
-          <div>
-            <h5 style={{
-              fontSize: '12px',
-              fontWeight: '600',
-              letterSpacing: '1px',
-              textTransform: 'uppercase',
-              color: '#999',
-              marginBottom: '20px'
-            }}>
-              Company
-            </h5>
-            <ul style={{ listStyle: 'none', padding: 0 }}>
-              {['About Us', 'Careers', 'Press', 'Blog'].map((item, index) => (
-                <li key={index} style={{ marginBottom: '12px' }}>
-                  <span style={{
-                    color: '#666',
-                    cursor: 'pointer',
-                    fontSize: '14px',
-                    transition: 'color 0.3s'
-                  }}
+              <li style={{ marginBottom: '12px' }}>
+                <button
+                  onClick={() => handleNavigation('/my-orders')}
+                  style={linkStyle}
+                  onMouseEnter={(e) => e.currentTarget.style.color = '#dc2626'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = '#666'}
+                >
+                  Order Tracking
+                </button>
+              </li>
+              <li style={{ marginBottom: '12px' }}>
+                <button
+                  onClick={() => handleNavigation('/profile')}
+                  style={linkStyle}
+                  onMouseEnter={(e) => e.currentTarget.style.color = '#dc2626'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = '#666'}
+                >
+                  My Account
+                </button>
+              </li>
+              <li style={{ marginBottom: '12px' }}>
+                <span style={linkStyle}
                   onMouseEnter={(e) => e.currentTarget.style.color = '#dc2626'}
                   onMouseLeave={(e) => e.currentTarget.style.color = '#666'}>
-                    {item}
-                  </span>
-                </li>
-              ))}
+                  Warranty Info
+                </span>
+              </li>
+              <li style={{ marginBottom: '12px' }}>
+                <span style={linkStyle}
+                  onMouseEnter={(e) => e.currentTarget.style.color = '#dc2626'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = '#666'}>
+                  FAQs
+                </span>
+              </li>
             </ul>
           </div>
 
-          {/* Contact */}
+          {/* Company Column - With Careers, Press, Blog */}
           <div>
             <h5 style={{
               fontSize: '12px',
@@ -352,13 +347,81 @@ const Footer = () => {
               color: '#999',
               marginBottom: '20px'
             }}>
-              Contact
+              COMPANY
+            </h5>
+            <ul style={{ listStyle: 'none', padding: 0 }}>
+              <li style={{ marginBottom: '12px' }}>
+                <span style={{
+                  ...linkStyle,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#dc2626'}
+                onMouseLeave={(e) => e.currentTarget.style.color = '#666'}>
+                  <Users size={14} color="#dc2626" />
+                  About Us
+                </span>
+              </li>
+              <li style={{ marginBottom: '12px' }}>
+                <span style={{
+                  ...linkStyle,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#dc2626'}
+                onMouseLeave={(e) => e.currentTarget.style.color = '#666'}>
+                  <Briefcase size={14} color="#dc2626" />
+                  Careers
+                </span>
+              </li>
+              <li style={{ marginBottom: '12px' }}>
+                <span style={{
+                  ...linkStyle,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#dc2626'}
+                onMouseLeave={(e) => e.currentTarget.style.color = '#666'}>
+                  <Newspaper size={14} color="#dc2626" />
+                  Press
+                </span>
+              </li>
+              <li style={{ marginBottom: '12px' }}>
+                <span style={{
+                  ...linkStyle,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#dc2626'}
+                onMouseLeave={(e) => e.currentTarget.style.color = '#666'}>
+                  <BookOpen size={14} color="#dc2626" />
+                  Blog
+                </span>
+              </li>
+            </ul>
+          </div>
+
+          {/* Contact Column */}
+          <div>
+            <h5 style={{
+              fontSize: '12px',
+              fontWeight: '600',
+              letterSpacing: '1px',
+              textTransform: 'uppercase',
+              color: '#999',
+              marginBottom: '20px'
+            }}>
+              CONTACT
             </h5>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <MapPin size={16} color="#dc2626" />
                 <span style={{ color: '#666', fontSize: '14px' }}>
-                  Kochi, Kerala 682030
+                  Zyphone HQ, Silicon Valley, Kochi, Kerala 682030
                 </span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -388,29 +451,64 @@ const Footer = () => {
           gap: '20px'
         }}>
           <p style={{ color: '#999', fontSize: '12px' }}>
-            © {new Date().getFullYear()} Zyphone Industries. All rights reserved.
+            © {new Date().getFullYear()} ZYPHONE INDUSTRIES. ALL RIGHTS RESERVED.
           </p>
           <div style={{ display: 'flex', gap: '20px' }}>
-            {['Privacy Policy', 'Terms of Service', 'Cookie Settings'].map((item, index) => (
-              <span
-                key={index}
-                style={{
-                  color: '#999',
-                  fontSize: '12px',
-                  cursor: 'pointer',
-                  transition: 'color 0.3s'
-                }}
-                onMouseEnter={(e) => e.currentTarget.style.color = '#dc2626'}
-                onMouseLeave={(e) => e.currentTarget.style.color = '#999'}
-              >
-                {item}
-              </span>
-            ))}
+            <span
+              style={bottomLinkStyle}
+              onMouseEnter={(e) => e.currentTarget.style.color = '#dc2626'}
+              onMouseLeave={(e) => e.currentTarget.style.color = '#999'}
+            >
+              Privacy Policy
+            </span>
+            <span
+              style={bottomLinkStyle}
+              onMouseEnter={(e) => e.currentTarget.style.color = '#dc2626'}
+              onMouseLeave={(e) => e.currentTarget.style.color = '#999'}
+            >
+              Terms of Service
+            </span>
+            <span
+              style={bottomLinkStyle}
+              onMouseEnter={(e) => e.currentTarget.style.color = '#dc2626'}
+              onMouseLeave={(e) => e.currentTarget.style.color = '#999'}
+            >
+              Cookie Settings
+            </span>
           </div>
+        </div>
+
+        {/* Payment Methods */}
+        <div style={{
+          marginTop: '30px',
+          textAlign: 'center',
+          color: '#999',
+          fontSize: '12px'
+        }}>
+          <p>We Accept: Visa • Mastercard • Razorpay • UPI • Net Banking</p>
         </div>
       </div>
     </footer>
   );
+};
+
+// Link styles
+const linkStyle = {
+  background: 'none',
+  border: 'none',
+  color: '#666',
+  cursor: 'pointer',
+  fontSize: '14px',
+  padding: 0,
+  transition: 'color 0.3s',
+  textDecoration: 'none'
+};
+
+const bottomLinkStyle = {
+  color: '#999',
+  fontSize: '12px',
+  cursor: 'pointer',
+  transition: 'color 0.3s'
 };
 
 export default Footer;
