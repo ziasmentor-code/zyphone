@@ -71,7 +71,6 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
     'http://127.0.0.1:3000',
     'http://127.0.0.1:5173',
-    'https://zyphone-backend.onrender.com',
 ]
 
 if DEBUG:
@@ -80,7 +79,8 @@ else:
     CORS_ALLOW_ALL_ORIGINS = False
     CORS_ALLOWED_ORIGINS = [
         'https://zyphone-backend.onrender.com',
-        'https://zyphone-frontend.onrender.com',  # നിങ്ങളുടെ frontend URL
+        'https://zyphone-frontend.vercel.app',  # Vercel frontend URL
+        'https://zyphone-frontend.netlify.app',  # Netlify frontend URL (if using)
     ]
 
 CORS_ALLOW_CREDENTIALS = True
