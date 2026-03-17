@@ -1,15 +1,21 @@
 from pathlib import Path
 from datetime import timedelta
 import os
+from dotenv import load_dotenv
 
+# Load environment variables
+load_dotenv()
+
+# Build paths inside the project
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-change-this-key'
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-your-secret-key-here')
 
-DEBUG = True
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.onrender.com']
 
 # ========================
 # APPLICATIONS
@@ -28,6 +34,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'django_extensions',
+    'rest_framework_simplejwt',
 
     # Local apps
     'users',
@@ -38,7 +45,6 @@ INSTALLED_APPS = [
     'api',
 ]
 
-
 # ========================
 # MIDDLEWARE
 # ========================
@@ -46,6 +52,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # For static files in production
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -54,13 +61,21 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True
+# ========================
+# CORS SETTINGS
+# ========================
+
+if DEBUG:
+    CORS_ALLOW_ALL_ORIGINS = True
+else:
+    CORS_ALLOWED_ORIGINS = [
+        'https://your-frontend.onrender.com',  # Replace with your frontend URL
+        'http://localhost:3000',
+    ]
 CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'backend.urls'
-
 WSGI_APPLICATION = 'backend.wsgi.application'
-
 
 # ========================
 # TEMPLATES
@@ -82,29 +97,53 @@ TEMPLATES = [
     },
 ]
 
-
 # ========================
 # DATABASE (PostgreSQL)
 # ========================
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'zyphone_db',
-        'USER': 'postgres',
-        'PASSWORD': 'aleemakp',
-        'HOST': 'localhost',
-        'PORT': '5432',
+if os.getenv('RENDER'):
+    # Production database on Render
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.getenv('DB_NAME'),
+            'USER': os.getenv('DB_USER'),
+            'PASSWORD': os.getenv('DB_PASSWORD'),
+            'HOST': os.getenv('DB_HOST'),
+            'PORT': os.getenv('DB_PORT', '5432'),
+        }
     }
-}
-
+else:
+    # Local development database
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'zyphone_db',
+            'USER': 'postgres',
+            'PASSWORD': 'aleemakp',
+            'HOST': 'localhost',
+            'PORT': '5432',
+        }
+    }
 
 # ========================
 # PASSWORD VALIDATION
 # ========================
 
-AUTH_PASSWORD_VALIDATORS = []
-
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+]
 
 # ========================
 # INTERNATIONALIZATION
@@ -115,7 +154,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-
 # ========================
 # STATIC FILES
 # ========================
@@ -123,18 +161,19 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+# WhiteNoise for static files in production
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 
 # ========================
 # CUSTOM USER
 # ========================
 
 AUTH_USER_MODEL = 'users.User'
-
 
 # ========================
 # LOGIN / LOGOUT REDIRECTS
@@ -143,7 +182,6 @@ AUTH_USER_MODEL = 'users.User'
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
-
 
 # ========================
 # DJANGO REST FRAMEWORK
@@ -158,9 +196,13 @@ REST_FRAMEWORK = {
     ),
 }
 
+# ========================
+# JWT SETTINGS
+# ========================
+
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=365),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=365),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),  # Better to keep shorter
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
     'UPDATE_LAST_LOGIN': True,
@@ -173,7 +215,6 @@ SIMPLE_JWT = {
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
     'TOKEN_TYPE_CLAIM': 'token_type',
 }
-
 
 # ========================
 # LOGGING
@@ -212,11 +253,6 @@ LOGGING = {
             'handlers': ['console', 'file'],
             'level': 'INFO',
             'propagate': False,
-        },
-        'orders': {
-            'handlers': ['console', 'file'],
-            'level': 'DEBUG',
-            'propagate': True,
         },
     },
 }

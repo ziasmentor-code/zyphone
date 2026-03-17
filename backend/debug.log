@@ -3776,3 +3776,70 @@ ValueError: The given username must be set
 ERROR 2026-03-16 16:39:51,748 log 21116 17072 "POST /api/register/ HTTP/1.1" 500 21252
 INFO 2026-03-16 16:40:43,328 autoreload 21116 10904 C:\Users\pc\Desktop\zyphone\backend\api\views.py changed, reloading.
 INFO 2026-03-16 16:40:43,811 autoreload 12372 2880 Watching for file changes with StatReloader
+INFO 2026-03-16 16:42:50,437 log 12372 8664 "POST /api/register/ HTTP/1.1" 201 42
+WARNING 2026-03-16 16:42:52,656 log 12372 8664 Unauthorized: /api/token/
+WARNING 2026-03-16 16:42:52,656 log 12372 8664 "POST /api/token/ HTTP/1.1" 401 63
+INFO 2026-03-16 16:42:56,870 log 12372 8664 "POST /api/token/ HTTP/1.1" 200 835
+INFO 2026-03-16 16:44:19,487 autoreload 19672 12328 Watching for file changes with StatReloader
+INFO 2026-03-16 17:15:26,553 autoreload 4456 13920 Watching for file changes with StatReloader
+INFO 2026-03-16 17:16:30,230 autoreload 4456 13920 C:\Users\pc\Desktop\zyphone\backend\backend\settings.py changed, reloading.
+INFO 2026-03-16 17:16:39,025 autoreload 10020 10180 Watching for file changes with StatReloader
+INFO 2026-03-16 17:16:45,390 autoreload 10020 10180 C:\Users\pc\Desktop\zyphone\backend\backend\settings.py changed, reloading.
+INFO 2026-03-16 17:21:56,658 autoreload 9688 22016 Watching for file changes with StatReloader
+INFO 2026-03-16 17:22:13,258 log 9688 21760 "GET /api/products/ HTTP/1.1" 200 9462
+INFO 2026-03-16 17:22:13,285 log 9688 16496 "GET /media/products/alee2.png HTTP/1.1" 304 0
+INFO 2026-03-16 17:22:13,286 log 9688 18228 "GET /media/products/15promax.png HTTP/1.1" 304 0
+INFO 2026-03-16 17:22:13,287 log 9688 21672 "GET /media/products/alee.png HTTP/1.1" 304 0
+INFO 2026-03-16 17:22:13,289 log 9688 21636 "GET /media/products/dime_evo.webp HTTP/1.1" 304 0
+INFO 2026-03-16 17:22:13,289 log 9688 21672 "GET /media/products/EARP1.png HTTP/1.1" 304 0
+INFO 2026-03-16 17:22:13,289 log 9688 7380 "GET /media/products/alee1.png HTTP/1.1" 304 0
+INFO 2026-03-16 17:22:13,289 log 9688 18228 "GET /media/products/H1.png HTTP/1.1" 304 0
+INFO 2026-03-16 17:22:13,291 log 9688 21672 "GET /media/products/alee5.png HTTP/1.1" 304 0
+INFO 2026-03-16 17:22:13,291 log 9688 7380 "GET /media/products/alee3.png HTTP/1.1" 304 0
+INFO 2026-03-16 17:22:13,293 log 9688 7380 "GET /media/products/17pro.png HTTP/1.1" 304 0
+INFO 2026-03-16 17:22:13,293 log 9688 18228 "GET /media/products/12promax.png HTTP/1.1" 304 0
+INFO 2026-03-16 17:22:13,293 log 9688 21672 "GET /media/products/mac.png HTTP/1.1" 304 0
+INFO 2026-03-16 17:22:13,298 log 9688 21672 "GET /media/products/boat1.png HTTP/1.1" 304 0
+INFO 2026-03-16 17:22:13,299 log 9688 21760 "GET /api/products/ HTTP/1.1" 200 9462
+INFO 2026-03-16 17:22:34,071 log 9688 21760 "OPTIONS /api/token/ HTTP/1.1" 200 0
+WARNING 2026-03-16 17:22:34,516 log 9688 21760 Unauthorized: /api/token/
+WARNING 2026-03-16 17:22:34,516 log 9688 21760 "POST /api/token/ HTTP/1.1" 401 63
+INFO 2026-03-16 17:23:03,191 log 9688 21760 "OPTIONS /api/register/ HTTP/1.1" 200 0
+INFO 2026-03-16 17:23:03,649 log 9688 21760 "POST /api/register/ HTTP/1.1" 201 42
+INFO 2026-03-16 17:23:06,631 log 9688 21760 "POST /api/token/ HTTP/1.1" 200 835
+INFO 2026-03-16 17:23:08,297 log 9688 21760 "GET /api/products/ HTTP/1.1" 200 9462
+INFO 2026-03-16 17:23:08,331 log 9688 21760 "GET /api/products/ HTTP/1.1" 200 9462
+INFO 2026-03-16 17:23:12,612 log 9688 21760 "GET /api/products/10/ HTTP/1.1" 200 148
+INFO 2026-03-16 17:23:12,615 log 9688 8584 "GET /api/products/?limit=8 HTTP/1.1" 200 9462
+INFO 2026-03-16 17:23:12,648 log 9688 21760 "GET /api/products/10/ HTTP/1.1" 200 148
+INFO 2026-03-16 17:23:12,653 log 9688 8584 "GET /api/products/?limit=8 HTTP/1.1" 200 9462
+INFO 2026-03-16 17:23:18,605 log 9688 8584 "OPTIONS /api/orders/create/ HTTP/1.1" 200 0
+INFO 2026-03-16 17:23:18,652 log 9688 8584 "POST /api/orders/create/ HTTP/1.1" 201 71
+INFO 2026-03-16 17:23:21,223 log 9688 8584 "OPTIONS /api/orders/ HTTP/1.1" 200 0
+INFO 2026-03-16 17:23:21,223 log 9688 21760 "OPTIONS /api/orders/ HTTP/1.1" 200 0
+INFO 2026-03-16 17:23:21,258 log 9688 21760 "GET /api/orders/ HTTP/1.1" 200 389
+INFO 2026-03-16 17:23:21,294 log 9688 21760 "GET /api/orders/ HTTP/1.1" 200 389
+INFO 2026-03-16 17:23:27,529 log 9688 8584 "OPTIONS /api/orders/21/ HTTP/1.1" 200 0
+INFO 2026-03-16 17:23:27,530 log 9688 21760 "OPTIONS /api/orders/21/ HTTP/1.1" 200 0
+INFO 2026-03-16 17:23:27,565 log 9688 21760 "GET /api/orders/21/ HTTP/1.1" 200 404
+INFO 2026-03-16 17:23:27,598 log 9688 21760 "GET /api/orders/21/ HTTP/1.1" 200 404
+INFO 2026-03-16 17:28:42,963 log 9688 13092 "POST /api/register/ HTTP/1.1" 201 42
+INFO 2026-03-16 17:28:44,752 log 9688 13092 "POST /api/token/ HTTP/1.1" 200 835
+INFO 2026-03-16 17:29:24,276 autoreload 20644 13720 Watching for file changes with StatReloader
+INFO 2026-03-16 17:29:48,003 log 20644 16388 "GET /api/products/ HTTP/1.1" 200 9462
+INFO 2026-03-16 17:29:48,037 log 20644 16388 "GET /api/products/ HTTP/1.1" 200 9462
+INFO 2026-03-16 17:29:49,568 log 20644 16388 "GET /api/products/10/ HTTP/1.1" 200 148
+INFO 2026-03-16 17:29:49,571 log 20644 23508 "GET /api/products/?limit=8 HTTP/1.1" 200 9462
+INFO 2026-03-16 17:29:49,605 log 20644 16388 "GET /api/products/10/ HTTP/1.1" 200 148
+INFO 2026-03-16 17:29:49,608 log 20644 23508 "GET /api/products/?limit=8 HTTP/1.1" 200 9462
+INFO 2026-03-16 17:30:10,611 log 20644 23508 "POST /api/orders/create/ HTTP/1.1" 201 70
+INFO 2026-03-16 17:30:14,075 log 20644 23508 "GET /api/orders/ HTTP/1.1" 200 760
+INFO 2026-03-16 17:30:14,115 log 20644 23508 "GET /api/orders/ HTTP/1.1" 200 760
+INFO 2026-03-16 17:30:25,322 log 20644 23508 "OPTIONS /api/orders/22/ HTTP/1.1" 200 0
+INFO 2026-03-16 17:30:25,322 log 20644 16388 "OPTIONS /api/orders/22/ HTTP/1.1" 200 0
+INFO 2026-03-16 17:30:25,359 log 20644 16388 "GET /api/orders/22/ HTTP/1.1" 200 386
+INFO 2026-03-16 17:30:25,394 log 20644 16388 "GET /api/orders/22/ HTTP/1.1" 200 386
+INFO 2026-03-16 17:31:19,001 log 20644 16388 "GET /api/orders/ HTTP/1.1" 200 760
+INFO 2026-03-16 17:31:19,038 log 20644 16388 "GET /api/orders/ HTTP/1.1" 200 760
+INFO 2026-03-16 17:32:03,898 log 20644 16388 "GET /api/orders/22/ HTTP/1.1" 200 386
+INFO 2026-03-16 17:32:03,936 log 20644 16388 "GET /api/orders/22/ HTTP/1.1" 200 386
