@@ -4,7 +4,7 @@ import ProductPage from "./pages/productpage";
 import Cart from "./pages/cart";
 import ProductDetail from "./pages/productdetail";
 import Navbar from "./components/navbar";
-import Footer from "./components/footer"; // 👈 Puthiya footer import cheyyuka
+import Footer from "./components/footer";
 import { Toaster } from "react-hot-toast";
 import Wishlist from "./pages/wishlist"; 
 import Checkout from "./pages/checkout";
@@ -15,17 +15,28 @@ import MyOrders from "./pages/myorders";
 import OrderDetails from "./pages/orderdetails";
 import Register from "./pages/Register";
 import Signup from "./pages/signup";
+import { isAuthenticated } from './services/auth';
 
 // Context Providers
 import { CartProvider } from "./context/cartcontext";
 import { WishlistProvider } from "./context/wishlistcontext";
 import AddProduct from "./pages/addproduct";
 
+// Protected Route Component
+const ProtectedRoute = ({ children }) => {
+  return isAuthenticated() ? children : <Navigate to="/login" />;
+};
+
+// Admin Route Component (if needed)
+const AdminRoute = ({ children }) => {
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  return isAuthenticated() && user.is_staff ? children : <Navigate to="/" />;
+};
+
 function App() {
   return (
     <WishlistProvider>
       <CartProvider>
-        {/* Main Wrapper with Background */}
         <div className="min-h-screen bg-[#0a0a0b] flex flex-col">
           
           <Navbar />
@@ -41,37 +52,62 @@ function App() {
             }}
           />
 
-          {/* Main Content Area */}
           <main className="flex-grow">
             <Routes>
               {/* Public Routes */}
               <Route path="/" element={<Home />} />
-              
-              {/* Product Routes */}
               <Route path="/products" element={<ProductPage />} />
               <Route path="/all-products" element={<ProductPage />} />
               <Route path="/product/:id" element={<ProductDetail />} />
-              
               <Route path="/cart" element={<Cart />} />
               <Route path="/wishlist" element={<Wishlist />} />
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               
-              {/* User Related Routes */}
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/checkout" element={<Checkout />} />
-              <Route path="/my-orders" element={<MyOrders />} />
-              <Route path="/order-success" element={<OrderSuccess />} />
-              <Route path="/order/:orderId" element={<OrderDetails />} />
-              <Route path="/add-product" element={<AddProduct />} />
+              {/* Protected Routes (Require Login) */}
+              <Route path="/profile" element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              } />
+              
+              <Route path="/checkout" element={
+                <ProtectedRoute>
+                  <Checkout />
+                </ProtectedRoute>
+              } />
+              
+              <Route path="/my-orders" element={
+                <ProtectedRoute>
+                  <MyOrders />
+                </ProtectedRoute>
+              } />
+              
+              <Route path="/order/:orderId" element={
+                <ProtectedRoute>
+                  <OrderDetails />
+                </ProtectedRoute>
+              } />
+              
+              <Route path="/order-success" element={
+                <ProtectedRoute>
+                  <OrderSuccess />
+                </ProtectedRoute>
+              } />
+              
+              {/* Admin Only Route */}
+              <Route path="/add-product" element={
+                <AdminRoute>
+                  <AddProduct />
+                </AdminRoute>
+              } />
 
-              {/* Default Route - Redirect to Home */}
+              {/* Default Route */}
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </main>
 
-          {/* ─────────────── BIG FOOTER SECTION ─────────────── */}
           <Footer /> 
           
         </div>

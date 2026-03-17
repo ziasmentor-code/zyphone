@@ -1,15 +1,18 @@
 // services/api.js
 import axios from 'axios';
 
+// Get base URL from environment
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api/';
+
 const api = axios.create({
-    baseURL: 'http://127.0.0.1:8000/api/',
+    baseURL: BASE_URL,
     timeout: 30000,
     headers: {
         'Content-Type': 'application/json',
     },
 });
 
-// Request interceptor - add token from localStorage
+// Request interceptor
 api.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('access');
@@ -21,18 +24,27 @@ api.interceptors.request.use(
     (error) => Promise.reject(error)
 );
 
-// Response interceptor - handle token refresh
+// Response interceptor
 api.interceptors.response.use(
     (response) => response,
     async (error) => {
         const originalRequest = error.config;
+        
+        // Don't retry login requests
+        if (originalRequest.url?.includes('/token/') && !originalRequest.url?.includes('/refresh/')) {
+            return Promise.reject(error);
+        }
         
         if (error.response?.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
             
             try {
                 const refreshToken = localStorage.getItem('refresh');
-                const response = await axios.post('http://127.0.0.1:8000/api/token/refresh/', {
+                if (!refreshToken) {
+                    throw new Error('No refresh token');
+                }
+
+                const response = await axios.post(`${BASE_URL}token/refresh/`, {
                     refresh: refreshToken
                 });
                 
@@ -42,10 +54,10 @@ api.interceptors.response.use(
                     return api(originalRequest);
                 }
             } catch (refreshError) {
-                // Refresh failed - redirect to login
-                localStorage.removeItem('access');
-                localStorage.removeItem('refresh');
-                localStorage.removeItem('user');
+                console.error('Token refresh failed:', refreshError);
+                // Clear all auth data
+                localStorage.clear();
+                // Redirect to login
                 window.location.href = '/login';
                 return Promise.reject(refreshError);
             }
@@ -55,17 +67,27 @@ api.interceptors.response.use(
     }
 );
 
-export const setAuthToken = (token) => {
-    if (token) {
-        localStorage.setItem('access', token);
-        api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+// Helper functions
+export const setAuthToken = (accessToken, refreshToken) => {
+    if (accessToken) {
+        localStorage.setItem('access', accessToken);
+        api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+    }
+    if (refreshToken) {
+        localStorage.setItem('refresh', refreshToken);
     }
 };
 
 export const clearTokens = () => {
     localStorage.removeItem('access');
     localStorage.removeItem('refresh');
+    localStorage.removeItem('user');
     delete api.defaults.headers.common['Authorization'];
+};
+
+// Check if user is authenticated
+export const isAuthenticated = () => {
+    return !!localStorage.getItem('access');
 };
 
 export default api;
